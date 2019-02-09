@@ -127,7 +127,7 @@ window.onload = () => {
         }
     }
     
-    for (let i = 0; i < tileTypes; i++) {
+    for (let i = 0; i <= tileTypes; i++) {
         images[i] = new Image();
         images[i].src = `./assets/img/tiles/${i}.png`;
         images[i].setAttribute('data-tile', i)
