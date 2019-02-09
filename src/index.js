@@ -37,14 +37,14 @@ const   floorWidth = 250,
         };
 var canvas, screenWidth, screenHeight, cursorPosition, 
     currentButton = 3,
-    targetPart = 0, 
+    currentStep = 0, 
     processing = false,
     tiles = Array(tileSize),
     target = {
         x: 5,
         y: 5
     },
-    theWay = [{x: 5, y: 5}];
+    steps = [{x: 5, y: 5}];
 
 class Soldier {
 
@@ -56,9 +56,9 @@ class Soldier {
     }
     
     render = (context) => {
-        let whereToGo = theWay[targetPart] ? {
-            x: theWay[targetPart].x * tileWidth + 20,
-            y: theWay[targetPart].y * tileWidth
+        let whereToGo = steps[currentStep] ? {
+            x: steps[currentStep].x * tileWidth + 20,
+            y: steps[currentStep].y * tileWidth
         } : {x: this.x, y: this.y}
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
@@ -77,8 +77,8 @@ class Soldier {
                 case (this.x < whereToGo.x && this.y > whereToGo.y): this.direction = directions.upRight; break;
             }
         } else {
-            if (targetPart < theWay.length) {
-                targetPart++;
+            if (currentStep < steps.length) {
+                currentStep++;
             }
         }
         // <render shadow>
@@ -212,7 +212,7 @@ window.onload = () => {
                 }
             }
             if (found) {
-                targetPart = 0;
+                currentStep = 0;
                 let currentLocation = {
                     x: target.x,
                     y: target.y
@@ -221,7 +221,7 @@ window.onload = () => {
                     x: parseInt(soldier.x / tileWidth),
                     y: parseInt(soldier.y / tileWidth)
                 }
-                theWay = [];            
+                steps = [];            
                 while (currentLocation.x != soldierLocation.x || currentLocation.y != soldierLocation.y) {
                     switch (tiles[currentLocation.x][currentLocation.y].direction) {
                         case -4: ++currentLocation.x; break;
@@ -233,9 +233,9 @@ window.onload = () => {
                         case -2: --currentLocation.y; break;
                         case -3: ++currentLocation.x; --currentLocation.y; break;          
                     }
-                    theWay.push({x: currentLocation.x, y: currentLocation.y});
+                    steps.push({x: currentLocation.x, y: currentLocation.y});
                 }
-                theWay = theWay.reverse();
+                steps = steps.reverse();
             }
         }
     }
