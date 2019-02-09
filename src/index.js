@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const   floorWidth = 250,
-        tileWidth = 40,
-        tileSize = 100,
+const   tileWidth = 30,
+        tileSize = 120,
+        tileTypes = 14,
         directions = {
             down: 0,
             downLeft: 1,
@@ -36,10 +36,12 @@ const   floorWidth = 250,
             downRight: 7
         };
 var canvas, screenWidth, screenHeight, cursorPosition, 
+    selectedTileType = 1,
     currentButton = 3,
     currentStep = 0, 
     processing = false,
     tiles = Array(tileSize),
+    images = Array(tileTypes),
     target = {
         x: 5,
         y: 5
@@ -49,8 +51,8 @@ var canvas, screenWidth, screenHeight, cursorPosition,
 class Soldier {
 
     constructor() {        
-        this.x = 220;
-        this.y = 200;
+        this.x = 170;
+        this.y = 150;
         this.counter = 0;
         this.direction = directions.down;
     }
@@ -95,13 +97,9 @@ class Soldier {
 }
 			
 var soldierImage = new Image();
-soldierImage.src = "./assets/soldier.png";
-var backgroundImage = new Image();
-backgroundImage.src = "./assets/grass.png";
-var stoneImage = new Image();
-stoneImage.src = "./assets/stone.png";
+soldierImage.src = "./assets/img/soldier.png";
 var targetImage = new Image();
-targetImage.src = "./assets/target.png";
+targetImage.src = "./assets/img/target.png";
 
 const setCanvasSize = () => {
     screenWidth = window.innerWidth;
@@ -118,6 +116,7 @@ window.onload = () => {
     canvas = document.querySelector("canvas");
     context = canvas.getContext("2d");
     setCanvasSize();
+    tileBar = document.querySelector(".tile-bar");
     for (let i = 0; i <= tileSize; i++) {
         tiles[i] = new Array(tileSize);
         for (let j = 0; j <= tileSize; j++) {
@@ -127,25 +126,42 @@ window.onload = () => {
             };
         }
     }
+    
+    for (let i = 0; i < tileTypes; i++) {
+        images[i] = new Image();
+        images[i].src = `./assets/img/tiles/${i}.png`;
+        images[i].setAttribute('data-tile', i)
+        images[i].onclick = (e) => {
+            for (let item of document.querySelectorAll('.tile-bar>img')) {
+                item.classList.remove('selected');
+            }
+            selectedTileType = e.target.getAttribute('data-tile');
+            e.target.classList.add('selected');
+        }
+        if (i == 0) {
+            images[i].classList.add('selected');
+        }
+        tileBar.appendChild(images[i]);
+    }
 
     markDirections = (x, y) => {
         let found = false;
-        if (x > 0 && tiles[x - 1][y].type != 1 && tiles[x - 1][y].direction == 0) {
+        if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
             tiles[x - 1][y].direction = -4;
             if (x - 1 == target.x && y == target.y) found = true;
             progressing = true;
         }
-        if (y > 0 && tiles[x][y - 1].type != 1 && tiles[x][y - 1].direction == 0) {
+        if (y > 0 && tiles[x][y - 1].type == 0 && tiles[x][y - 1].direction == 0) {
             tiles[x][y - 1].direction = 2;
             if (x == target.x && y - 1 == target.y) found = true;
             progressing = true;
         }
-        if (x < tileSize && tiles[x + 1][y].type != 1 && tiles[x + 1][y].direction == 0) {
+        if (x < tileSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
             tiles[x + 1][y].direction = 4;
             if (x + 1 == target.x && y == target.y) found = true;
             progressing = true;
         }
-        if (y < tileSize && tiles[x][y + 1].type != 1 && tiles[x][y + 1].direction == 0) {
+        if (y < tileSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
             tiles[x][y + 1].direction = -2;
             if (x == target.x && y + 1 == target.y) found = true;
             progressing = true;
@@ -159,7 +175,7 @@ window.onload = () => {
             y: parseInt(e.clientY / tileWidth)
         };
         if (currentButton == 2) {
-            tiles[parseInt(e.clientX / tileWidth)][parseInt(e.clientY / tileWidth)].type = 1;
+            tiles[parseInt(e.clientX / tileWidth)][parseInt(e.clientY / tileWidth)].type = selectedTileType;
         }
     }
 
@@ -174,12 +190,12 @@ window.onload = () => {
     canvas.onmousedown = (e) => {
         currentButton = e.button;
 
-        if (tiles[cursorPosition.x][cursorPosition.y].type != 0)
+        if (currentButton == 0 && tiles[cursorPosition.x][cursorPosition.y].type != 0)
         {
            return; 
         }
         if (currentButton == 2) {
-            tiles[cursorPosition.x][cursorPosition.y].type = 1;
+            tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
         } else if (currentButton == 0) {
             resetDirections();
             target = {
@@ -242,23 +258,12 @@ window.onload = () => {
 
     canvas.onmouseup = () => currentButton = 3;
 
-    drawTiles = () => {
-        for (let i = 0; i <= tileSize; i++) {
-            for (let j = 0; j <= tileSize; j++) {
-                if (tiles[i][j].type == 1) {
-                    context.drawImage(stoneImage, i * tileWidth, j * tileWidth, tileWidth, tileWidth);
-                }
-            }
-        }
-    }
-
     update = () => {
-        for (let x = 0; x < screenWidth / floorWidth; x++) {
-            for (let y = 0; y < screenHeight / (floorWidth / 2); y++) {
-                context.drawImage(backgroundImage, x * floorWidth, y * (floorWidth / 2), floorWidth, floorWidth / 2);
+        for (let x = 0; x < screenWidth / tileWidth; x++) {
+            for (let y = 0; y < screenHeight / tileWidth; y++) {
+                context.drawImage(images[tiles[x][y].type], x * tileWidth, y * tileWidth, tileWidth, tileWidth);
             }
         }
-        drawTiles();
         context.drawImage(targetImage, target.x * tileWidth, target.y * tileWidth - 15, tileWidth, tileWidth);
         soldier.render(context);
     }
