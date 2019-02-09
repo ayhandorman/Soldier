@@ -24,7 +24,7 @@ SOFTWARE.
 
 const   tileWidth = 30,
         tileSize = 120,
-        tileTypes = 14,
+        tileTypes = 15,
         directions = {
             down: 0,
             downLeft: 1,
@@ -59,7 +59,7 @@ class Soldier {
     
     render = (context) => {
         let whereToGo = steps[currentStep] ? {
-            x: steps[currentStep].x * tileWidth + 20,
+            x: steps[currentStep].x * tileWidth + 15,
             y: steps[currentStep].y * tileWidth
         } : {x: this.x, y: this.y}
 
@@ -102,10 +102,8 @@ var targetImage = new Image();
 targetImage.src = "./assets/img/target.png";
 
 const setCanvasSize = () => {
-    screenWidth = window.innerWidth;
-    screenHeight = window.innerHeight;
-    canvas.width = screenWidth;
-    canvas.height = screenHeight;
+    canvas.width = screenWidth = window.innerWidth;
+    canvas.height = screenHeight = window.innerHeight;
 }
 
 document.oncontextmenu = (e) => e.preventDefault();
@@ -127,7 +125,7 @@ window.onload = () => {
         }
     }
     
-    for (let i = 0; i <= tileTypes; i++) {
+    for (let i = 0; i < tileTypes; i++) {
         images[i] = new Image();
         images[i].src = `./assets/img/tiles/${i}.png`;
         images[i].setAttribute('data-tile', i)
@@ -145,28 +143,35 @@ window.onload = () => {
     }
 
     markDirections = (x, y) => {
-        let found = false;
         if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
             tiles[x - 1][y].direction = -4;
-            if (x - 1 == target.x && y == target.y) found = true;
+            if (x - 1 == target.x && y == target.y) {
+                return true;
+            }
             progressing = true;
         }
         if (y > 0 && tiles[x][y - 1].type == 0 && tiles[x][y - 1].direction == 0) {
             tiles[x][y - 1].direction = 2;
-            if (x == target.x && y - 1 == target.y) found = true;
+            if (x == target.x && y - 1 == target.y) {
+                return true;
+            }
             progressing = true;
         }
         if (x < tileSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
             tiles[x + 1][y].direction = 4;
-            if (x + 1 == target.x && y == target.y) found = true;
+            if (x + 1 == target.x && y == target.y) {
+                return true;
+            }
             progressing = true;
         }
         if (y < tileSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
             tiles[x][y + 1].direction = -2;
-            if (x == target.x && y + 1 == target.y) found = true;
+            if (x == target.x && y + 1 == target.y) {
+                return true;
+            }
             progressing = true;
         }
-        return found;
+        return false;
     }
 
     canvas.onmousemove = (e) => {
