@@ -138,7 +138,7 @@ window.onload = () => {
             selectedTileType = e.target.getAttribute('data-tile');
             e.target.classList.add('selected');
         }
-        if (i == 0) {
+        if (i == 1) {
             images[i].classList.add('selected');
         }
         tileBar.appendChild(images[i]);
