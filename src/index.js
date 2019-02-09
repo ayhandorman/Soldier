@@ -174,7 +174,11 @@ window.onload = () => {
     canvas.onmousedown = (e) => {
         currentButton = e.button;
 
-        if (currentButton == 2 && tiles[cursorPosition.x][cursorPosition.y].type == 0) {
+        if (tiles[cursorPosition.x][cursorPosition.y].type != 0)
+        {
+           return; 
+        }
+        if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = 1;
         } else if (currentButton == 0) {
             resetDirections();
