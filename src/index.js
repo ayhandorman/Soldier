@@ -34,7 +34,8 @@ const   tileWidth = 30,
             upRight: 5,
             right: 6,
             downRight: 7
-        };
+        },
+        assetsPath = "./assets/img/";
 var canvas, screenWidth, screenHeight, cursorPosition, 
     selectedTileType = 1,
     currentButton = 3,
@@ -97,9 +98,9 @@ class Soldier {
 }
 			
 var soldierImage = new Image();
-soldierImage.src = "./assets/img/soldier.png";
+soldierImage.src = `${assetsPath}soldier.png`;
 var targetImage = new Image();
-targetImage.src = "./assets/img/target.png";
+targetImage.src = `${assetsPath}target.png`;
 
 const setCanvasSize = () => {
     canvas.width = screenWidth = window.innerWidth;
@@ -127,7 +128,7 @@ window.onload = () => {
     
     for (let i = 0; i < tileTypes; i++) {
         images[i] = new Image();
-        images[i].src = `./assets/img/tiles/${i}.png`;
+        images[i].src = `${assetsPath}tiles/${i}.png`;
         images[i].setAttribute('data-tile', i)
         images[i].onclick = (e) => {
             for (let item of document.querySelectorAll('.tile-bar>img')) {
@@ -143,6 +144,34 @@ window.onload = () => {
     }
 
     markDirections = (x, y) => {
+        if (x > 0 && y > 0 && tiles[x - 1][y - 1].type == 0 && tiles[x - 1][y - 1].direction == 0) {
+            tiles[x - 1][y - 1].direction = 1;
+            if (x - 1 == target.x && y - 1 == target.y) {
+                return true;
+            }
+            progressing = true;
+        }
+        if (x < tileSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
+            tiles[x + 1][y - 1].direction = 3;
+            if (x + 1 == target.x && y - 1 == target.y) {
+              return true;
+            }
+            progressing = true;
+        }
+        if (x < tileSize && y < tileSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
+            tiles[x + 1][y + 1].direction = -1;
+            if (x + 1 == target.x && y + 1 == target.y) {
+                return true;
+            }
+            progressing = true;
+        }
+        if (x > 0 && y < tileSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
+            tiles[x - 1][y + 1].direction = -3;
+            if (x - 1 == target.x && y + 1 == target.y) {
+                return true;
+            }
+            progressing = true;
+        }
         if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
             tiles[x - 1][y].direction = -4;
             if (x - 1 == target.x && y == target.y) {
@@ -279,9 +308,6 @@ window.onload = () => {
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
-        if ((Date.now() - time) > 10) {
-            time = Date.now()
-            update();
-        }
+        update();
     })();
 }
