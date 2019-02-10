@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const   tileWidth = 30,
-        tileSize = 120,
+const   worldSize = 200,
+        tileWidth = 30,
         tileTypes = 15,
         directions = {
             down: 0,
@@ -36,31 +36,33 @@ const   tileWidth = 30,
             downRight: 7
         },
         assetsPath = "./assets/img/";
-var canvas, screenWidth, screenHeight, cursorPosition, 
+var canvas, screenWidth, screenHeight, cursorPosition, target, steps, screen,
     selectedTileType = 1,
     currentButton = 3,
     currentStep = 0, 
     processing = false,
-    tiles = Array(tileSize),
-    images = Array(tileTypes),
-    target = {
-        x: 5,
-        y: 5
-    },
-    steps = [{x: 5, y: 5}];
+    tiles = Array(worldSize),
+    images = Array(tileTypes);
 
 class Soldier {
-
     constructor() {        
-        this.x = 170;
-        this.y = 150;
+        this.x = (worldSize * tileWidth) / 2;
+        this.y = (worldSize * tileWidth) / 2;
         this.counter = 0;
         this.direction = directions.down;
+        target = {
+          x: parseInt(this.x / tileWidth),
+          y: parseInt(this.y / tileWidth)
+        };
+        steps = [{
+          x: target.x,
+          y: target.y
+        }];
     }
     
     render = (context) => {
         let whereToGo = steps[currentStep] ? {
-            x: steps[currentStep].x * tileWidth + 15,
+            x: steps[currentStep].x * tileWidth,
             y: steps[currentStep].y * tileWidth
         } : {x: this.x, y: this.y}
 
@@ -89,11 +91,11 @@ class Soldier {
         context.shadowColor = "black";
         context.fillStyle = "rgba(0,0,0,.3)";
         context.beginPath();
-        context.ellipse(this.x, this.y + 19, 16, 8, 0, 0, 2 * Math.PI);
+        context.ellipse(screenWidth / 2 + 15, screenHeight / 2 + 19, 16, 8, 0, 0, 2 * Math.PI);
         context.fill();
         context.shadowBlur = 0;
         // </render shadow>
-        context.drawImage(soldierImage, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, this.x - 34.5, this.y - 48, 69, 96);
+        context.drawImage(soldierImage, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screenWidth / 2 - 20, screenHeight / 2 - 48, 69, 96);
     };
 }
 			
@@ -116,9 +118,9 @@ window.onload = () => {
     context = canvas.getContext("2d");
     setCanvasSize();
     tileBar = document.querySelector(".tile-bar");
-    for (let i = 0; i <= tileSize; i++) {
-        tiles[i] = new Array(tileSize);
-        for (let j = 0; j <= tileSize; j++) {
+    for (let i = 0; i <= worldSize; i++) {
+        tiles[i] = new Array(worldSize);
+        for (let j = 0; j <= worldSize; j++) {
             tiles[i][j] = {
                 type: 0,
                 direction: 0
@@ -151,21 +153,21 @@ window.onload = () => {
             }
             progressing = true;
         }
-        if (x < tileSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
+        if (x < worldSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
             tiles[x + 1][y - 1].direction = 3;
             if (x + 1 == target.x && y - 1 == target.y) {
               return true;
             }
             progressing = true;
         }
-        if (x < tileSize && y < tileSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
+        if (x < worldSize && y < worldSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
             tiles[x + 1][y + 1].direction = -1;
             if (x + 1 == target.x && y + 1 == target.y) {
                 return true;
             }
             progressing = true;
         }
-        if (x > 0 && y < tileSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
+        if (x > 0 && y < worldSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
             tiles[x - 1][y + 1].direction = -3;
             if (x - 1 == target.x && y + 1 == target.y) {
                 return true;
@@ -186,14 +188,14 @@ window.onload = () => {
             }
             progressing = true;
         }
-        if (x < tileSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
+        if (x < worldSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
             tiles[x + 1][y].direction = 4;
             if (x + 1 == target.x && y == target.y) {
                 return true;
             }
             progressing = true;
         }
-        if (y < tileSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
+        if (y < worldSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
             tiles[x][y + 1].direction = -2;
             if (x == target.x && y + 1 == target.y) {
                 return true;
@@ -205,17 +207,17 @@ window.onload = () => {
 
     canvas.onmousemove = (e) => {
         cursorPosition = {
-            x: parseInt(e.clientX / tileWidth),
-            y: parseInt(e.clientY / tileWidth)
+            x: parseInt((soldier.x - (screenWidth / 2) + e.clientX) / tileWidth),
+            y: parseInt((soldier.y - (screenHeight / 2) + e.clientY) / tileWidth)
         };
         if (currentButton == 2) {
-            tiles[parseInt(e.clientX / tileWidth)][parseInt(e.clientY / tileWidth)].type = selectedTileType;
+            tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
         }
     }
 
     resetDirections = () => {
-        for (let i = 0; i <= tileSize; i++) {
-            for (let j = 0; j <= tileSize; j++) {
+        for (let i = 0; i <= worldSize; i++) {
+            for (let j = 0; j <= worldSize; j++) {
                 tiles[i][j].direction = 0;
             }
         }
@@ -248,8 +250,8 @@ window.onload = () => {
                     initialSearch = true;
                     } else {
                     progressing = false;
-                    for (let i = 0; i < tileSize; i++) {
-                        for (let j = 0; j < tileSize; j++) {
+                    for (let i = 0; i < worldSize; i++) {
+                        for (let j = 0; j < worldSize; j++) {
                             if (tiles[i][j].direction != 0) {
                                 found = markDirections(i, j);
                                 if (found) {
@@ -293,18 +295,27 @@ window.onload = () => {
     canvas.onmouseup = () => currentButton = 3;
 
     update = () => {
-        for (let x = 0; x < screenWidth / tileWidth; x++) {
-            for (let y = 0; y < screenHeight / tileWidth; y++) {
-                context.drawImage(images[tiles[x][y].type], x * tileWidth, y * tileWidth, tileWidth, tileWidth);
+        screen = {
+            x1: (() => {screen.x1 = parseInt((soldier.x - screenWidth / 2) / tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
+            y1: (() => {screen.y1 = parseInt((soldier.y - screenHeight / 2) / tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
+            x2: (() => {screen.x2 = parseInt((soldier.x + screenWidth / 2) / tileWidth); return screen.x2 <= worldSize ? screen.x2 : worldSize})(),
+            y2: (() => {screen.y2 = parseInt((soldier.y + screenHeight / 2) / tileWidth); return screen.y2 <= worldSize ? screen.y2 : worldSize})()
+        };
+        context.fillStyle = "#3ABE41";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        for (let x = screen.x1; x <= screen.x2; x++) {
+            for (let y = screen.y1; y <= screen.y2; y++) {
+                context.drawImage(images[tiles[x][y].type], x * tileWidth - soldier.x + screenWidth / 2, y * tileWidth - soldier.y + screenHeight / 2, tileWidth, tileWidth);
             }
         }
-        context.drawImage(targetImage, target.x * tileWidth, target.y * tileWidth - 15, tileWidth, tileWidth);
+        if (currentStep < steps.length) {
+            context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
+        }
         soldier.render(context);
     }
 
     var soldier = new Soldier();
     soldier.direction = directions.downRight;
-    var time = Date.now();
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
