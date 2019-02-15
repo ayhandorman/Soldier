@@ -22,7 +22,9 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    filename: 'bundle.[hash].js'
+    filename: 'bundle.[hash].js',
+    libraryTarget: 'var',
+    library: 'Soldier'
   },
   devServer: {
       historyApiFallback: true,
