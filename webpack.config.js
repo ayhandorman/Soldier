@@ -4,6 +4,7 @@ const htmlPlugin        = require('html-webpack-plugin');
 const openBrowserPlugin = require('open-browser-webpack-plugin'); 
 const dashboardPlugin   = require('webpack-dashboard/plugin');
 const autoprefixer      = require('autoprefixer'); 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
@@ -81,6 +82,9 @@ module.exports = {
     }),
     new openBrowserPlugin({
       url: `http://${options.host}:${options.port}`
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'assets', to: 'assets' },
+    ])
   ]
 };
