@@ -41,10 +41,13 @@ var canvas, context, screenWidth, screenHeight, cursorPosition, soldier, target,
     selectedTileType = 1,
     currentButton = 3,
     currentStep = 0, 
+    fps = 0, 
+    fpsCounter = 0,
     processing = false,
     screen = {x1: 0, x2: 0, y1: 0, y2: 0},
     tiles = Array(worldSize),
-    images = Array(tileTypes);
+    images = Array(tileTypes),
+    lastRender = new Date();
 
 class Soldier {
     constructor() {        
@@ -196,7 +199,16 @@ const update = () => {
     if (currentStep < steps.length) {
         context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
     }
-    soldier.render(context);
+    soldier.render();
+    fpsCounter++;
+    let now = new Date();
+    if (now - lastRender >= 1000) {
+        lastRender = now;
+        fps = fpsCounter;
+        fpsCounter = 0;    
+    }
+    context.font = "18px Arial";
+    context.fillText("FPS: " + fps, 10, 30);
 }
 
 const downloadMap = () => {
