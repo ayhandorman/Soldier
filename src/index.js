@@ -35,12 +35,13 @@ const   worldSize = 200,
             right: 6,
             downRight: 7
         },
-        assetsPath = "https://img.dorman.me/";
-var canvas, screenWidth, screenHeight, cursorPosition, target, steps, screen,
+        assetsPath = "./assets/img/";
+var canvas, context, screenWidth, screenHeight, cursorPosition, soldier, target, steps, tileBar, progressing,
     selectedTileType = 1,
     currentButton = 3,
     currentStep = 0, 
     processing = false,
+    screen = {x1: 0, x2: 0, y1: 0, y2: 0},
     tiles = Array(worldSize),
     images = Array(tileTypes);
 
@@ -60,7 +61,7 @@ class Soldier {
         }];
     }
     
-    render = (context) => {
+    render = () => {
         let whereToGo = steps[currentStep] ? {
             x: steps[currentStep].x * tileWidth,
             y: steps[currentStep].y * tileWidth
@@ -109,6 +110,94 @@ const setCanvasSize = () => {
     canvas.height = screenHeight = window.innerHeight;
 }
 
+const resetDirections = () => {
+    for (let i = 0; i <= worldSize; i++) {
+        for (let j = 0; j <= worldSize; j++) {
+            tiles[i][j].direction = 0;
+        }
+    }
+}
+
+const markDirections = (x, y) => {
+    if (x > 0 && y > 0 && tiles[x - 1][y - 1].type == 0 && tiles[x - 1][y - 1].direction == 0) {
+        tiles[x - 1][y - 1].direction = 1;
+        if (x - 1 == target.x && y - 1 == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (x < worldSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
+        tiles[x + 1][y - 1].direction = 3;
+        if (x + 1 == target.x && y - 1 == target.y) {
+          return true;
+        }
+        progressing = true;
+    }
+    if (x < worldSize && y < worldSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
+        tiles[x + 1][y + 1].direction = -1;
+        if (x + 1 == target.x && y + 1 == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (x > 0 && y < worldSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
+        tiles[x - 1][y + 1].direction = -3;
+        if (x - 1 == target.x && y + 1 == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
+        tiles[x - 1][y].direction = -4;
+        if (x - 1 == target.x && y == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (y > 0 && tiles[x][y - 1].type == 0 && tiles[x][y - 1].direction == 0) {
+        tiles[x][y - 1].direction = 2;
+        if (x == target.x && y - 1 == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (x < worldSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
+        tiles[x + 1][y].direction = 4;
+        if (x + 1 == target.x && y == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    if (y < worldSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
+        tiles[x][y + 1].direction = -2;
+        if (x == target.x && y + 1 == target.y) {
+            return true;
+        }
+        progressing = true;
+    }
+    return false;
+}
+
+const update = () => {
+    screen = {
+        x1: (() => {screen.x1 = parseInt((soldier.x - screenWidth / 2) / tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
+        y1: (() => {screen.y1 = parseInt((soldier.y - screenHeight / 2) / tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
+        x2: (() => {screen.x2 = parseInt((soldier.x + screenWidth / 2) / tileWidth); return screen.x2 <= worldSize ? screen.x2 : worldSize})(),
+        y2: (() => {screen.y2 = parseInt((soldier.y + screenHeight / 2) / tileWidth); return screen.y2 <= worldSize ? screen.y2 : worldSize})()
+    };
+    context.fillStyle = "#3ABE41";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    for (let x = screen.x1; x <= screen.x2; x++) {
+        for (let y = screen.y1; y <= screen.y2; y++) {
+            context.drawImage(images[tiles[x][y].type], x * tileWidth - soldier.x + screenWidth / 2, y * tileWidth - soldier.y + screenHeight / 2, tileWidth, tileWidth);
+        }
+    }
+    if (currentStep < steps.length) {
+        context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
+    }
+    soldier.render(context);
+}
+
 document.oncontextmenu = (e) => e.preventDefault();
 
 window.onresize = () => setCanvasSize();
@@ -150,66 +239,6 @@ window.onload = () => {
         tileBar.appendChild(images[i]);
     }
 
-    markDirections = (x, y) => {
-        if (x > 0 && y > 0 && tiles[x - 1][y - 1].type == 0 && tiles[x - 1][y - 1].direction == 0) {
-            tiles[x - 1][y - 1].direction = 1;
-            if (x - 1 == target.x && y - 1 == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (x < worldSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
-            tiles[x + 1][y - 1].direction = 3;
-            if (x + 1 == target.x && y - 1 == target.y) {
-              return true;
-            }
-            progressing = true;
-        }
-        if (x < worldSize && y < worldSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
-            tiles[x + 1][y + 1].direction = -1;
-            if (x + 1 == target.x && y + 1 == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (x > 0 && y < worldSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
-            tiles[x - 1][y + 1].direction = -3;
-            if (x - 1 == target.x && y + 1 == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
-            tiles[x - 1][y].direction = -4;
-            if (x - 1 == target.x && y == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (y > 0 && tiles[x][y - 1].type == 0 && tiles[x][y - 1].direction == 0) {
-            tiles[x][y - 1].direction = 2;
-            if (x == target.x && y - 1 == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (x < worldSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
-            tiles[x + 1][y].direction = 4;
-            if (x + 1 == target.x && y == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        if (y < worldSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
-            tiles[x][y + 1].direction = -2;
-            if (x == target.x && y + 1 == target.y) {
-                return true;
-            }
-            progressing = true;
-        }
-        return false;
-    }
-
     canvas.onmousemove = (e) => {
         cursorPosition = {
             x: parseInt((soldier.x - (screenWidth / 2) + e.clientX) / tileWidth),
@@ -217,14 +246,6 @@ window.onload = () => {
         };
         if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
-        }
-    }
-
-    resetDirections = () => {
-        for (let i = 0; i <= worldSize; i++) {
-            for (let j = 0; j <= worldSize; j++) {
-                tiles[i][j].direction = 0;
-            }
         }
     }
 
@@ -299,27 +320,7 @@ window.onload = () => {
 
     canvas.onmouseup = () => currentButton = 3;
 
-    update = () => {
-        screen = {
-            x1: (() => {screen.x1 = parseInt((soldier.x - screenWidth / 2) / tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
-            y1: (() => {screen.y1 = parseInt((soldier.y - screenHeight / 2) / tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
-            x2: (() => {screen.x2 = parseInt((soldier.x + screenWidth / 2) / tileWidth); return screen.x2 <= worldSize ? screen.x2 : worldSize})(),
-            y2: (() => {screen.y2 = parseInt((soldier.y + screenHeight / 2) / tileWidth); return screen.y2 <= worldSize ? screen.y2 : worldSize})()
-        };
-        context.fillStyle = "#3ABE41";
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        for (let x = screen.x1; x <= screen.x2; x++) {
-            for (let y = screen.y1; y <= screen.y2; y++) {
-                context.drawImage(images[tiles[x][y].type], x * tileWidth - soldier.x + screenWidth / 2, y * tileWidth - soldier.y + screenHeight / 2, tileWidth, tileWidth);
-            }
-        }
-        if (currentStep < steps.length) {
-            context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
-        }
-        soldier.render(context);
-    }
-
-    var soldier = new Soldier();
+    soldier = new Soldier();
     soldier.direction = directions.downRight;
 
     (function mainLoop() {
