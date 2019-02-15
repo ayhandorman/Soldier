@@ -35,7 +35,8 @@ const   worldSize = 200,
             right: 6,
             downRight: 7
         },
-        assetsPath = "./assets/img/";
+        assetsPath = "./assets/img/",
+        blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28];
 var canvas, context, screenWidth, screenHeight, cursorPosition, soldier, target, steps, tileBar, progressing,
     selectedTileType = 1,
     currentButton = 3,
@@ -119,56 +120,56 @@ const resetDirections = () => {
 }
 
 const markDirections = (x, y) => {
-    if (x > 0 && y > 0 && tiles[x - 1][y - 1].type == 0 && tiles[x - 1][y - 1].direction == 0) {
+    if (x > 0 && y > 0 && !tiles[x - 1][y - 1].blocking && tiles[x - 1][y - 1].direction == 0) {
         tiles[x - 1][y - 1].direction = 1;
         if (x - 1 == target.x && y - 1 == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x < worldSize, y > 0 && tiles[x + 1][y - 1].type == 0 && tiles[x + 1][y - 1].direction == 0) {
+    if (x < worldSize, y > 0 && !tiles[x + 1][y - 1].blocking && tiles[x + 1][y - 1].direction == 0) {
         tiles[x + 1][y - 1].direction = 3;
         if (x + 1 == target.x && y - 1 == target.y) {
           return true;
         }
         progressing = true;
     }
-    if (x < worldSize && y < worldSize && tiles[x + 1][y + 1].type == 0 && tiles[x + 1][y + 1].direction == 0) {
+    if (x < worldSize && y < worldSize && !tiles[x + 1][y + 1].blocking && tiles[x + 1][y + 1].direction == 0) {
         tiles[x + 1][y + 1].direction = -1;
         if (x + 1 == target.x && y + 1 == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x > 0 && y < worldSize && tiles[x - 1][y + 1].type == 0 && tiles[x - 1][y + 1].direction == 0) {
+    if (x > 0 && y < worldSize && !tiles[x - 1][y + 1].blocking && tiles[x - 1][y + 1].direction == 0) {
         tiles[x - 1][y + 1].direction = -3;
         if (x - 1 == target.x && y + 1 == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x > 0 && tiles[x - 1][y].type == 0 && tiles[x - 1][y].direction == 0) {
+    if (x > 0 && !tiles[x - 1][y].blocking && tiles[x - 1][y].direction == 0) {
         tiles[x - 1][y].direction = -4;
         if (x - 1 == target.x && y == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (y > 0 && tiles[x][y - 1].type == 0 && tiles[x][y - 1].direction == 0) {
+    if (y > 0 && !tiles[x][y - 1].blocking && tiles[x][y - 1].direction == 0) {
         tiles[x][y - 1].direction = 2;
         if (x == target.x && y - 1 == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x < worldSize && tiles[x + 1][y].type == 0 && tiles[x + 1][y].direction == 0) {
+    if (x < worldSize && !tiles[x + 1][y].blocking && tiles[x + 1][y].direction == 0) {
         tiles[x + 1][y].direction = 4;
         if (x + 1 == target.x && y == target.y) {
             return true;
         }
         progressing = true;
     }
-    if (y < worldSize && tiles[x][y + 1].type == 0 && tiles[x][y + 1].direction == 0) {
+    if (y < worldSize && !tiles[x][y + 1].blocking && tiles[x][y + 1].direction == 0) {
         tiles[x][y + 1].direction = -2;
         if (x == target.x && y + 1 == target.y) {
             return true;
@@ -198,6 +199,10 @@ const update = () => {
     soldier.render(context);
 }
 
+const downloadMap = () => {
+    document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tiles)));
+}
+
 document.oncontextmenu = (e) => e.preventDefault();
 
 window.onresize = () => setCanvasSize();
@@ -216,7 +221,8 @@ window.onload = () => {
             for (let j = 0; j <= worldSize; j++) {
                 tiles[i][j] = {
                     type: 0,
-                    direction: 0
+                    direction: 0,
+                    blocking: false
                 };
             }
         }
@@ -230,7 +236,7 @@ window.onload = () => {
             for (let item of document.querySelectorAll('.tile-bar>img')) {
                 item.classList.remove('selected');
             }
-            selectedTileType = e.target.getAttribute('data-tile');
+            selectedTileType = parseInt(e.target.getAttribute('data-tile'));
             e.target.classList.add('selected');
         }
         if (i == 1) {
@@ -245,21 +251,21 @@ window.onload = () => {
             y: parseInt((soldier.y - (screenHeight / 2) + e.clientY) / tileWidth)
         };
         if (currentButton == 2) {
-            tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
+            tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;            
+            tiles[cursorPosition.x][cursorPosition.y].blocking = blockingTypes.includes(selectedTileType);
         }
     }
 
     canvas.onmousedown = (e) => {
         currentButton = e.button;
 
-        if (currentButton == 0 && tiles[cursorPosition.x][cursorPosition.y].type != 0)
+        if (currentButton == 0 && tiles[cursorPosition.x][cursorPosition.y].blocking)
         {
            return; 
         }
         if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
         } else if (currentButton == 0) {
-            console.log(JSON.stringify(tiles));
             resetDirections();
             target = {
                 x: cursorPosition.x,
@@ -329,3 +335,9 @@ window.onload = () => {
         update();
     })();
 }
+
+module.exports = {
+    generateMap: function () {
+        downloadMap();
+    }
+};
