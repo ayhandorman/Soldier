@@ -24,7 +24,7 @@ SOFTWARE.
 
 const   worldSize = 200,
         tileWidth = 40,
-        tileTypes = 18,
+        tileTypes = 29,
         directions = {
             down: 0,
             downLeft: 1,
@@ -259,6 +259,7 @@ window.onload = () => {
         if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
         } else if (currentButton == 0) {
+            console.log(JSON.stringify(tiles));
             resetDirections();
             target = {
                 x: cursorPosition.x,
