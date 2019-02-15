@@ -7,7 +7,6 @@ const autoprefixer      = require('autoprefixer');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  images:path.join(__dirname,'assets/img/'),
   build: path.join(__dirname, 'dist')
 };
 
