@@ -25,6 +25,7 @@ SOFTWARE.
 const   worldSize = 200,
         tileWidth = 40,
         tileTypes = 29,
+        monsterTypes = 4,
         directions = {
             down: 0,
             downLeft: 1,
@@ -43,18 +44,56 @@ var canvas, context, screenWidth, screenHeight, cursorPosition, soldier, target,
     currentStep = 0, 
     fps = 0, 
     fpsCounter = 0,
-    processing = false,
     screen = {x1: 0, x2: 0, y1: 0, y2: 0},
     tiles = Array(worldSize),
     images = Array(tileTypes),
+    monsters = [],
+    monsterSprites = [],
     lastRender = new Date();
+
+class Monster {
+    constructor() {
+        this.type = 0;
+        this.x = 0;
+        this.y = 0;
+        this.counter = 0;
+        this.direction = directions.down;
+        this.target = {
+            x: 0,
+            y: 0
+        }
+    }
+
+    render = () => {
+        if (this.x == this.target.x * tileWidth && this.y == this.target.y * tileWidth) {
+            debugger
+            let availableDirections = [];
+            if (this.x / tileWidth > 0 && !tiles[this.x / tileWidth - 1][this.y / tileWidth].blocking) availableDirections.push(directions.left);
+            if (this.x / tileWidth < worldSize && !tiles[this.x / tileWidth + 1][this.y / tileWidth].blocking) availableDirections.push(directions.right);
+            if (this.y / tileWidth > 0 && !tiles[this.x / tileWidth][this.y / tileWidth - 1].blocking) availableDirections.push(directions.up);
+            if (this.y / tileWidth < worldSize && !tiles[this.x / tileWidth][this.y / tileWidth + 1].blocking) availableDirections.push(directions.down);
+            this.direction = availableDirections[Math.floor(Math.random() * availableDirections.length)];
+            switch(this.direction) {
+                case directions.left: this.target.x--; break;
+                case directions.right: this.target.x++; break;
+                case directions.up: this.target.y--; break;
+                case directions.down: this.target.y++; break;
+            }
+        } else {
+            this.counter = (this.counter + 1) % 30;
+            this.x = this.x > this.target.x * tileWidth ? this.x - 1 : this.x + 1;
+            this.y = this.y > this.target.y * tileWidth ? this.y - 1 : this.y + 1;
+        }
+        context.drawImage(monsterSprites[this.type], Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screenWidth / 2 - 4, this.y - soldier.y + screenHeight / 2 - 15, 48, 48);
+    }
+}
 
 class Soldier {
     constructor() {        
         this.x = (worldSize * tileWidth) / 2;
         this.y = (worldSize * tileWidth) / 2;
         this.counter = 0;
-        this.direction = directions.down;
+        this.direction = directions.downRight;
         target = {
           x: parseInt(this.x / tileWidth),
           y: parseInt(this.y / tileWidth)
@@ -108,6 +147,12 @@ var soldierImage = new Image();
 soldierImage.src = `${assetsPath}soldier.png`;
 var targetImage = new Image();
 targetImage.src = `${assetsPath}target.png`;
+
+for (let i = 1; i <= monsterTypes; i++) {
+    let monsterSprite = new Image();
+    monsterSprite.src = `${assetsPath}/monsters/${i}.png`;
+    monsterSprites.push(monsterSprite);
+}
 
 const setCanvasSize = () => {
     canvas.width = screenWidth = window.innerWidth;
@@ -183,6 +228,8 @@ const markDirections = (x, y) => {
 }
 
 const update = () => {
+
+    // <render tiles>
     screen = {
         x1: (() => {screen.x1 = parseInt((soldier.x - screenWidth / 2) / tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
         y1: (() => {screen.y1 = parseInt((soldier.y - screenHeight / 2) / tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
@@ -196,10 +243,41 @@ const update = () => {
             context.drawImage(images[tiles[x][y].type], x * tileWidth - soldier.x + screenWidth / 2, y * tileWidth - soldier.y + screenHeight / 2, tileWidth, tileWidth);
         }
     }
+    // </render tiles>
+
+    // <render target>
     if (currentStep < steps.length) {
         context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
     }
+    // </render target>
+
+    // <new monster spawn>
+    if (Math.floor(Math.random() * 10) == 0) {
+        let spawnPoint = {
+            x: Math.floor(Math.random() * worldSize),
+            y: Math.floor(Math.random() * worldSize)
+        }
+        if (!tiles[spawnPoint.x][spawnPoint.y].blocking) {
+            let monster = new Monster();
+            monster.x = spawnPoint.x * tileWidth;
+            monster.y = spawnPoint.y * tileWidth;
+            monster.type = Math.floor(Math.random() * 3);
+            monster.target.x = spawnPoint.x;
+            monster.target.y = spawnPoint.y;
+            monsters.push(monster);
+        }
+    }
+    // </new monster spawn>
+
+    // <render monsters and the player>
+    for (let monster of monsters) {
+        monster.render();
+    }
+
     soldier.render();
+    // </render monsters and the player>
+
+    // <FPS info>
     fpsCounter++;
     let now = new Date();
     if (now - lastRender >= 1000) {
@@ -209,6 +287,7 @@ const update = () => {
     }
     context.font = "18px Arial";
     context.fillText("FPS: " + fps, 10, 30);
+    // </FPS info>
 }
 
 const downloadMap = () => {
@@ -340,7 +419,6 @@ window.onload = () => {
     canvas.onmouseup = () => currentButton = 3;
 
     soldier = new Soldier();
-    soldier.direction = directions.downRight;
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
