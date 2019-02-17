@@ -11,7 +11,7 @@ export class Monster {
         }
     }
 
-    render = (screen, soldier) => {
+    render = (screen, renderScope, soldier) => {
         if (this.x == this.target.x * this.world.tileWidth && this.y == this.target.y * this.world.tileWidth) {
             let availableDirections = [];
             if (this.x / this.world.tileWidth > 0 && !this.world.tiles[this.x / this.world.tileWidth - 1][this.y / this.world.tileWidth].blocking) availableDirections.push(this.world.directions.left);
@@ -30,6 +30,15 @@ export class Monster {
             this.x = this.x > this.target.x * this.world.tileWidth ? this.x - 1 : this.x + 1;
             this.y = this.y > this.target.y * this.world.tileWidth ? this.y - 1 : this.y + 1;
         }
-        this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screen.width / 2 - 4, this.y - soldier.y + screen.height / 2 - 15, 48, 48);
+        let position = {
+            x: this.x / this.world.tileWidth,
+            y: this.y / this.world.tileWidth
+        }
+        if (position.x >= renderScope.x1 && 
+            position.x <= renderScope.x2 &&
+            position.y > renderScope.y1 &&
+            position.y <= renderScope.y2) {
+            this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screen.width / 2 - 4, this.y - soldier.y + screen.height / 2 - 15, 48, 48);
+        }
     }
 }

@@ -64,14 +64,7 @@ export class World {
         this.tiles[cursorPosition.x][cursorPosition.y].blocking = this.blockingTypes.includes(this.selectedTileType);
     }
 
-    render = (soldier, screen) => {
-        let renderScope = {
-            x1: (() => {let x1 = parseInt((soldier.x - screen.width / 2) / this.tileWidth); return x1 > 0 ? x1 : 0})(),
-            y1: (() => {let y1 = parseInt((soldier.y - screen.height / 2) / this.tileWidth); return y1 > 0 ? y1 : 0})(),
-            x2: (() => {let x2 = parseInt((soldier.x + screen.width / 2) / this.tileWidth); return x2 <= this.size ? x2 : this.size})(),
-            y2: (() => {let y2 = parseInt((soldier.y + screen.height / 2) / this.tileWidth); return y2 <= this.size ? y2 : this.size})()
-        };
-
+    render = (soldier, screen, renderScope) => {
         this.context.fillStyle = "#3ABE41";
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {

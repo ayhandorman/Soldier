@@ -26,7 +26,7 @@ import { World, Soldier, Monster } from './entities';
 import config from './config.json';
 
 var world = new World(), 
-    canvas, cursorPosition, soldier, progressing,
+    canvas, cursorPosition, soldier, progressing, renderScope,
     screen = {
         width: 0,
         height: 0
@@ -117,9 +117,15 @@ const markDirections = (x, y) => {
 }
 
 const update = () => {
+    renderScope = {
+        x1: (() => {let x1 = parseInt((soldier.x - screen.width / 2) / world.tileWidth); return x1 > 0 ? x1 : 0})(),
+        y1: (() => {let y1 = parseInt((soldier.y - screen.height / 2) / world.tileWidth); return y1 > 0 ? y1 : 0})(),
+        x2: (() => {let x2 = parseInt((soldier.x + screen.width / 2) / world.tileWidth); return x2 <= world.size ? x2 : world.size})(),
+        y2: (() => {let y2 = parseInt((soldier.y + screen.height / 2) / world.tileWidth); return y2 <= world.size ? y2 : world.size})()
+    };
 
     // <render world>
-    world.render(soldier, screen);
+    world.render(soldier, screen, renderScope);
     // </render world>
 
     // <new monster spawn>
@@ -148,7 +154,7 @@ const update = () => {
 
     // <render monsters and the player>
     for (let item of renderOrder) {
-        item.render(screen, soldier);
+        item.render(screen, renderScope, soldier);
     }
     // </render monsters and the player>
 
