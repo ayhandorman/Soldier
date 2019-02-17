@@ -11,7 +11,7 @@ export class Monster {
         }
     }
 
-    render = (soldier, screen) => {
+    render = (screen, soldier) => {
         if (this.x == this.target.x * this.world.tileWidth && this.y == this.target.y * this.world.tileWidth) {
             let availableDirections = [];
             if (this.x / this.world.tileWidth > 0 && !this.world.tiles[this.x / this.world.tileWidth - 1][this.y / this.world.tileWidth].blocking) availableDirections.push(this.world.directions.left);

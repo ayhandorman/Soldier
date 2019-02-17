@@ -140,12 +140,16 @@ const update = () => {
     }
     // </new monster spawn>
 
-    // <render monsters and the player>
-    for (let monster of monsters) {
-        monster.render(soldier, screen);
-    }
+    // <calculate render order>
+    let renderOrder = monsters.slice();
+    renderOrder.push(soldier);
+    renderOrder.sort((a, b) => a.y - b.y);
+    // </calculate render order>
 
-    soldier.render(screen);
+    // <render monsters and the player>
+    for (let item of renderOrder) {
+        item.render(screen, soldier);
+    }
     // </render monsters and the player>
 
     // <display stats>
