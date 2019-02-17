@@ -26,7 +26,6 @@ import { World, Soldier, Monster } from './entities';
 
 var world = new World(), 
     canvas, cursorPosition, soldier, progressing,
-    selectedTileType = 1,
     currentButton = 3,
     monsters = [],
     monsterSprites = [];
@@ -174,8 +173,7 @@ window.onload = () => {
             y: parseInt((soldier.y - (world.screenHeight / 2) + e.clientY) / world.tileWidth)
         };
         if (currentButton == 2) {
-            world.tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;            
-            world.tiles[cursorPosition.x][cursorPosition.y].blocking = world.blockingTypes.includes(selectedTileType);
+            world.setTile(cursorPosition);
         }
     }
 
@@ -187,7 +185,7 @@ window.onload = () => {
         return; 
         }
         if (currentButton == 2) {
-            world.tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
+            world.tiles[cursorPosition.x][cursorPosition.y].type = world.selectedTileType;
         } else if (currentButton == 0) {
             resetDirections();
             soldier.target = {

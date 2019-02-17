@@ -4,6 +4,7 @@ export class World {
         this.size = 200;
         this.tileWidth = 40;
         this.tileTypes = 29;
+        this.selectedTileType = 1;
         this.monsterTypes = 4;
         this.screenWidth;
         this.screenHeight;
@@ -38,7 +39,7 @@ export class World {
                 for (let item of document.querySelectorAll('.tile-bar>img')) {
                     item.classList.remove('selected');
                 }
-                selectedTileType = parseInt(e.target.getAttribute('data-tile'));
+                this.selectedTileType = parseInt(e.target.getAttribute('data-tile'));
                 e.target.classList.add('selected');
             }
             if (i == 1) {
@@ -59,6 +60,11 @@ export class World {
                 };
             }
         }
+    }
+
+    setTile = (cursorPosition) => {
+        this.tiles[cursorPosition.x][cursorPosition.y].type = this.selectedTileType;
+        this.tiles[cursorPosition.x][cursorPosition.y].blocking = this.blockingTypes.includes(this.selectedTileType);
     }
 
     render = (soldier) => {
