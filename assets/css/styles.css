@@ -5,6 +5,7 @@ body{margin:0}
 .tile-bar>img.selected{border-color:#5b3628;box-shadow:0 0 4px #5b3628}
 a{cursor: pointer}
 [download]{color:green}
+u {color:darkblue}
 @media(max-width:500px) {
 .tile-bar{width:100%}
 .tile-bar>img{width:7%}
