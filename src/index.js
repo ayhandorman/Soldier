@@ -148,9 +148,10 @@ const update = () => {
     soldier.render(screen);
     // </render monsters and the player>
 
-    // <FPS info>
+    // <display stats>
     world.showFPS();
-    // </FPS info>
+    world.showMonsterCount(monsters.length);
+    // </display stats>
 }
 
 const downloadMap = () => {

@@ -98,4 +98,8 @@ export class World {
         this.context.font = "18px Arial";
         this.context.fillText("FPS: " + this.fps, 10, 30);
     }
+
+    showMonsterCount = (count) => {
+        this.context.fillText("Monsters: " + count, 10, 50);
+    }
 }
