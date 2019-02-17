@@ -245,7 +245,7 @@ window.onload = () => {
                     x: parseInt(soldier.x / world.tileWidth),
                     y: parseInt(soldier.y / world.tileWidth)
                 }
-                soldier.steps = [];            
+                soldier.steps = [{x: currentLocation.x, y: currentLocation.y}];            
                 while (currentLocation.x != soldierLocation.x || currentLocation.y != soldierLocation.y) {
                     switch (world.tiles[currentLocation.x][currentLocation.y].direction) {
                         case -4: ++currentLocation.x; break;
