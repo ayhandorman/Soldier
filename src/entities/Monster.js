@@ -1,7 +1,6 @@
 export class Monster {
     constructor(world) {
         this.world = world;
-        this.type = 0;
         this.x = 0;
         this.y = 0;
         this.counter = 0;
@@ -12,7 +11,7 @@ export class Monster {
         }
     }
 
-    render = (monsterSprites, soldier) => {
+    render = (soldier, screen) => {
         if (this.x == this.target.x * this.world.tileWidth && this.y == this.target.y * this.world.tileWidth) {
             let availableDirections = [];
             if (this.x / this.world.tileWidth > 0 && !this.world.tiles[this.x / this.world.tileWidth - 1][this.y / this.world.tileWidth].blocking) availableDirections.push(this.world.directions.left);
@@ -31,6 +30,6 @@ export class Monster {
             this.x = this.x > this.target.x * this.world.tileWidth ? this.x - 1 : this.x + 1;
             this.y = this.y > this.target.y * this.world.tileWidth ? this.y - 1 : this.y + 1;
         }
-        this.world.context.drawImage(monsterSprites[this.type], Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + this.world.screenWidth / 2 - 4, this.y - soldier.y + this.world.screenHeight / 2 - 15, 48, 48);
+        this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screen.width / 2 - 4, this.y - soldier.y + screen.height / 2 - 15, 48, 48);
     }
 }

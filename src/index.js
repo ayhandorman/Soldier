@@ -23,9 +23,14 @@ SOFTWARE.
 */
 
 import { World, Soldier, Monster } from './entities';
+import config from './config.json';
 
 var world = new World(), 
     canvas, cursorPosition, soldier, progressing,
+    screen = {
+        width: 0,
+        height: 0
+    },
     currentButton = 3,
     monsters = [],
     monsterSprites = [];
@@ -34,13 +39,13 @@ const monsterTypes = 4;
 
 for (let i = 1; i <= monsterTypes; i++) {
     let monsterSprite = new Image();
-    monsterSprite.src = `${world.assetsPath}/monsters/${i}.png`;
+    monsterSprite.src = `${config.assetsPath}/monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
 }
 
 const setCanvasSize = () => {
-    canvas.width = world.screenWidth = window.innerWidth;
-    canvas.height = world.screenHeight = window.innerHeight;
+    canvas.width = screen.width = window.innerWidth;
+    canvas.height = screen.height = window.innerHeight;
 }
 
 const resetDirections = () => {
@@ -114,7 +119,7 @@ const markDirections = (x, y) => {
 const update = () => {
 
     // <render world>
-    world.render(soldier);
+    world.render(soldier, screen);
     // </render world>
 
     // <new monster spawn>
@@ -127,7 +132,7 @@ const update = () => {
             let monster = new Monster(world);
             monster.x = spawnPoint.x * world.tileWidth;
             monster.y = spawnPoint.y * world.tileWidth;
-            monster.type = Math.floor(Math.random() * 3);
+            monster.sprite = monsterSprites[Math.floor(Math.random() * 3)];
             monster.target.x = spawnPoint.x;
             monster.target.y = spawnPoint.y;
             monsters.push(monster);
@@ -137,10 +142,10 @@ const update = () => {
 
     // <render monsters and the player>
     for (let monster of monsters) {
-        monster.render(monsterSprites, soldier);
+        monster.render(soldier, screen);
     }
 
-    soldier.render();
+    soldier.render(screen);
     // </render monsters and the player>
 
     // <FPS info>
@@ -171,8 +176,8 @@ window.onload = () => {
 
     canvas.onmousemove = (e) => {
         cursorPosition = {
-            x: parseInt((soldier.x - (world.screenWidth / 2) + e.clientX) / world.tileWidth),
-            y: parseInt((soldier.y - (world.screenHeight / 2) + e.clientY) / world.tileWidth)
+            x: parseInt((soldier.x - (screen.width / 2) + e.clientX) / world.tileWidth),
+            y: parseInt((soldier.y - (screen.height / 2) + e.clientY) / world.tileWidth)
         };
         if (currentButton == 2) {
             world.setTile(cursorPosition);
