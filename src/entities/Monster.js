@@ -34,10 +34,10 @@ export class Monster {
             x: this.x / this.world.tileWidth,
             y: this.y / this.world.tileWidth
         }
-        if (position.x >= renderScope.x1 && 
-            position.x <= renderScope.x2 &&
-            position.y > renderScope.y1 &&
-            position.y <= renderScope.y2) {
+        if (position.x >= renderScope.x1 - 1 && 
+            position.x <= renderScope.x2 + 1 &&
+            position.y >= renderScope.y1 - 1 &&
+            position.y <= renderScope.y2 + 1) {
             this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screen.width / 2 - 4, this.y - soldier.y + screen.height / 2 - 15, 48, 48);
         }
     }
