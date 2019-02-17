@@ -5,7 +5,6 @@ export class World {
         this.tileWidth = 40;
         this.tileTypes = 29;
         this.selectedTileType = 1;
-        this.monsterTypes = 4;
         this.screenWidth;
         this.screenHeight;
         this.directions = {

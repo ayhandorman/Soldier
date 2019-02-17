@@ -30,7 +30,9 @@ var world = new World(),
     monsters = [],
     monsterSprites = [];
 
-for (let i = 1; i <= world.monsterTypes; i++) {
+const monsterTypes = 4;
+
+for (let i = 1; i <= monsterTypes; i++) {
     let monsterSprite = new Image();
     monsterSprite.src = `${world.assetsPath}/monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
