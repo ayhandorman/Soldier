@@ -48,7 +48,27 @@ export class World {
         }
     }
 
-    render = (screen, soldier) => {
+    generateTiles = () => {
+        for (let i = 0; i <= this.size; i++) {
+            this.tiles[i] = new Array(this.size);
+            for (let j = 0; j <= this.size; j++) {
+                this.tiles[i][j] = {
+                    type: 0,
+                    direction: 0,
+                    blocking: false
+                };
+            }
+        }
+    }
+
+    render = (soldier) => {
+        let screen = {
+            x1: (() => {let x1 = parseInt((soldier.x - this.screenWidth / 2) / this.tileWidth); return x1 > 0 ? x1 : 0})(),
+            y1: (() => {let y1 = parseInt((soldier.y - this.screenHeight / 2) / this.tileWidth); return y1 > 0 ? y1 : 0})(),
+            x2: (() => {let x2 = parseInt((soldier.x + this.screenWidth / 2) / this.tileWidth); return x2 <= this.size ? x2 : this.size})(),
+            y2: (() => {let y2 = parseInt((soldier.y + this.screenHeight / 2) / this.tileWidth); return y2 <= this.size ? y2 : this.size})()
+        };
+
         this.context.fillStyle = "#3ABE41";
         this.context.fillRect(0, 0, this.screenWidth, this.screenHeight);
         for (let x = screen.x1; x <= screen.x2; x++) {

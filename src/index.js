@@ -22,51 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { World, Soldier } from './entities';
+import { World, Soldier, Monster } from './entities';
 
 var world = new World(), 
-    canvas, context, cursorPosition, soldier, progressing,
+    canvas, cursorPosition, soldier, progressing,
     selectedTileType = 1,
     currentButton = 3,
-    screen = {x1: 0, x2: 0, y1: 0, y2: 0},
     monsters = [],
     monsterSprites = [];
-
-class Monster {
-    constructor() {
-        this.type = 0;
-        this.x = 0;
-        this.y = 0;
-        this.counter = 0;
-        this.direction = world.directions.down;
-        this.target = {
-            x: 0,
-            y: 0
-        }
-    }
-
-    render = () => {
-        if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
-            let availableDirections = [];
-            if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
-            if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
-            if (this.y / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
-            if (this.y / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
-            this.direction = availableDirections[Math.floor(Math.random() * availableDirections.length)];
-            switch(this.direction) {
-                case world.directions.left: this.target.x--; break;
-                case world.directions.right: this.target.x++; break;
-                case world.directions.up: this.target.y--; break;
-                case world.directions.down: this.target.y++; break;
-            }
-        } else {
-            this.counter = (this.counter + 1) % 30;
-            this.x = this.x > this.target.x * world.tileWidth ? this.x - 1 : this.x + 1;
-            this.y = this.y > this.target.y * world.tileWidth ? this.y - 1 : this.y + 1;
-        }
-        context.drawImage(monsterSprites[this.type], Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + world.screenWidth / 2 - 4, this.y - soldier.y + world.screenHeight / 2 - 15, 48, 48);
-    }
-}
 
 for (let i = 1; i <= world.monsterTypes; i++) {
     let monsterSprite = new Image();
@@ -149,16 +112,9 @@ const markDirections = (x, y) => {
 
 const update = () => {
 
-    // <render tiles>
-    screen = {
-        x1: (() => {screen.x1 = parseInt((soldier.x - world.screenWidth / 2) / world.tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
-        y1: (() => {screen.y1 = parseInt((soldier.y - world.screenHeight / 2) / world.tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
-        x2: (() => {screen.x2 = parseInt((soldier.x + world.screenWidth / 2) / world.tileWidth); return screen.x2 <= world.size ? screen.x2 : world.size})(),
-        y2: (() => {screen.y2 = parseInt((soldier.y + world.screenHeight / 2) / world.tileWidth); return screen.y2 <= world.size ? screen.y2 : world.size})()
-    };
-
-    world.render(screen, soldier);
-    // </render tiles>
+    // <render world>
+    world.render(soldier);
+    // </render world>
 
     // <new monster spawn>
     if (Math.floor(Math.random() * 10) == 0) {
@@ -167,7 +123,7 @@ const update = () => {
             y: Math.floor(Math.random() * world.size)
         }
         if (!world.tiles[spawnPoint.x][spawnPoint.y].blocking) {
-            let monster = new Monster();
+            let monster = new Monster(world);
             monster.x = spawnPoint.x * world.tileWidth;
             monster.y = spawnPoint.y * world.tileWidth;
             monster.type = Math.floor(Math.random() * 3);
@@ -180,7 +136,7 @@ const update = () => {
 
     // <render monsters and the player>
     for (let monster of monsters) {
-        monster.render();
+        monster.render(monsterSprites, soldier);
     }
 
     soldier.render();
@@ -201,23 +157,13 @@ window.onresize = () => setCanvasSize();
 
 window.onload = () => {
     canvas = document.querySelector("canvas");
-    context = canvas.getContext("2d");
-    world.context = context;
+    world.context = canvas.getContext("2d");
     setCanvasSize();
 
     if (map) {
         world.tiles = map;
     } else {
-        for (let i = 0; i <= world.size; i++) {
-            world.tiles[i] = new Array(world.size);
-            for (let j = 0; j <= world.size; j++) {
-                world.tiles[i][j] = {
-                    type: 0,
-                    direction: 0,
-                    blocking: false
-                };
-            }
-        }
+        world.generateTiles();
     }
 
     world.loadTiles();
