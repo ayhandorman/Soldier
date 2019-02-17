@@ -22,31 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-const   worldSize = 200,
-        tileWidth = 40,
-        tileTypes = 29,
-        monsterTypes = 4,
-        directions = {
-            down: 0,
-            downLeft: 1,
-            left: 2,
-            upLeft: 3,
-            up: 4,
-            upRight: 5,
-            right: 6,
-            downRight: 7
-        },
-        assetsPath = "./assets/img/",
-        blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28];
-var canvas, context, screenWidth, screenHeight, cursorPosition, soldier, target, steps, tileBar, progressing,
+import { World, Soldier } from './entities';
+
+var world = new World(), 
+    canvas, context, cursorPosition, soldier, steps, tileBar, progressing,
     selectedTileType = 1,
     currentButton = 3,
-    currentStep = 0, 
     fps = 0, 
     fpsCounter = 0,
     screen = {x1: 0, x2: 0, y1: 0, y2: 0},
-    tiles = Array(worldSize),
-    images = Array(tileTypes),
+    tiles = Array(world.size),
+    images = Array(world.tileTypes),
     monsters = [],
     monsterSprites = [],
     lastRender = new Date();
@@ -57,7 +43,7 @@ class Monster {
         this.x = 0;
         this.y = 0;
         this.counter = 0;
-        this.direction = directions.down;
+        this.direction = world.directions.down;
         this.target = {
             x: 0,
             y: 0
@@ -65,103 +51,45 @@ class Monster {
     }
 
     render = () => {
-        if (this.x == this.target.x * tileWidth && this.y == this.target.y * tileWidth) {
-            debugger
+        if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
             let availableDirections = [];
-            if (this.x / tileWidth > 0 && !tiles[this.x / tileWidth - 1][this.y / tileWidth].blocking) availableDirections.push(directions.left);
-            if (this.x / tileWidth < worldSize && !tiles[this.x / tileWidth + 1][this.y / tileWidth].blocking) availableDirections.push(directions.right);
-            if (this.y / tileWidth > 0 && !tiles[this.x / tileWidth][this.y / tileWidth - 1].blocking) availableDirections.push(directions.up);
-            if (this.y / tileWidth < worldSize && !tiles[this.x / tileWidth][this.y / tileWidth + 1].blocking) availableDirections.push(directions.down);
+            if (this.x / world.tileWidth > 0 && !tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
+            if (this.x / world.tileWidth < world.size && !tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
+            if (this.y / world.tileWidth > 0 && !tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
+            if (this.y / world.tileWidth < world.size && !tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
             this.direction = availableDirections[Math.floor(Math.random() * availableDirections.length)];
             switch(this.direction) {
-                case directions.left: this.target.x--; break;
-                case directions.right: this.target.x++; break;
-                case directions.up: this.target.y--; break;
-                case directions.down: this.target.y++; break;
+                case world.directions.left: this.target.x--; break;
+                case world.directions.right: this.target.x++; break;
+                case world.directions.up: this.target.y--; break;
+                case world.directions.down: this.target.y++; break;
             }
         } else {
             this.counter = (this.counter + 1) % 30;
-            this.x = this.x > this.target.x * tileWidth ? this.x - 1 : this.x + 1;
-            this.y = this.y > this.target.y * tileWidth ? this.y - 1 : this.y + 1;
+            this.x = this.x > this.target.x * world.tileWidth ? this.x - 1 : this.x + 1;
+            this.y = this.y > this.target.y * world.tileWidth ? this.y - 1 : this.y + 1;
         }
-        context.drawImage(monsterSprites[this.type], Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screenWidth / 2 - 4, this.y - soldier.y + screenHeight / 2 - 15, 48, 48);
+        context.drawImage(monsterSprites[this.type], Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + world.screenWidth / 2 - 4, this.y - soldier.y + world.screenHeight / 2 - 15, 48, 48);
     }
 }
 
-class Soldier {
-    constructor() {        
-        this.x = (worldSize * tileWidth) / 2;
-        this.y = (worldSize * tileWidth) / 2;
-        this.counter = 0;
-        this.direction = directions.downRight;
-        target = {
-          x: parseInt(this.x / tileWidth),
-          y: parseInt(this.y / tileWidth)
-        };
-        steps = [{
-          x: target.x,
-          y: target.y
-        }];
-    }
-    
-    render = () => {
-        let whereToGo = steps[currentStep] ? {
-            x: steps[currentStep].x * tileWidth,
-            y: steps[currentStep].y * tileWidth
-        } : {x: this.x, y: this.y}
-
-        if (this.x != whereToGo.x || this.y != whereToGo.y) {
-            this.counter = (this.counter + 1) % 36;
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -2 : 2;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -2 : 2;
-
-            switch(true) {
-                case (this.x > whereToGo.x && this.y == whereToGo.y): this.direction = directions.left; break;
-                case (this.x < whereToGo.x && this.y == whereToGo.y): this.direction = directions.right; break;
-                case (this.y > whereToGo.y && this.x == whereToGo.x): this.direction = directions.up; break;
-                case (this.y < whereToGo.y && this.x == whereToGo.x): this.direction = directions.down; break;
-                case (this.x > whereToGo.x && this.y > whereToGo.y): this.direction = directions.upLeft; break;
-                case (this.x < whereToGo.x && this.y < whereToGo.y): this.direction = directions.downRight; break;
-                case (this.x > whereToGo.x && this.y < whereToGo.y): this.direction = directions.downLeft; break;
-                case (this.x < whereToGo.x && this.y > whereToGo.y): this.direction = directions.upRight; break;
-            }
-        } else {
-            if (currentStep < steps.length) {
-                currentStep++;
-            }
-        }
-        // <render shadow>
-        context.shadowBlur = 5;
-        context.shadowColor = "black";
-        context.fillStyle = "rgba(0,0,0,.3)";
-        context.beginPath();
-        context.ellipse(screenWidth / 2 + 15, screenHeight / 2 + 19, 16, 8, 0, 0, 2 * Math.PI);
-        context.fill();
-        context.shadowBlur = 0;
-        // </render shadow>
-        context.drawImage(soldierImage, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screenWidth / 2 - 20, screenHeight / 2 - 48, 69, 96);
-    };
-}
-			
-var soldierImage = new Image();
-soldierImage.src = `${assetsPath}soldier.png`;
 var targetImage = new Image();
-targetImage.src = `${assetsPath}target.png`;
+targetImage.src = `${world.assetsPath}target.png`;
 
-for (let i = 1; i <= monsterTypes; i++) {
+for (let i = 1; i <= world.monsterTypes; i++) {
     let monsterSprite = new Image();
-    monsterSprite.src = `${assetsPath}/monsters/${i}.png`;
+    monsterSprite.src = `${world.assetsPath}/monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
 }
 
 const setCanvasSize = () => {
-    canvas.width = screenWidth = window.innerWidth;
-    canvas.height = screenHeight = window.innerHeight;
+    canvas.width = world.screenWidth = window.innerWidth;
+    canvas.height = world.screenHeight = window.innerHeight;
 }
 
 const resetDirections = () => {
-    for (let i = 0; i <= worldSize; i++) {
-        for (let j = 0; j <= worldSize; j++) {
+    for (let i = 0; i <= world.size; i++) {
+        for (let j = 0; j <= world.size; j++) {
             tiles[i][j].direction = 0;
         }
     }
@@ -170,56 +98,56 @@ const resetDirections = () => {
 const markDirections = (x, y) => {
     if (x > 0 && y > 0 && !tiles[x - 1][y - 1].blocking && tiles[x - 1][y - 1].direction == 0) {
         tiles[x - 1][y - 1].direction = 1;
-        if (x - 1 == target.x && y - 1 == target.y) {
+        if (x - 1 == soldier.target.x && y - 1 == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x < worldSize, y > 0 && !tiles[x + 1][y - 1].blocking && tiles[x + 1][y - 1].direction == 0) {
+    if (x < world.size, y > 0 && !tiles[x + 1][y - 1].blocking && tiles[x + 1][y - 1].direction == 0) {
         tiles[x + 1][y - 1].direction = 3;
-        if (x + 1 == target.x && y - 1 == target.y) {
-          return true;
+        if (x + 1 == soldier.target.x && y - 1 == soldier.target.y) {
+        return true;
         }
         progressing = true;
     }
-    if (x < worldSize && y < worldSize && !tiles[x + 1][y + 1].blocking && tiles[x + 1][y + 1].direction == 0) {
+    if (x < world.size && y < world.size && !tiles[x + 1][y + 1].blocking && tiles[x + 1][y + 1].direction == 0) {
         tiles[x + 1][y + 1].direction = -1;
-        if (x + 1 == target.x && y + 1 == target.y) {
+        if (x + 1 == soldier.target.x && y + 1 == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x > 0 && y < worldSize && !tiles[x - 1][y + 1].blocking && tiles[x - 1][y + 1].direction == 0) {
+    if (x > 0 && y < world.size && !tiles[x - 1][y + 1].blocking && tiles[x - 1][y + 1].direction == 0) {
         tiles[x - 1][y + 1].direction = -3;
-        if (x - 1 == target.x && y + 1 == target.y) {
+        if (x - 1 == soldier.target.x && y + 1 == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
     if (x > 0 && !tiles[x - 1][y].blocking && tiles[x - 1][y].direction == 0) {
         tiles[x - 1][y].direction = -4;
-        if (x - 1 == target.x && y == target.y) {
+        if (x - 1 == soldier.target.x && y == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
     if (y > 0 && !tiles[x][y - 1].blocking && tiles[x][y - 1].direction == 0) {
         tiles[x][y - 1].direction = 2;
-        if (x == target.x && y - 1 == target.y) {
+        if (x == soldier.target.x && y - 1 == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
-    if (x < worldSize && !tiles[x + 1][y].blocking && tiles[x + 1][y].direction == 0) {
+    if (x < world.size && !tiles[x + 1][y].blocking && tiles[x + 1][y].direction == 0) {
         tiles[x + 1][y].direction = 4;
-        if (x + 1 == target.x && y == target.y) {
+        if (x + 1 == soldier.target.x && y == soldier.target.y) {
             return true;
         }
         progressing = true;
     }
-    if (y < worldSize && !tiles[x][y + 1].blocking && tiles[x][y + 1].direction == 0) {
+    if (y < world.size && !tiles[x][y + 1].blocking && tiles[x][y + 1].direction == 0) {
         tiles[x][y + 1].direction = -2;
-        if (x == target.x && y + 1 == target.y) {
+        if (x == soldier.target.x && y + 1 == soldier.target.y) {
             return true;
         }
         progressing = true;
@@ -231,36 +159,36 @@ const update = () => {
 
     // <render tiles>
     screen = {
-        x1: (() => {screen.x1 = parseInt((soldier.x - screenWidth / 2) / tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
-        y1: (() => {screen.y1 = parseInt((soldier.y - screenHeight / 2) / tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
-        x2: (() => {screen.x2 = parseInt((soldier.x + screenWidth / 2) / tileWidth); return screen.x2 <= worldSize ? screen.x2 : worldSize})(),
-        y2: (() => {screen.y2 = parseInt((soldier.y + screenHeight / 2) / tileWidth); return screen.y2 <= worldSize ? screen.y2 : worldSize})()
+        x1: (() => {screen.x1 = parseInt((soldier.x - world.screenWidth / 2) / world.tileWidth); return screen.x1 > 0 ? screen.x1 : 0})(),
+        y1: (() => {screen.y1 = parseInt((soldier.y - world.screenHeight / 2) / world.tileWidth); return screen.y1 > 0 ? screen.y1 : 0})(),
+        x2: (() => {screen.x2 = parseInt((soldier.x + world.screenWidth / 2) / world.tileWidth); return screen.x2 <= world.size ? screen.x2 : world.size})(),
+        y2: (() => {screen.y2 = parseInt((soldier.y + world.screenHeight / 2) / world.tileWidth); return screen.y2 <= world.size ? screen.y2 : world.size})()
     };
     context.fillStyle = "#3ABE41";
     context.fillRect(0, 0, canvas.width, canvas.height);
     for (let x = screen.x1; x <= screen.x2; x++) {
         for (let y = screen.y1; y <= screen.y2; y++) {
-            context.drawImage(images[tiles[x][y].type], x * tileWidth - soldier.x + screenWidth / 2, y * tileWidth - soldier.y + screenHeight / 2, tileWidth, tileWidth);
+            context.drawImage(images[tiles[x][y].type], x * world.tileWidth - soldier.x + world.screenWidth / 2, y * world.tileWidth - soldier.y + world.screenHeight / 2, world.tileWidth, world.tileWidth);
         }
     }
     // </render tiles>
 
     // <render target>
-    if (currentStep < steps.length) {
-        context.drawImage(targetImage, target.x * tileWidth - soldier.x + screenWidth / 2, target.y * tileWidth - 15 - soldier.y + screenHeight / 2, tileWidth, tileWidth);
+    if (soldier.currentStep < soldier.steps.length) {
+        context.drawImage(targetImage, soldier.target.x * world.tileWidth - soldier.x + world.screenWidth / 2, soldier.target.y * world.tileWidth - 15 - soldier.y + world.screenHeight / 2, world.tileWidth, world.tileWidth);
     }
     // </render target>
 
     // <new monster spawn>
     if (Math.floor(Math.random() * 10) == 0) {
         let spawnPoint = {
-            x: Math.floor(Math.random() * worldSize),
-            y: Math.floor(Math.random() * worldSize)
+            x: Math.floor(Math.random() * world.size),
+            y: Math.floor(Math.random() * world.size)
         }
         if (!tiles[spawnPoint.x][spawnPoint.y].blocking) {
             let monster = new Monster();
-            monster.x = spawnPoint.x * tileWidth;
-            monster.y = spawnPoint.y * tileWidth;
+            monster.x = spawnPoint.x * world.tileWidth;
+            monster.y = spawnPoint.y * world.tileWidth;
             monster.type = Math.floor(Math.random() * 3);
             monster.target.x = spawnPoint.x;
             monster.target.y = spawnPoint.y;
@@ -301,15 +229,16 @@ window.onresize = () => setCanvasSize();
 window.onload = () => {
     canvas = document.querySelector("canvas");
     context = canvas.getContext("2d");
+    world.context = context;
     setCanvasSize();
     tileBar = document.querySelector(".tile-bar");
 
     if (map) {
         tiles = map;
     } else {
-        for (let i = 0; i <= worldSize; i++) {
-            tiles[i] = new Array(worldSize);
-            for (let j = 0; j <= worldSize; j++) {
+        for (let i = 0; i <= world.size; i++) {
+            tiles[i] = new Array(world.size);
+            for (let j = 0; j <= world.size; j++) {
                 tiles[i][j] = {
                     type: 0,
                     direction: 0,
@@ -319,9 +248,9 @@ window.onload = () => {
         }
     }
 
-    for (let i = 0; i < tileTypes; i++) {
+    for (let i = 0; i < world.tileTypes; i++) {
         images[i] = new Image();
-        images[i].src = `${assetsPath}tiles/${i}.png`;
+        images[i].src = `${world.assetsPath}tiles/${i}.png`;
         images[i].setAttribute('data-tile', i)
         images[i].onclick = (e) => {
             for (let item of document.querySelectorAll('.tile-bar>img')) {
@@ -338,12 +267,12 @@ window.onload = () => {
 
     canvas.onmousemove = (e) => {
         cursorPosition = {
-            x: parseInt((soldier.x - (screenWidth / 2) + e.clientX) / tileWidth),
-            y: parseInt((soldier.y - (screenHeight / 2) + e.clientY) / tileWidth)
+            x: parseInt((soldier.x - (world.screenWidth / 2) + e.clientX) / world.tileWidth),
+            y: parseInt((soldier.y - (world.screenHeight / 2) + e.clientY) / world.tileWidth)
         };
         if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;            
-            tiles[cursorPosition.x][cursorPosition.y].blocking = blockingTypes.includes(selectedTileType);
+            tiles[cursorPosition.x][cursorPosition.y].blocking = world.blockingTypes.includes(selectedTileType);
         }
     }
 
@@ -352,13 +281,13 @@ window.onload = () => {
 
         if (currentButton == 0 && tiles[cursorPosition.x][cursorPosition.y].blocking)
         {
-           return; 
+        return; 
         }
         if (currentButton == 2) {
             tiles[cursorPosition.x][cursorPosition.y].type = selectedTileType;
         } else if (currentButton == 0) {
             resetDirections();
-            target = {
+            soldier.target = {
                 x: cursorPosition.x,
                 y: cursorPosition.y
             }
@@ -370,12 +299,12 @@ window.onload = () => {
             
             while (!found && progressing) {
                 if (!initialSearch) {
-                    found = markDirections(parseInt(soldier.x / tileWidth), parseInt(soldier.y / tileWidth));
+                    found = markDirections(parseInt(soldier.x / world.tileWidth), parseInt(soldier.y / world.tileWidth));
                     initialSearch = true;
                     } else {
                     progressing = false;
-                    for (let i = 0; i < worldSize; i++) {
-                        for (let j = 0; j < worldSize; j++) {
+                    for (let i = 0; i < world.size; i++) {
+                        for (let j = 0; j < world.size; j++) {
                             if (tiles[i][j].direction != 0) {
                                 found = markDirections(i, j);
                                 if (found) {
@@ -388,16 +317,16 @@ window.onload = () => {
                 }
             }
             if (found) {
-                currentStep = 0;
+                soldier.currentStep = 0;
                 let currentLocation = {
-                    x: target.x,
-                    y: target.y
+                    x: soldier.target.x,
+                    y: soldier.target.y
                 }
                 let soldierLocation = {
-                    x: parseInt(soldier.x / tileWidth),
-                    y: parseInt(soldier.y / tileWidth)
+                    x: parseInt(soldier.x / world.tileWidth),
+                    y: parseInt(soldier.y / world.tileWidth)
                 }
-                steps = [];            
+                soldier.steps = [];            
                 while (currentLocation.x != soldierLocation.x || currentLocation.y != soldierLocation.y) {
                     switch (tiles[currentLocation.x][currentLocation.y].direction) {
                         case -4: ++currentLocation.x; break;
@@ -409,16 +338,16 @@ window.onload = () => {
                         case -2: --currentLocation.y; break;
                         case -3: ++currentLocation.x; --currentLocation.y; break;          
                     }
-                    steps.push({x: currentLocation.x, y: currentLocation.y});
+                    soldier.steps.push({x: currentLocation.x, y: currentLocation.y});
                 }
-                steps = steps.reverse();
+                soldier.steps = soldier.steps.reverse();
             }
         }
     }
 
     canvas.onmouseup = () => currentButton = 3;
 
-    soldier = new Soldier();
+    soldier = new Soldier(world);
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
