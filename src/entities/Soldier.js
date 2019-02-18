@@ -29,8 +29,8 @@ export class Soldier {
         let keyControl = keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down;
         if (keyControl) {
             whereToGo = {
-                x: keysPressed.left ? this.x - 1 : keysPressed.right ? this.x + 1 : this.x,
-                y: keysPressed.up ? this.y - 1 : keysPressed.down ? this.y + 1 : this.y
+                x: keysPressed.left && this.x > 0 ? this.x - 1 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 1 : this.x,
+                y: keysPressed.up && this.y > 0 ? this.y - 1 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 1 : this.y
             }
             this.steps = [];
         } else 
