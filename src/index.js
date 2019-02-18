@@ -166,14 +166,14 @@ const update = () => {
     if (keysPressed.attack) {
         let attackArea;
         switch (soldier.direction) {
-            case world.directions.up: attackArea = {x1: soldier.x - 5, y1: soldier.y - 25, x2: soldier.x + 35, y2: soldier.y + 15 }; break;
-            case world.directions.down: attackArea = {x1: soldier.x - 5, y1: soldier.y + 20, x2: soldier.x + 35, y2: soldier.y + 60 }; break;
-            case world.directions.left: attackArea = {x1: soldier.x - 35, y1: soldier.y - 7, x2: soldier.x + 5, y2: soldier.y + 33 }; break;
-            case world.directions.right: attackArea = {x1: soldier.x + 25, y1: soldier.y - 7, x2: soldier.x + 65, y2: soldier.y + 33 }; break;
-            case world.directions.downLeft: attackArea = {x1: soldier.x - 20, y1: soldier.y + 5, x2: soldier.x + 20, y2: soldier.y + 45 }; break;
-            case world.directions.downRight: attackArea = {x1: soldier.x + 15, y1: soldier.y + 5, x2: soldier.x + 55, y2: soldier.y + 45 }; break;
-            case world.directions.upLeft: attackArea = {x1: soldier.x - 20, y1: soldier.y - 20, x2: soldier.x + 20, y2: soldier.y + 20 }; break;
-            case world.directions.upRight: attackArea = {x1: soldier.x + 15, y1: soldier.y - 20, x2: soldier.x + 55, y2: soldier.y + 20 }; break;
+            case world.directions.up: attackArea = {x1: soldier.x - 20, y1: soldier.y - 30, x2: soldier.x + 45, y2: soldier.y + 25 }; break;
+            case world.directions.down: attackArea = {x1: soldier.x - 20, y1: soldier.y + 15, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
+            case world.directions.left: attackArea = {x1: soldier.x - 40, y1: soldier.y - 12, x2: soldier.x + 15, y2: soldier.y + 43 }; break;
+            case world.directions.right: attackArea = {x1: soldier.x + 20, y1: soldier.y - 12, x2: soldier.x + 75, y2: soldier.y + 43 }; break;
+            case world.directions.downLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y, x2: soldier.x + 30, y2: soldier.y + 55 }; break;
+            case world.directions.downRight: attackArea = {x1: soldier.x + 10, y1: soldier.y, x2: soldier.x + 65, y2: soldier.y + 55 }; break;
+            case world.directions.upLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y - 25, x2: soldier.x + 30, y2: soldier.y + 30 }; break;
+            case world.directions.upRight: attackArea = {x1: soldier.x + 10, y1: soldier.y - 25, x2: soldier.x + 65, y2: soldier.y + 30 }; break;
         }
 
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
