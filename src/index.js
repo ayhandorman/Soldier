@@ -176,8 +176,7 @@ const update = () => {
             case world.directions.upRight: attackArea = {x1: soldier.x + 15, y1: soldier.y - 20, x2: soldier.x + 55, y2: soldier.y + 20 }; break;
         }
 
-        debugger;
-        monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2)
+        monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
             .map((monster) => {
                 debugger;
             if (monster.hp > 0) {
