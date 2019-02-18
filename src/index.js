@@ -33,7 +33,13 @@ var world = new World(),
     },
     currentButton = 3,
     monsters = [],
-    monsterSprites = [];
+    monsterSprites = [],
+    keysPressed = {
+        left: false,
+        up: false,
+        right: false,
+        down: false
+    };
 
 const monsterTypes = [
     { name: "Devil", maxHP: 150 },
@@ -130,7 +136,7 @@ const update = () => {
     };
 
     // <render world>
-    world.render(soldier, screen, renderScope);
+    world.render(screen, renderScope, soldier);
     // </render world>
 
     // <new monster spawn>
@@ -163,7 +169,7 @@ const update = () => {
 
     // <render monsters and the player>
     for (let item of renderOrder) {
-        item.render(screen, renderScope, soldier);
+        item.render(screen, renderScope, soldier, keysPressed);
     }
     // </render monsters and the player>
 
@@ -193,6 +199,24 @@ window.onload = () => {
     }
 
     world.loadTiles();
+
+    document.onkeydown = (e) => {
+        switch (e.key) {
+            case "a": keysPressed.left = true; break;
+            case "w": keysPressed.up = true; break;
+            case "d": keysPressed.right = true; break;
+            case "s": keysPressed.down = true; break;
+        }
+    }
+
+    document.onkeyup = (e) => {
+        switch (e.key) {
+            case "a": keysPressed.left = false; break;
+            case "w": keysPressed.up = false; break;
+            case "d": keysPressed.right = false; break;
+            case "s": keysPressed.down = false; break;
+        }
+    }
 
     canvas.onmousemove = (e) => {
         cursorPosition = {

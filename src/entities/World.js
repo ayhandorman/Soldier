@@ -64,7 +64,7 @@ export class World {
         this.tiles[cursorPosition.x][cursorPosition.y].blocking = this.blockingTypes.includes(this.selectedTileType);
     }
 
-    render = (soldier, screen, renderScope) => {
+    render = (screen, renderScope, soldier) => {
         this.context.fillStyle = "#3ABE41";
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
