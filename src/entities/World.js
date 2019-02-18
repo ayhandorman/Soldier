@@ -1,7 +1,7 @@
 export class World {
     
     constructor() {
-        this.size = 30;
+        this.size = 5;
         this.tileWidth = 40;
         this.tileTypes = 29;
         this.selectedTileType = 1;

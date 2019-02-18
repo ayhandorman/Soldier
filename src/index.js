@@ -38,7 +38,8 @@ var world = new World(),
         left: false,
         up: false,
         right: false,
-        down: false
+        down: false,
+        attack: false
     };
 
 const monsterTypes = [
@@ -161,6 +162,33 @@ const update = () => {
     }
     // </new monster spawn>
 
+    // <attack monsters>
+    if (keysPressed.attack) {
+        let attackArea;
+        switch (soldier.direction) {
+            case world.directions.up: attackArea = {x1: soldier.x - 5, y1: soldier.y - 25, x2: soldier.x + 35, y2: soldier.y + 15 }; break;
+            case world.directions.down: attackArea = {x1: soldier.x - 5, y1: soldier.y + 20, x2: soldier.x + 35, y2: soldier.y + 60 }; break;
+            case world.directions.left: attackArea = {x1: soldier.x - 35, y1: soldier.y - 7, x2: soldier.x + 5, y2: soldier.y + 33 }; break;
+            case world.directions.right: attackArea = {x1: soldier.x + 25, y1: soldier.y - 7, x2: soldier.x + 65, y2: soldier.y + 33 }; break;
+            case world.directions.downLeft: attackArea = {x1: soldier.x - 20, y1: soldier.y + 5, x2: soldier.x + 20, y2: soldier.y + 45 }; break;
+            case world.directions.downRight: attackArea = {x1: soldier.x + 15, y1: soldier.y + 5, x2: soldier.x + 55, y2: soldier.y + 45 }; break;
+            case world.directions.upLeft: attackArea = {x1: soldier.x - 20, y1: soldier.y - 20, x2: soldier.x + 20, y2: soldier.y + 20 }; break;
+            case world.directions.upRight: attackArea = {x1: soldier.x + 15, y1: soldier.y - 20, x2: soldier.x + 55, y2: soldier.y + 20 }; break;
+        }
+
+        debugger;
+        monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2)
+            .map((monster) => {
+                debugger;
+            if (monster.hp > 0) {
+                monster.hp--;
+            } else {
+                monsters.splice(monsters.indexOf(monster), 1);
+            }
+        });
+    }
+    // </attack monsters>
+
     // <calculate render order>
     let renderOrder = monsters.slice();
     renderOrder.push(soldier);
@@ -206,6 +234,7 @@ window.onload = () => {
             case "w": keysPressed.up = true; break;
             case "d": keysPressed.right = true; break;
             case "s": keysPressed.down = true; break;
+            case "e": keysPressed.attack = true; break;
         }
     }
 
@@ -215,6 +244,7 @@ window.onload = () => {
             case "w": keysPressed.up = false; break;
             case "d": keysPressed.right = false; break;
             case "s": keysPressed.down = false; break;
+            case "e": keysPressed.attack = false; break;
         }
     }
 
