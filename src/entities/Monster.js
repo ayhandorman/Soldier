@@ -4,6 +4,9 @@ export class Monster {
         this.x = 0;
         this.y = 0;
         this.counter = 0;
+        this.name = "";
+        this.maxHP = 0;
+        this.hp = 0;
         this.direction = this.world.directions.down;
         this.target = {
             x: 0,
@@ -38,7 +41,20 @@ export class Monster {
             position.x <= renderScope.x2 + 1 &&
             position.y >= renderScope.y1 - 1 &&
             position.y <= renderScope.y2 + 1) {
-            this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, this.x - soldier.x + screen.width / 2 - 4, this.y - soldier.y + screen.height / 2 - 15, 48, 48);
+            let monsterPosition = {
+                x: this.x - soldier.x + screen.width / 2,
+                y: this.y - soldier.y + screen.height / 2
+            }
+            this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
+
+            this.world.context.font = "14px Arial";
+            this.world.context.textAlign = "center"; 
+            this.world.context.fillStyle = "#ad1414";
+            this.world.context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
+            this.world.context.lineWidth = 0.8;
+            this.world.context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
+            this.world.context.fillStyle = "red";
+            this.world.context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
         }
     }
 }

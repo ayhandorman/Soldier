@@ -35,9 +35,14 @@ var world = new World(),
     monsters = [],
     monsterSprites = [];
 
-const monsterTypes = 4;
+const monsterTypes = [
+    { name: "Devil", maxHP: 150 },
+    { name: "Maneater", maxHP: 100 },
+    { name: "Nessie", maxHP: 130 },
+    { name: "Chicky", maxHP: 50 }
+];
 
-for (let i = 1; i <= monsterTypes; i++) {
+for (let i = 1; i <= monsterTypes.length; i++) {
     let monsterSprite = new Image();
     monsterSprite.src = `${config.assetsPath}/monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
@@ -138,7 +143,11 @@ const update = () => {
             let monster = new Monster(world);
             monster.x = spawnPoint.x * world.tileWidth;
             monster.y = spawnPoint.y * world.tileWidth;
-            monster.sprite = monsterSprites[Math.floor(Math.random() * 3)];
+            let monsterType = Math.floor(Math.random() * 4);
+            monster.sprite = monsterSprites[monsterType];
+            monster.name = monsterTypes[monsterType].name;
+            monster.maxHP = monsterTypes[monsterType].maxHP;
+            monster.hp = monster.maxHP;
             monster.target.x = spawnPoint.x;
             monster.target.y = spawnPoint.y;
             monsters.push(monster);

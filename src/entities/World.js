@@ -1,7 +1,7 @@
 export class World {
     
     constructor() {
-        this.size = 200;
+        this.size = 30;
         this.tileWidth = 40;
         this.tileTypes = 29;
         this.selectedTileType = 1;
@@ -88,7 +88,9 @@ export class World {
             this.fps = this.fpsCounter;
             this.fpsCounter = 0;    
         }
-        this.context.font = "18px Arial";
+        this.context.font = "18px Arial";        
+        this.context.textAlign = "left"; 
+        this.context.fillStyle = "rgba(0,0,0,.3)";
         this.context.fillText("FPS: " + this.fps, 10, 30);
     }
 

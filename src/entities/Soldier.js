@@ -7,6 +7,8 @@ export class Soldier {
         this.x = (world.size * world.tileWidth) / 2;
         this.y = (world.size * world.tileWidth) / 2;
         this.counter = 0;
+        this.maxHP = 200;
+        this.hp = 200;
         this.direction = world.directions.downRight;
         this.target = {
           x: parseInt(this.x / world.tileWidth),
@@ -58,5 +60,16 @@ export class Soldier {
         // </render shadow>
 
         this.world.context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 20, screen.height / 2 - 48, 69, 96);
+
+        // <render hp bar>
+        let soldierPosition = {
+            x: screen.width / 2,
+            y: screen.height / 2
+        }
+        this.world.context.lineWidth = 0.8;
+        this.world.context.strokeRect(soldierPosition.x - 10, soldierPosition.y - 50, 52, 7);
+        this.world.context.fillStyle = "lightgreen";
+        this.world.context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
+        // </render hp bar>
     };		
 }
