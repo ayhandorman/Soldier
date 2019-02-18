@@ -15,7 +15,7 @@ export class Monster {
     }
 
     render = (screen, renderScope, soldier) => {
-        if (this.x == this.target.x * this.world.tileWidth && this.y == this.target.y * this.world.tileWidth) {
+        if (this.x == this.target.x * this.world.tileWidth && this.y == this.target.y * this.world.tileWidth && this.hp == this.maxHP) {
             let availableDirections = [];
             if (this.x / this.world.tileWidth > 0 && !this.world.tiles[this.x / this.world.tileWidth - 1][this.y / this.world.tileWidth].blocking) availableDirections.push(this.world.directions.left);
             if (this.x / this.world.tileWidth < this.world.size && !this.world.tiles[this.x / this.world.tileWidth + 1][this.y / this.world.tileWidth].blocking) availableDirections.push(this.world.directions.right);
