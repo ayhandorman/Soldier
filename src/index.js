@@ -24,6 +24,7 @@ SOFTWARE.
 
 import { World, Soldier, Monster } from './entities';
 import config from './config.json';
+import map from '../assets/maps/map1.json';
 
 var world = new World(), 
     canvas, cursorPosition, soldier, progressing, renderScope,
