@@ -1,9 +1,11 @@
+import config from '../config.json';
+
 export class World {
     
     constructor() {
         this.size = 200;
         this.tileWidth = 40;
-        this.tileTypes = 29;
+        this.tileTypes = 32;
         this.selectedTileType = 1;
         this.directions = {
             down: 0,
@@ -15,22 +17,21 @@ export class World {
             right: 6,
             downRight: 7
         };
-        this.assetsPath = "./assets/img/";
-        this.blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28];
-        this.images = Array(this.tileTypes);
-        this.tiles = Array(this.size);
+        this.blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+        this.images = new Array(this.tileTypes);
+        this.tiles = new Array(this.size);
         this.fps = 0;
         this.fpsCounter = 0;
         this.lastRender = new Date();
         this.targetImage = new Image();
-        this.targetImage.src = `${this.assetsPath}target.png`;
+        this.targetImage.src = `${config.assetsPath}target.png`;
     }
 
     loadTiles = () => {
         let tileBar = document.querySelector(".tile-bar");
         for (let i = 0; i < this.tileTypes; i++) {
             this.images[i] = new Image();
-            this.images[i].src = `${this.assetsPath}tiles/${i}.png`;
+            this.images[i].src = `${config.assetsPath}tiles/${i}.png`;
             this.images[i].setAttribute('data-tile', i)
             this.images[i].onclick = (e) => {
                 for (let item of document.querySelectorAll('.tile-bar>img')) {
