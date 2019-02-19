@@ -29,8 +29,14 @@ export class Soldier {
         let keyControl = keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down;
         if (keyControl) {
             whereToGo = {
-                x: keysPressed.left && this.x > 0 ? this.x - 1 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 1 : this.x,
-                y: keysPressed.up && this.y > 0 ? this.y - 1 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 1 : this.y
+                x: keysPressed.left && this.x > 0 ? this.x - 2 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 2 : this.x,
+                y: keysPressed.up && this.y > 0 ? this.y - 2 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 2 : this.y
+            }
+            if (this.world.tiles[parseInt(Math.round(whereToGo.x / this.world.tileWidth))][Math.round(parseInt(this.y / this.world.tileWidth))].blocking) {
+                whereToGo.x = this.x;
+            }
+            if (this.world.tiles[parseInt(Math.round(this.x / this.world.tileWidth))][Math.round(parseInt(whereToGo.y / this.world.tileWidth))].blocking) {
+                whereToGo.y = this.y;
             }
             this.steps = [];
         } else 
@@ -43,8 +49,8 @@ export class Soldier {
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
             this.counter = (this.counter + 1) % 36;
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -2 : 2;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -2 : 2;
+            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -3 : 3;
+            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -3 : 3;
             let directions = this.world.directions;
 
             switch(true) {
@@ -67,12 +73,12 @@ export class Soldier {
         this.world.context.shadowColor = "black";
         this.world.context.fillStyle = "rgba(0,0,0,.3)";
         this.world.context.beginPath();
-        this.world.context.ellipse(screen.width / 2 + 15, screen.height / 2 + 19, 16, 8, 0, 0, 2 * Math.PI);
+        this.world.context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 16, 8, 0, 0, 2 * Math.PI);
         this.world.context.fill();
         this.world.context.shadowBlur = 0;
         // </render shadow>
 
-        this.world.context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 20, screen.height / 2 - 48, 69, 96);
+        this.world.context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 15, screen.height / 2 - 55, 69, 96);
 
         // <render hp bar>
         let soldierPosition = {
