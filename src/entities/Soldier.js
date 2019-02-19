@@ -29,8 +29,8 @@ export class Soldier {
         let keyControl = keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down;
         if (keyControl) {
             whereToGo = {
-                x: keysPressed.left && this.x > 0 ? this.x - 2 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 2 : this.x,
-                y: keysPressed.up && this.y > 0 ? this.y - 2 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 2 : this.y
+                x: keysPressed.left && this.x > 0 ? this.x - 1 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 1 : this.x,
+                y: keysPressed.up && this.y > 0 ? this.y - 1 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 1 : this.y
             }
             if (this.world.tiles[parseInt(Math.round(whereToGo.x / this.world.tileWidth))][Math.round(parseInt(this.y / this.world.tileWidth))].blocking) {
                 whereToGo.x = this.x;
@@ -49,8 +49,8 @@ export class Soldier {
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
             this.counter = (this.counter + 1) % 36;
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -3 : 3;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -3 : 3;
+            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -2 : 2;
+            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -2 : 2;
             let directions = this.world.directions;
 
             switch(true) {
