@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: PATHS.build,
-    filename: 'bundle.[hash].js',
+    filename: 'bundle.js',
     libraryTarget: 'var',
     library: 'Soldier'
   },
