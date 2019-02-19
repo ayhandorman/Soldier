@@ -178,7 +178,6 @@ const update = () => {
 
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
             .map((monster) => {
-                debugger;
             if (monster.hp > 0) {
                 monster.hp--;
             } else {
