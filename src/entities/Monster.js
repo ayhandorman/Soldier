@@ -7,6 +7,7 @@ export class Monster {
         this.name = "";
         this.maxHP = 0;
         this.hp = 0;
+        this.damageList = [];
         this.direction = this.world.directions.down;
         this.target = {
             x: 0,
@@ -45,16 +46,36 @@ export class Monster {
                 x: this.x - soldier.x + screen.width / 2,
                 y: this.y - soldier.y + screen.height / 2
             }
-            this.world.context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
+            let context = this.world.context;
+            context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
 
-            this.world.context.font = "14px Arial";
-            this.world.context.textAlign = "center"; 
-            this.world.context.fillStyle = "#ad1414";
-            this.world.context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
-            this.world.context.lineWidth = 0.8;
-            this.world.context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
-            this.world.context.fillStyle = "red";
-            this.world.context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
+            context.font = "14px Arial";
+            context.textAlign = "center"; 
+            context.fillStyle = "#ad1414";
+            context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
+            context.lineWidth = 0.8;
+            context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
+            context.fillStyle = "red";
+            context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
+
+            if (this.damageList.length > 0) {
+                let _damageList = Object.assign([], this.damageList);
+                debugger
+                for (let i = 0; i < _damageList.length; i++) {
+                    context.font = 12 + _damageList[i].counter + "px Arial";
+                    context.fillText(_damageList[i].amount, monsterPosition.x + 20, monsterPosition.y - 75 + _damageList[i].counter * 2);
+                    _damageList[i].counter--;
+                    if (_damageList[i].counter <= 0) {
+                        this.damageList.splice(this.damageList.indexOf(_damageList[i]), 1);
+                    }
+                }
+            }
         }
+    }
+
+    receiveDamage = (ap) => {
+        let amount = Math.round(ap + ((ap + 1) * 0.2 * Math.random() - ap * 0.1));
+        this.damageList.push({amount, counter: 25});
+        this.hp -= amount;
     }
 }

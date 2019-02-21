@@ -179,10 +179,10 @@ const update = () => {
 
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
             .map((monster) => {
-            if (monster.hp > 0) {
-                monster.hp--;
-            } else {
+            if (monster.hp <= 0) {
                 monsters.splice(monsters.indexOf(monster), 1);
+            } else if ( monster.counter == 0) {
+                monster.receiveDamage(soldier.ap);
             }
         });
     }

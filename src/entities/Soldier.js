@@ -9,6 +9,9 @@ export class Soldier {
         this.counter = 0;
         this.maxHP = 200;
         this.hp = 200;
+        this.exp = 0;
+        this.level = 1;
+        this.ap = 6.5;
         this.direction = world.directions.downRight;
         this.target = {
           x: parseInt(this.x / world.tileWidth),
@@ -90,5 +93,14 @@ export class Soldier {
         this.world.context.fillStyle = "lightgreen";
         this.world.context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
         // </render hp bar>
-    };		
+    };
+
+    gainExp = (exp) => {
+        this.exp += exp;        
+    }
+
+    levelUp = () => {
+        this.level++;
+        this.ap = level * level * 1.5 + 5;
+    }
 }

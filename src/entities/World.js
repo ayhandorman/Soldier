@@ -3,7 +3,7 @@ import config from '../config.json';
 export class World {
     
     constructor() {
-        this.size = 200;
+        this.size = 30;
         this.tileWidth = 40;
         this.tileTypes = 32;
         this.selectedTileType = 1;
