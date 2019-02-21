@@ -60,7 +60,6 @@ export class Monster {
 
             if (this.damageList.length > 0) {
                 let _damageList = Object.assign([], this.damageList);
-                debugger
                 for (let i = 0; i < _damageList.length; i++) {
                     context.font = 12 + _damageList[i].counter + "px Arial";
                     context.fillText(_damageList[i].amount, monsterPosition.x + 20, monsterPosition.y - 75 + _damageList[i].counter * 2);
