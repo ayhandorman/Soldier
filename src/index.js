@@ -174,11 +174,11 @@ const update = () => {
             case world.directions.up: attackArea = {x1: soldier.x - 40, y1: soldier.y - 55, x2: soldier.x + 45, y2: soldier.y + 40 }; break;
             case world.directions.down: attackArea = {x1: soldier.x - 40, y1: soldier.y + 10, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
             case world.directions.left: attackArea = {x1: soldier.x - 65, y1: soldier.y - 50, x2: soldier.x + 20, y2: soldier.y + 50 }; break;
-            case world.directions.right: attackArea = {x1: soldier.x + 10, y1: soldier.y - 50, x2: soldier.x + 65, y2: soldier.y + 50 }; break;
-            case world.directions.downLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y, x2: soldier.x + 30, y2: soldier.y + 55 }; break;
-            case world.directions.downRight: attackArea = {x1: soldier.x + 10, y1: soldier.y, x2: soldier.x + 65, y2: soldier.y + 55 }; break;
-            case world.directions.upLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y - 25, x2: soldier.x + 30, y2: soldier.y + 30 }; break;
-            case world.directions.upRight: attackArea = {x1: soldier.x + 10, y1: soldier.y - 25, x2: soldier.x + 65, y2: soldier.y + 30 }; break;
+            case world.directions.right: attackArea = {x1: soldier.x - 20, y1: soldier.y - 50, x2: soldier.x + 65, y2: soldier.y + 50 }; break;
+            case world.directions.downLeft: attackArea = {x1: soldier.x - 65, y1: soldier.y - 20, x2: soldier.x + 30, y2: soldier.y + 75 }; break;
+            case world.directions.downRight: attackArea = {x1: soldier.x - 30, y1: soldier.y - 20, x2: soldier.x + 65, y2: soldier.y + 75 }; break;
+            case world.directions.upLeft: attackArea = {x1: soldier.x - 65, y1: soldier.y - 45, x2: soldier.x + 30, y2: soldier.y + 30 }; break;
+            case world.directions.upRight: attackArea = {x1: soldier.x - 30, y1: soldier.y - 45, x2: soldier.x + 65, y2: soldier.y + 30 }; break;
         }
 
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
