@@ -52,12 +52,12 @@ const monsterTypes = [
 
 for (let i = 1; i <= monsterTypes.length; i++) {
     let monsterSprite = new Image();
-    monsterSprite.src = `${config.assetsPath}/monsters/${i}.png`;
+    monsterSprite.src = `${config.assetsPath}monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
 }
 
 let hud = new Image();
-hud.src = `${config.assetsPath}/hud.png`;
+hud.src = `${config.assetsPath}hud.png`;
 
 const setCanvasSize = () => {
     canvas.width = screen.width = window.innerWidth;
