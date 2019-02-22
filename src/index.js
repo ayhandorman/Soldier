@@ -171,10 +171,10 @@ const update = () => {
     if (keysPressed.attack) {
         let attackArea;
         switch (soldier.direction) {
-            case world.directions.up: attackArea = {x1: soldier.x - 20, y1: soldier.y - 30, x2: soldier.x + 45, y2: soldier.y + 25 }; break;
-            case world.directions.down: attackArea = {x1: soldier.x - 20, y1: soldier.y + 15, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
-            case world.directions.left: attackArea = {x1: soldier.x - 40, y1: soldier.y - 12, x2: soldier.x + 15, y2: soldier.y + 43 }; break;
-            case world.directions.right: attackArea = {x1: soldier.x + 20, y1: soldier.y - 12, x2: soldier.x + 75, y2: soldier.y + 43 }; break;
+            case world.directions.up: attackArea = {x1: soldier.x - 40, y1: soldier.y - 55, x2: soldier.x + 45, y2: soldier.y + 40 }; break;
+            case world.directions.down: attackArea = {x1: soldier.x - 40, y1: soldier.y + 10, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
+            case world.directions.left: attackArea = {x1: soldier.x - 65, y1: soldier.y - 50, x2: soldier.x + 20, y2: soldier.y + 50 }; break;
+            case world.directions.right: attackArea = {x1: soldier.x + 10, y1: soldier.y - 50, x2: soldier.x + 65, y2: soldier.y + 50 }; break;
             case world.directions.downLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y, x2: soldier.x + 30, y2: soldier.y + 55 }; break;
             case world.directions.downRight: attackArea = {x1: soldier.x + 10, y1: soldier.y, x2: soldier.x + 65, y2: soldier.y + 55 }; break;
             case world.directions.upLeft: attackArea = {x1: soldier.x - 25, y1: soldier.y - 25, x2: soldier.x + 30, y2: soldier.y + 30 }; break;
