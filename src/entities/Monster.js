@@ -7,6 +7,8 @@ export class Monster {
         this.name = "";
         this.maxHP = 0;
         this.hp = 0;
+        this.level = 1;
+        this.yielded = false;
         this.damageList = [];
         this.direction = this.world.directions.down;
         this.target = {
@@ -48,19 +50,22 @@ export class Monster {
                 y: this.y - soldier.y + screen.height / 2
             }
             let context = world.context;
-            context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
-
-            context.font = "14px Arial";
-            context.textAlign = "center"; 
-            context.fillStyle = "#ad1414";
-            context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
-            context.lineWidth = 0.8;
-            context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
-            context.fillStyle = "red";
-            context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
+            
+            if (this.hp > 0) {
+                context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
+                context.font = "14px Arial";
+                context.textAlign = "center"; 
+                context.fillStyle = "#ad1414";
+                context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
+                context.lineWidth = 0.8;
+                context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
+                context.fillStyle = "red";
+                context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
+            }
 
             if (this.damageList.length > 0) {
                 let _damageList = Object.assign([], this.damageList);
+                context.fillStyle = "red";
                 for (let i = 0; i < _damageList.length; i++) {
                     context.font = 12 + _damageList[i].counter + "px Arial";
                     context.fillText(_damageList[i].amount, monsterPosition.x + 20, monsterPosition.y - 75 + _damageList[i].counter * 2);

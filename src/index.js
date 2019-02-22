@@ -44,10 +44,10 @@ var world = new World(),
     };
 
 const monsterTypes = [
-    { name: "Devil", maxHP: 150 },
-    { name: "Maneater", maxHP: 100 },
-    { name: "Nessie", maxHP: 130 },
-    { name: "Chicky", maxHP: 50 }
+    { name: "Devil", maxHP: 150, level: 4 },
+    { name: "Maneater", maxHP: 100, level: 3 },
+    { name: "Nessie", maxHP: 130, level: 2 },
+    { name: "Chicky", maxHP: 50, level: 1 }
 ];
 
 for (let i = 1; i <= monsterTypes.length; i++) {
@@ -55,6 +55,9 @@ for (let i = 1; i <= monsterTypes.length; i++) {
     monsterSprite.src = `${config.assetsPath}/monsters/${i}.png`;
     monsterSprites.push(monsterSprite);
 }
+
+let hud = new Image();
+hud.src = `${config.assetsPath}/hud.png`;
 
 const setCanvasSize = () => {
     canvas.width = screen.width = window.innerWidth;
@@ -155,6 +158,7 @@ const update = () => {
             monster.sprite = monsterSprites[monsterType];
             monster.name = monsterTypes[monsterType].name;
             monster.maxHP = monsterTypes[monsterType].maxHP;
+            monster.level = monsterTypes[monsterType].level;
             monster.hp = monster.maxHP;
             monster.target.x = spawnPoint.x;
             monster.target.y = spawnPoint.y;
@@ -178,13 +182,17 @@ const update = () => {
         }
 
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
-            .map((monster) => {
-            if (monster.hp <= 0) {
-                monsters.splice(monsters.indexOf(monster), 1);
+                .map((monster) => {
+            if (monster.hp <= 0 && !monster.yielded) {
+                soldier.gainExp(monster.level * 5);
+                monster.yielded = true;
             } else if ( monster.counter == 0) {
                 monster.receiveDamage(soldier.ap);
             }
         });
+
+        monsters.filter(monster => monster.hp <= 0 && monster.damageList.length == 0)
+                .map((monster) => monsters.splice(monsters.indexOf(monster), 1));
     }
     // </attack monsters>
 
@@ -199,6 +207,22 @@ const update = () => {
         item.render(screen, renderScope, soldier, keysPressed);
     }
     // </render monsters and the player>
+
+    // <hud>
+    let ctx = world.context;
+    ctx.fillStyle = "#826729";
+    ctx.fillRect(60, 48, 162, 19)
+    ctx.fillStyle = "#f2c254";
+    let expBarWidth = 162 / ((Math.pow(soldier.level, 2) * 100) - (Math.pow(soldier.level - 1, 2) * 100)) * (soldier.exp - (Math.pow(soldier.level - 1, 2) * 100))
+    ctx.fillRect(60, 48, expBarWidth, 19)
+    ctx.font = "15px Arial";
+    ctx.textAlign = "center"; 
+    ctx.fillStyle = "black";
+    ctx.fillText(`${soldier.exp}/${Math.pow(soldier.level, 2) * 100}`, 140, 63);
+    ctx.drawImage(hud, 10, 20);
+    ctx.font = "bold 12px Arial";
+    ctx.fillText(soldier.level, 21, 77);
+    // </hud>
 
     // <display stats>
     world.showFPS();

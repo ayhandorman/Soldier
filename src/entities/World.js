@@ -92,10 +92,10 @@ export class World {
         this.context.font = "18px Arial";        
         this.context.textAlign = "left"; 
         this.context.fillStyle = "rgba(0,0,0,.3)";
-        this.context.fillText("FPS: " + this.fps, 10, 30);
+        this.context.fillText("FPS: " + this.fps, 10, 110);
     }
 
     showMonsterCount = (count) => {
-        this.context.fillText("Monsters: " + count, 10, 50);
+        this.context.fillText("Monsters: " + count, 10, 130);
     }
 }
