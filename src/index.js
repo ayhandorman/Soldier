@@ -251,6 +251,11 @@ window.onload = () => {
 
     world.loadTiles();
 
+    window.onbeforeunload = () => {
+        localStorage.setItem("exp", soldier.exp);
+        localStorage.setItem("level", soldier.level);
+    }
+
     document.onkeydown = (e) => {
         switch (e.key) {
             case "a": keysPressed.left = true; break;
@@ -353,6 +358,8 @@ window.onload = () => {
     canvas.onmouseup = () => currentButton = 3;
 
     soldier = new Soldier(world);
+    soldier.level = parseInt(localStorage.getItem("level") || 1);
+    soldier.exp = parseInt(localStorage.getItem("exp") || 0);
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);

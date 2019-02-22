@@ -99,7 +99,7 @@ export class Soldier {
         this.exp += exp;
         if (this.exp >= Math.pow(this.level, 2) * 100) {
             this.levelUp();
-        }
+        }        
     }
 
     levelUp = () => {
