@@ -231,7 +231,7 @@ const update = () => {
 }
 
 const downloadMap = () => {
-    document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(world.tiles)));
+    document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + JSON.stringify(world.tiles));
 }
 
 document.oncontextmenu = (e) => e.preventDefault();
@@ -294,7 +294,7 @@ window.onload = () => {
         return; 
         }
         if (currentButton == 2) {
-            world.tiles[cursorPosition.x][cursorPosition.y].type = world.selectedTileType;
+            world.setTile(cursorPosition);
         } else if (currentButton == 0) {
             resetDirections();
             soldier.target = {
