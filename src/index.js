@@ -62,6 +62,26 @@ var arrows = new Image();
 arrows.src = `${config.assetsPath}arrows.png`;
 var attackButton = document.querySelector('.attack');
 
+const setCookie = (name, value, days) => {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+const getCookie = (name) => {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
 
 const setCanvasSize = () => {
     setTimeout(() => {
@@ -235,7 +255,7 @@ const update = () => {
     world.showMonsterCount(monsters.length);
     // </display stats>
 
-    if (touchStartPosition.status) {
+    if (touchStartPosition && touchStartPosition.status) {
         ctx.drawImage(arrows, touchStartPosition.x, touchStartPosition.y);
     }
 }
@@ -263,8 +283,13 @@ window.onload = () => {
     world.loadTiles();
 
     window.onbeforeunload = () => {
-        localStorage.setItem("exp", soldier.exp);
-        localStorage.setItem("level", soldier.level);
+        if (localStorage) {
+            localStorage.setItem("exp", soldier.exp);
+            localStorage.setItem("level", soldier.level);
+        } else {
+            setCookie("exp", soldier.exp, 3650);
+            setCookie("level", soldier.level, 3650);
+        }
     }
 
     document.onkeydown = (e) => {
@@ -410,8 +435,13 @@ window.onload = () => {
     }
 
     soldier = new Soldier(world);
-    soldier.level = parseInt(localStorage.getItem("level") || 1);
-    soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+    if (localStorage) {
+        soldier.level = parseInt(localStorage.getItem("level") || 1);
+        soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+    } else {
+        soldier.level = parseInt(getCookie("level") || 1);
+        soldier.exp = parseInt(getCookie("exp") || 0);
+    }
     soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
 
     (function mainLoop() {
