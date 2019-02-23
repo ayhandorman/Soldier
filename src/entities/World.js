@@ -5,7 +5,7 @@ export class World {
     constructor() {
         this.size = 200;
         this.tileWidth = 40;
-        this.tileTypes = 32;
+        this.tileTypes = 51;
         this.selectedTileType = 1;
         this.directions = {
             down: 0,
@@ -17,7 +17,7 @@ export class World {
             right: 6,
             downRight: 7
         };
-        this.blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+        this.blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 35, 36, 38, 39, 40, 41, 45, 46, 47, 48, 49];
         this.images = new Array(this.tileTypes);
         this.tiles = new Array(this.size);
         this.fps = 0;
