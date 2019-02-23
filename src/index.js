@@ -60,8 +60,10 @@ let hud = new Image();
 hud.src = `${config.assetsPath}hud.png`;
 
 const setCanvasSize = () => {
-    canvas.width = screen.width = window.innerWidth;
-    canvas.height = screen.height = window.innerHeight;
+    setTimeout(() => {
+        canvas.width = screen.width = window.innerWidth;
+        canvas.height = screen.height = window.innerHeight;
+    }, 500);
 }
 
 const resetDirections = () => {
@@ -237,6 +239,7 @@ const downloadMap = () => {
 document.oncontextmenu = (e) => e.preventDefault();
 
 window.onresize = () => setCanvasSize();
+window.onorientationchange = () => setCanvasSize();
 
 window.onload = () => {
     canvas = document.querySelector("canvas");
