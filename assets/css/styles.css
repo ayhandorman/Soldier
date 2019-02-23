@@ -6,7 +6,10 @@ body{margin:0}
 a{cursor:pointer}
 [download]{color:green}
 u{color:darkblue}
-@media(max-width:700px) {
+.attack{display:none;position:absolute;right:12px;bottom:12px;outline:none}
+.attack:active{width:60px;height:60px;right:14px;bottom:14px}
+@media(max-width:1024px) {
+.attack{display: block}
 .tile-bar{display:none}
 .helper{display:none}
 }

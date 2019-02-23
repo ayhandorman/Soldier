@@ -27,7 +27,7 @@ import config from './config.json';
 import map from '../assets/maps/map1.json';
 
 var world = new World(), 
-    canvas, cursorPosition, soldier, progressing, renderScope,
+    canvas, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
     screen = {
         width: 0,
         height: 0
@@ -56,8 +56,12 @@ for (let i = 1; i <= monsterTypes.length; i++) {
     monsterSprites.push(monsterSprite);
 }
 
-let hud = new Image();
+var hud = new Image();
 hud.src = `${config.assetsPath}hud.png`;
+var arrows = new Image();
+arrows.src = `${config.assetsPath}arrows.png`;
+var attackButton = document.querySelector('.attack');
+
 
 const setCanvasSize = () => {
     setTimeout(() => {
@@ -230,6 +234,10 @@ const update = () => {
     world.showFPS();
     world.showMonsterCount(monsters.length);
     // </display stats>
+
+    if (touchStartPosition.status) {
+        ctx.drawImage(arrows, touchStartPosition.x, touchStartPosition.y);
+    }
 }
 
 const downloadMap = () => {
@@ -359,6 +367,47 @@ window.onload = () => {
     }
 
     canvas.onmouseup = () => currentButton = 3;
+
+    canvas.ontouchstart = (e) => {
+        touchStartPosition = {
+            x: e.touches[0].pageX,
+            y: e.touches[0].pageY,
+            status: true
+        }        
+    }
+
+    canvas.ontouchmove = (e) => {
+        e.preventDefault();
+        let t = e.touches[0];
+
+        switch (true) {
+            case (touchStartPosition.x - t.pageX > 10): keysPressed.left = true; keysPressed.right = false; break;
+            case (touchStartPosition.y - t.pageY > 10): keysPressed.up = true; keysPressed.down = false; break;
+            case (t.pageX - touchStartPosition.x > 10): keysPressed.right = true; keysPressed.left = false; break;
+            case (t.pageY - touchStartPosition.y > 10): keysPressed.down = true; keysPressed.up = false; break;
+        }
+    }
+
+    canvas.ontouchend = () => {
+        keysPressed = {
+            left: false,
+            up: false,
+            right: false,
+            down: false,
+            attack: keysPressed.attack
+        }
+        touchStartPosition.status = false;
+    }
+
+    attackButton.ontouchstart = (e) => {
+        e.preventDefault();
+        keysPressed.attack = true;
+    }
+
+    attackButton.ontouchend = (e) => {
+        e.preventDefault();
+        keysPressed.attack = false;
+    }
 
     soldier = new Soldier(world);
     soldier.level = parseInt(localStorage.getItem("level") || 1);
