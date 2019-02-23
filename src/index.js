@@ -360,6 +360,7 @@ window.onload = () => {
     soldier = new Soldier(world);
     soldier.level = parseInt(localStorage.getItem("level") || 1);
     soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+    soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
 
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
