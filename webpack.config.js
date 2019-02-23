@@ -87,7 +87,7 @@ module.exports = {
       inject:'body'
     }),
     new openBrowserPlugin({
-      url: `http://${options.host}:${options.port}`
+      url: `http://localhost:${options.port}`
     }),
     new CopyWebpackPlugin([
       { from: 'assets', to: 'assets' },
