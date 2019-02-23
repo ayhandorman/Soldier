@@ -45,8 +45,8 @@ var world = new World(),
 
 const monsterTypes = [
     { name: "Devil", maxHP: 150, level: 4 },
-    { name: "Maneater", maxHP: 100, level: 3 },
-    { name: "Nessie", maxHP: 130, level: 2 },
+    { name: "Nessie", maxHP: 130, level: 3 },
+    { name: "Maneater", maxHP: 100, level: 2 },
     { name: "Chicky", maxHP: 50, level: 1 }
 ];
 
