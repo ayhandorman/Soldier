@@ -197,8 +197,8 @@ const update = () => {
     if (keysPressed.attack) {
         let attackArea;
         switch (soldier.direction) {
-            case world.directions.up: attackArea = {x1: soldier.x - 40, y1: soldier.y - 55, x2: soldier.x + 45, y2: soldier.y + 40 }; break;
-            case world.directions.down: attackArea = {x1: soldier.x - 40, y1: soldier.y + 10, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
+            case world.directions.up: attackArea = {x1: soldier.x - 45, y1: soldier.y - 70, x2: soldier.x + 45, y2: soldier.y + 40 }; break;
+            case world.directions.down: attackArea = {x1: soldier.x - 45, y1: soldier.y + 10, x2: soldier.x + 45, y2: soldier.y + 70 }; break;
             case world.directions.left: attackArea = {x1: soldier.x - 65, y1: soldier.y - 50, x2: soldier.x + 20, y2: soldier.y + 50 }; break;
             case world.directions.right: attackArea = {x1: soldier.x - 20, y1: soldier.y - 50, x2: soldier.x + 65, y2: soldier.y + 50 }; break;
             case world.directions.downLeft: attackArea = {x1: soldier.x - 65, y1: soldier.y - 20, x2: soldier.x + 30, y2: soldier.y + 75 }; break;
@@ -212,7 +212,7 @@ const update = () => {
             if (monster.hp <= 0 && !monster.yielded) {
                 soldier.gainExp(monster.level * 5);
                 monster.yielded = true;
-            } else if ( monster.counter == 0) {
+            } else if (monster.counter == 0 && monster.hp > 0 && monster.damageList.length < 3) {
                 monster.receiveDamage(soldier.ap);
             }
         });
@@ -283,11 +283,11 @@ window.onload = () => {
     world.loadTiles();
 
     window.onbeforeunload = () => {
-        if (localStorage) {
-            localStorage.setItem("exp", soldier.exp);
-        } else {
-            setCookie("exp", soldier.exp, 3650);
-        }
+        // if (localStorage) {
+        //     localStorage.setItem("exp", soldier.exp);
+        // } else {
+        //     setCookie("exp", soldier.exp, 3650);
+        // }
     }
 
     document.onkeydown = (e) => {

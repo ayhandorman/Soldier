@@ -22,6 +22,7 @@ export class Soldier {
           x: this.target.x,
           y: this.target.y
         }];
+        this.damageList = [];
         this.sprite = new Image();
         this.sprite.src = `${config.assetsPath}soldier.png`;
     }
@@ -71,28 +72,47 @@ export class Soldier {
                 this.currentStep++;
             }
         }
+        let context = this.world.context;
         // <render shadow>
-        this.world.context.shadowBlur = 5;
-        this.world.context.shadowColor = "black";
-        this.world.context.fillStyle = "rgba(0,0,0,.3)";
-        this.world.context.beginPath();
-        this.world.context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 16, 8, 0, 0, 2 * Math.PI);
-        this.world.context.fill();
-        this.world.context.shadowBlur = 0;
+        context.shadowBlur = 5;
+        context.shadowColor = "black";
+        context.fillStyle = "rgba(0,0,0,.3)";
+        context.beginPath();
+        context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 16, 8, 0, 0, 2 * Math.PI);
+        context.fill();
+        context.shadowBlur = 0;
         // </render shadow>
 
-        this.world.context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 15, screen.height / 2 - 55, 69, 96);
+        context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 15, screen.height / 2 - 55, 69, 96);
 
         // <render hp bar>
         let soldierPosition = {
             x: screen.width / 2,
             y: screen.height / 2
         }
-        this.world.context.lineWidth = 0.8;
-        this.world.context.strokeRect(soldierPosition.x - 10, soldierPosition.y - 50, 52, 7);
-        this.world.context.fillStyle = "lightgreen";
-        this.world.context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
+        context.lineWidth = 0.8;
+        context.strokeRect(soldierPosition.x - 10, soldierPosition.y - 50, 52, 7);
+        context.fillStyle = "lightgreen";
+        context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
         // </render hp bar>
+
+        if (this.damageList.length > 0) {
+            let _damageList = Object.assign([], this.damageList);
+            let damageStartPosition = {
+                x: screen.width / 2 + 20,
+                y: screen.height / 2 - 90
+            }
+            context.fillStyle = "red";
+            context.textAlign = "center"; 
+            for (let i = 0; i < _damageList.length; i++) {
+                context.font = 12 + _damageList[i].counter + "px Arial";
+                context.fillText(_damageList[i].amount, damageStartPosition.x, damageStartPosition.y + _damageList[i].counter * 2);
+                _damageList[i].counter--;
+                if (_damageList[i].counter <= 0) {
+                    this.damageList.splice(this.damageList.indexOf(_damageList[i]), 1);
+                }
+            }
+        }
     };
 
     gainExp = (exp) => {
@@ -105,5 +125,27 @@ export class Soldier {
     levelUp = () => {
         this.level++;
         this.ap = this.level * this.level * 1.5 + 5;
+    }
+
+    receiveDamage = (amount) => {
+        if (this.hp > 0) {
+            this.hp -= amount;
+            this.hp = this.hp < 0 ? 0 : this.hp;
+        } else {
+            this.exp -= 100;
+            if (this.exp < 0) {
+                this.exp = 0;
+            }
+            this.level = this.exp == 0 ? 1 : Math.ceil((Math.sqrt(this.soldier.exp / 100)));
+            this.x = (this.world.size * this.world.tileWidth) / 2;
+            this.y = (this.world.size * this.world.tileWidth) / 2;
+            this.hp = 200;
+            this.direction = this.world.directions.downRight;
+            this.target = {
+                x: parseInt(this.x / this.world.tileWidth),
+                y: parseInt(this.y / this.world.tileWidth)
+            };
+        }
+        this.damageList.push({amount, counter: 22});
     }
 }

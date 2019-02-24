@@ -9,6 +9,8 @@ export class Monster {
         this.hp = 0;
         this.level = 1;
         this.yielded = false;
+        this.attackSpeed = 3;
+        this.attackCounter = 0;
         this.damageList = [];
         this.direction = this.world.directions.down;
         this.target = {
@@ -19,23 +21,44 @@ export class Monster {
 
     render = (screen, renderScope, soldier) => {
         let world = this.world;
-        if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth && this.hp == this.maxHP) {
-            let availableDirections = [];
-            if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
-            if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
-            if (this.y / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
-            if (this.y / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
-            this.direction = availableDirections[Math.floor(Math.random() * availableDirections.length)];
-            switch(this.direction) {
-                case world.directions.left: this.target.x--; break;
-                case world.directions.right: this.target.x++; break;
-                case world.directions.up: this.target.y--; break;
-                case world.directions.down: this.target.y++; break;
+        if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
+            if (this.hp < this.maxHP && Math.abs(this.x - soldier.x) < 300 && Math.abs(this.y - soldier.y) < 300) {
+                this.target = {
+                    x: parseInt(soldier.x / world.tileWidth),
+                    y: parseInt(soldier.y / world.tileWidth)
+                }
+            } else {
+                let availableDirections = [];
+                if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
+                if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
+                if (this.y / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
+                if (this.y / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
+                let selectedDirection = availableDirections[Math.floor(Math.random() * availableDirections.length)];
+                switch(selectedDirection) {
+                    case world.directions.left: this.target.x--; break;
+                    case world.directions.right: this.target.x++; break;
+                    case world.directions.up: this.target.y--; break;
+                    case world.directions.down: this.target.y++; break;
+                }
             }
         } else {
             this.counter = (this.counter + 1) % 30;
-            this.x = this.x > this.target.x * world.tileWidth ? this.x - 1 : this.x + 1;
-            this.y = this.y > this.target.y * world.tileWidth ? this.y - 1 : this.y + 1;
+            if (this.x != this.target.x * world.tileWidth) {
+                this.x = this.x > this.target.x * world.tileWidth ? this.x - 1 : this.x + 1;
+            }
+            if (this.y != this.target.y * world.tileWidth) {
+                this.y = this.y > this.target.y * world.tileWidth ? this.y - 1 : this.y + 1;
+            }
+        }
+        this.attackCounter = (this.attackCounter + 1) % (30 - this.attackSpeed);
+        if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && this.hp < this.maxHP && this.attackCounter == 0) {
+            soldier.receiveDamage(Math.ceil(this.level * 1.5));
+        }
+        switch (true) {
+            case (this.x < this.target.x * world.tileWidth): this.direction = world.directions.right; break;
+            case (this.x > this.target.x * world.tileWidth): this.direction = world.directions.left; break;
+            case (this.y < this.target.y * world.tileWidth): this.direction = world.directions.down; break;
+            case (this.y > this.target.y * world.tileWidth): this.direction = world.directions.up; break;
         }
         let position = {
             x: this.x / world.tileWidth,
@@ -65,7 +88,7 @@ export class Monster {
 
             if (this.damageList.length > 0) {
                 let _damageList = Object.assign([], this.damageList);
-                context.fillStyle = "red";
+                context.fillStyle = "white";
                 for (let i = 0; i < _damageList.length; i++) {
                     context.font = 12 + _damageList[i].counter + "px Arial";
                     context.fillText(_damageList[i].amount, monsterPosition.x + 20, monsterPosition.y - 75 + _damageList[i].counter * 2);
@@ -79,6 +102,7 @@ export class Monster {
     }
 
     receiveDamage = (ap) => {
+        debugger
         let amount = Math.round(ap + ((ap + 1) * 0.2 * Math.random() - ap * 0.1));
         this.damageList.push({amount, counter: 22});
         this.hp -= amount;
