@@ -236,6 +236,16 @@ const downloadMap = () => {
     document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + JSON.stringify(world.tiles));
 }
 
+const saveProgress = () => {
+    if (localStorage) {
+        localStorage.setItem("exp", soldier.exp);
+        localStorage.setItem("hp", soldier.hp);
+    } else {
+        setCookie("exp", soldier.exp, 3650);
+        setCookie("hp", soldier.hp, 3650);
+    }
+}
+
 document.oncontextmenu = (e) => e.preventDefault();
 
 window.onresize = () => setCanvasSize();
@@ -254,15 +264,9 @@ window.onload = () => {
 
     world.loadTiles();
 
-    window.onbeforeunload = () => {
-        if (localStorage) {
-            localStorage.setItem("exp", soldier.exp);
-            localStorage.setItem("hp", soldier.hp);
-        } else {
-            setCookie("exp", soldier.exp, 3650);
-            setCookie("hp", soldier.hp, 3650);
-        }
-    }
+    window.onpagehide = () => saveProgress();
+
+    window.onbeforeunload = () => saveProgress();
 
     document.onkeydown = (e) => {
         switch (e.key) {
