@@ -285,10 +285,8 @@ window.onload = () => {
     window.onbeforeunload = () => {
         if (localStorage) {
             localStorage.setItem("exp", soldier.exp);
-            localStorage.setItem("level", soldier.level);
         } else {
             setCookie("exp", soldier.exp, 3650);
-            setCookie("level", soldier.level, 3650);
         }
     }
 
@@ -436,12 +434,11 @@ window.onload = () => {
 
     soldier = new Soldier(world);
     if (localStorage) {
-        soldier.level = parseInt(localStorage.getItem("level") || 1);
         soldier.exp = parseInt(localStorage.getItem("exp") || 0);
     } else {
-        soldier.level = parseInt(getCookie("level") || 1);
         soldier.exp = parseInt(getCookie("exp") || 0);
     }
+    soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
     soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
 
     (function mainLoop() {
