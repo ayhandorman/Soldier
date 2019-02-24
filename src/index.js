@@ -283,11 +283,11 @@ window.onload = () => {
     world.loadTiles();
 
     window.onbeforeunload = () => {
-        // if (localStorage) {
-        //     localStorage.setItem("exp", soldier.exp);
-        // } else {
-        //     setCookie("exp", soldier.exp, 3650);
-        // }
+        if (localStorage) {
+            localStorage.setItem("exp", soldier.exp);
+        } else {
+            setCookie("exp", soldier.exp, 3650);
+        }
     }
 
     document.onkeydown = (e) => {
