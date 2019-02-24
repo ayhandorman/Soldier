@@ -51,7 +51,7 @@ export class Monster {
             }
         }
         this.attackCounter = (this.attackCounter + 1) % (30 - this.attackSpeed);
-        if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && this.hp < this.maxHP && this.attackCounter == 0) {
+        if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && this.hp < this.maxHP && this.attackCounter == 0 && this.hp > 0) {
             soldier.receiveDamage(Math.ceil(this.level * 1.5));
         }
         switch (true) {
