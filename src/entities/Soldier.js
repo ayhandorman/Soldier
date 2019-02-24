@@ -12,6 +12,7 @@ export class Soldier {
         this.exp = 0;
         this.level = 1;
         this.ap = 6.5;
+        this.attackCounter = 0;
         this.direction = world.directions.downRight;
         this.target = {
           x: parseInt(this.x / world.tileWidth),
@@ -73,6 +74,8 @@ export class Soldier {
                 this.currentStep++;
             }
         }
+
+        this.attackCounter = (this.attackCounter + 1) % 25;
 
         // <hp recovery>
         this.hpTick = (this.hpTick + 1) % 50;

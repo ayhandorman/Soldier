@@ -102,7 +102,6 @@ export class Monster {
     }
 
     receiveDamage = (ap) => {
-        debugger
         let amount = Math.round(ap + ((ap + 1) * 0.2 * Math.random() - ap * 0.1));
         this.damageList.push({amount, counter: 22});
         this.hp -= amount;
