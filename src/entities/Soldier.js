@@ -143,6 +143,7 @@ export class Soldier {
             this.hp -= amount;
             this.hp = this.hp < 0 ? 0 : this.hp;
         } else {
+            // <death with xp penalty>
             this.exp -= 100;
             if (this.exp < 0) {
                 this.exp = 0;
@@ -156,6 +157,7 @@ export class Soldier {
                 x: parseInt(this.x / this.world.tileWidth),
                 y: parseInt(this.y / this.world.tileWidth)
             };
+            // </death with xp penalty>
         }
         this.damageList.push({amount, counter: 22});
     }
