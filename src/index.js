@@ -99,34 +99,6 @@ const resetDirections = () => {
 }
 
 const markDirections = (x, y) => {
-    if (x > 0 && y > 0 && !world.tiles[x - 1][y - 1].blocking && world.tiles[x - 1][y - 1].direction == 0) {
-        world.tiles[x - 1][y - 1].direction = 1;
-        if (x - 1 == soldier.target.x && y - 1 == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    if (x < world.size, y > 0 && !world.tiles[x + 1][y - 1].blocking && world.tiles[x + 1][y - 1].direction == 0) {
-        world.tiles[x + 1][y - 1].direction = 3;
-        if (x + 1 == soldier.target.x && y - 1 == soldier.target.y) {
-        return true;
-        }
-        progressing = true;
-    }
-    if (x < world.size && y < world.size && !world.tiles[x + 1][y + 1].blocking && world.tiles[x + 1][y + 1].direction == 0) {
-        world.tiles[x + 1][y + 1].direction = -1;
-        if (x + 1 == soldier.target.x && y + 1 == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    if (x > 0 && y < world.size && !world.tiles[x - 1][y + 1].blocking && world.tiles[x - 1][y + 1].direction == 0) {
-        world.tiles[x - 1][y + 1].direction = -3;
-        if (x - 1 == soldier.target.x && y + 1 == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
     if (x > 0 && !world.tiles[x - 1][y].blocking && world.tiles[x - 1][y].direction == 0) {
         world.tiles[x - 1][y].direction = -4;
         if (x - 1 == soldier.target.x && y == soldier.target.y) {
