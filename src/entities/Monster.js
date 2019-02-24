@@ -79,7 +79,7 @@ export class Monster {
                 context.font = "14px Arial";
                 context.textAlign = "center"; 
                 context.fillStyle = "#ad1414";
-                context.fillText(this.name, monsterPosition.x + 20, monsterPosition.y - 20);
+                context.fillText(`${this.name} (${this.level})`, monsterPosition.x + 20, monsterPosition.y - 20);
                 context.lineWidth = 0.8;
                 context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
                 context.fillStyle = "red";
