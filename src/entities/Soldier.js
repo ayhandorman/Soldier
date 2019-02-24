@@ -145,23 +145,30 @@ export class Soldier {
         if (this.hp > 0) {
             this.hp -= amount;
             this.hp = this.hp < 0 ? 0 : this.hp;
+            this.damageList.push({amount, counter: 22});
         } else {
             // <death with xp penalty>
             this.exp -= 100;
             if (this.exp < 0) {
                 this.exp = 0;
             }
-            this.level = this.exp == 0 ? 1 : Math.ceil((Math.sqrt(this.soldier.exp / 100)));
+            this.level = this.exp == 0 ? 1 : Math.ceil((Math.sqrt(this.exp / 100)));
+            this.ap = Math.pow(this.level, 2) * 1.5 + 5;
+            this.maxHP = 200 + (this.level - 1) * 10;
+            this.hp = this.maxHP;
             this.x = (this.world.size * this.world.tileWidth) / 2;
-            this.y = (this.world.size * this.world.tileWidth) / 2;
-            this.hp = 200;
+            this.y = (this.world.size * this.world.tileWidth) / 2;            
             this.direction = this.world.directions.downRight;
             this.target = {
-                x: parseInt(this.x / this.world.tileWidth),
-                y: parseInt(this.y / this.world.tileWidth)
+                x: parseInt(this.world.size / 2),
+                y: parseInt(this.world.size / 2)
             };
+            this.currentStep = 0,
+            this.steps = [{
+                x: this.target.x,
+                y: this.target.y
+            }];
             // </death with xp penalty>
         }
-        this.damageList.push({amount, counter: 22});
     }
 }
