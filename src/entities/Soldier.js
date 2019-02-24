@@ -25,6 +25,7 @@ export class Soldier {
         this.damageList = [];
         this.sprite = new Image();
         this.sprite.src = `${config.assetsPath}soldier.png`;
+        this.hpTick = 0;
     }
     
     render = (screen, a, b, keysPressed) => {
@@ -72,6 +73,14 @@ export class Soldier {
                 this.currentStep++;
             }
         }
+
+        // <hp recovery>
+        this.hpTick = (this.hpTick + 1) % 50;
+        if (this.hpTick == 0 && this.damageList.length == 0 && this.hp < this.maxHP) {
+            this.hp++;
+        }
+        // <hp recovery>
+
         let context = this.world.context;
         // <render shadow>
         context.shadowBlur = 5;
@@ -125,6 +134,8 @@ export class Soldier {
     levelUp = () => {
         this.level++;
         this.ap = this.level * this.level * 1.5 + 5;
+        this.maxHP += 10;
+        this.hp = this.maxHP;
     }
 
     receiveDamage = (amount) => {
