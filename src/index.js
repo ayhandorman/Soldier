@@ -143,7 +143,7 @@ const update = () => {
     // </render world>
 
     // <new monster spawn>
-    if (Math.floor(Math.random() * 10) == 0) {
+    if (monsters.length < world.size * 2 && Math.floor(Math.random() * 10) == 0) {
         let spawnPoint = {
             x: Math.floor(Math.random() * world.size),
             y: Math.floor(Math.random() * world.size)
