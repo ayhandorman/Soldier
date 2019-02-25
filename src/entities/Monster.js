@@ -12,6 +12,7 @@ export class Monster {
         this.attackSpeed = 3;
         this.attackCounter = 0;
         this.damageList = [];
+        this.aggressive = false;
         this.direction = this.world.directions.down;
         this.target = {
             x: 0,
@@ -22,7 +23,7 @@ export class Monster {
     render = (screen, renderScope, soldier) => {
         let world = this.world;
         if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
-            if (this.hp < this.maxHP && Math.abs(this.x - soldier.x) < 300 && Math.abs(this.y - soldier.y) < 300) {
+            if ((this.hp < this.maxHP || this.aggressive) && Math.abs(this.x - soldier.x) < 300 && Math.abs(this.y - soldier.y) < 300) {
                 this.target = {
                     x: parseInt(soldier.x / world.tileWidth),
                     y: parseInt(soldier.y / world.tileWidth)
@@ -51,7 +52,7 @@ export class Monster {
             }
         }
         this.attackCounter = (this.attackCounter + 1) % (30 - this.attackSpeed);
-        if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && this.hp < this.maxHP && this.attackCounter == 0 && this.hp > 0) {
+        if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && (this.hp < this.maxHP || this.aggressive) && this.attackCounter == 0 && this.hp > 0) {
             soldier.receiveDamage(Math.ceil(this.level * 1.5));
         }
         switch (true) {
@@ -78,7 +79,7 @@ export class Monster {
                 context.drawImage(this.sprite, Math.floor(this.counter / 10) * 48, this.direction * 48, 48, 48, monsterPosition.x - 4, monsterPosition.y - 15, 48, 48);
                 context.font = "14px Arial";
                 context.textAlign = "center"; 
-                context.fillStyle = "#ad1414";
+                context.fillStyle = this.aggressive ? "#ad1414" : "#f4c842";
                 context.fillText(`${this.name} (${this.level})`, monsterPosition.x + 20, monsterPosition.y - 20);
                 context.lineWidth = 0.8;
                 context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);

@@ -44,10 +44,10 @@ var world = new World(),
     };
 
 const monsterTypes = [
-    { name: "Devil", maxHP: 150, level: 5, attackSpeed: 8 },
-    { name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6 },
-    { name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4 },
-    { name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2 }
+    { name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true },
+    { name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false },
+    { name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false },
+    { name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false }
 ];
 
 for (let i = 1; i <= monsterTypes.length; i++) {
@@ -158,6 +158,7 @@ const update = () => {
             monster.maxHP = monsterTypes[monsterType].maxHP;
             monster.level = monsterTypes[monsterType].level;
             monster.attackSpeed = monsterTypes[monsterType].attackSpeed;
+            monster.aggressive = monsterTypes[monsterType].aggressive;
             monster.hp = monster.maxHP;
             monster.target.x = spawnPoint.x;
             monster.target.y = spawnPoint.y;
