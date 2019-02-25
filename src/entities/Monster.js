@@ -22,33 +22,35 @@ export class Monster {
 
     render = (screen, renderScope, soldier) => {
         let world = this.world;
+        if ((this.hp < this.maxHP || this.aggressive) && Math.abs(this.x - soldier.x) < 300 && Math.abs(this.y - soldier.y) < 300) {
+            this.target = {
+                x: parseInt(soldier.x / world.tileWidth),
+                y: parseInt(soldier.y / world.tileWidth)
+            }
+        }
         if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
-            if ((this.hp < this.maxHP || this.aggressive) && Math.abs(this.x - soldier.x) < 300 && Math.abs(this.y - soldier.y) < 300) {
-                this.target = {
-                    x: parseInt(soldier.x / world.tileWidth),
-                    y: parseInt(soldier.y / world.tileWidth)
-                }
-            } else {
-                let availableDirections = [];
-                if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
-                if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
-                if (this.y / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
-                if (this.y / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
-                let selectedDirection = availableDirections[Math.floor(Math.random() * availableDirections.length)];
-                switch(selectedDirection) {
-                    case world.directions.left: this.target.x--; break;
-                    case world.directions.right: this.target.x++; break;
-                    case world.directions.up: this.target.y--; break;
-                    case world.directions.down: this.target.y++; break;
-                }
+            let availableDirections = [];
+            if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
+            if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
+            if (this.y / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth - 1].blocking) availableDirections.push(world.directions.up);
+            if (this.y / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth][this.y / world.tileWidth + 1].blocking) availableDirections.push(world.directions.down);
+            let selectedDirection = availableDirections[Math.floor(Math.random() * availableDirections.length)];
+            switch(selectedDirection) {
+                case world.directions.left: this.target.x--; break;
+                case world.directions.right: this.target.x++; break;
+                case world.directions.up: this.target.y--; break;
+                case world.directions.down: this.target.y++; break;
             }
         } else {
             this.counter = (this.counter + 1) % 30;
+            
             if (this.x != this.target.x * world.tileWidth) {
-                this.x = this.x > this.target.x * world.tileWidth ? this.x - 1 : this.x + 1;
+                this.x += this.x < this.target.x * world.tileWidth && !world.tiles[Math.round((this.x + 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? 1 : 0;
+                this.x += this.x > this.target.x * world.tileWidth && !world.tiles[Math.round((this.x - 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? -1 : 0;
             }
             if (this.y != this.target.y * world.tileWidth) {
-                this.y = this.y > this.target.y * world.tileWidth ? this.y - 1 : this.y + 1;
+                this.y += this.y < this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y + 1) / world.tileWidth)].blocking ? 1 : 0;
+                this.y += this.y > this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y - 1) / world.tileWidth)].blocking ? -1 : 0;
             }
         }
         this.attackCounter = (this.attackCounter + 1) % (30 - this.attackSpeed);
