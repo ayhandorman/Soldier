@@ -215,6 +215,8 @@ const update = () => {
     ctx.fillStyle = "#f2c254";
     let expBarWidth = 162 / ((Math.pow(soldier.level, 2) * 100) - (Math.pow(soldier.level - 1, 2) * 100)) * (soldier.exp - (Math.pow(soldier.level - 1, 2) * 100))
     ctx.fillRect(60, 48, expBarWidth, 19)
+    ctx.fillStyle = "#dbac41";
+    ctx.fillRect(60, 57, expBarWidth, 10)
     ctx.font = "15px Arial";
     ctx.textAlign = "center"; 
     ctx.fillStyle = "black";
