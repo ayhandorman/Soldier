@@ -106,6 +106,10 @@ export class Soldier {
         context.strokeRect(soldierPosition.x - 10, soldierPosition.y - 50, 52, 7);
         context.fillStyle = "lightgreen";
         context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
+        context.font = "8px Arial";
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.fillText(this.hp, soldierPosition.x + 16, soldierPosition.y - 44);
         // </render hp bar>
 
         if (this.damageList.length > 0) {

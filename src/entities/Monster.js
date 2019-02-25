@@ -84,9 +84,12 @@ export class Monster {
                 context.fillStyle = this.aggressive ? "#ad1414" : "#f4c842";
                 context.fillText(`${this.name} (${this.level})`, monsterPosition.x + 20, monsterPosition.y - 20);
                 context.lineWidth = 0.8;
-                context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 6);
+                context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 8);
                 context.fillStyle = "red";
-                context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 4);
+                context.fillRect(monsterPosition.x - 3, monsterPosition.y - 39, 46 / this.maxHP * this.hp, 6);
+                context.font = "8px Arial";
+                context.fillStyle = "white";
+                context.fillText(this.hp, monsterPosition.x + 20, monsterPosition.y - 33);
             }
 
             if (this.damageList.length > 0) {
