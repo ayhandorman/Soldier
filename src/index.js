@@ -34,7 +34,6 @@ var world = new World(),
     },
     currentButton = 3,
     monsters = [],
-    monsterSprites = [],
     keysPressed = {
         left: false,
         up: false,
@@ -44,16 +43,15 @@ var world = new World(),
     };
 
 const monsterTypes = [
-    { name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true },
-    { name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false },
-    { name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false },
-    { name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false }
+    { name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
+    { name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
+    { name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
+    { name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
+    { name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
 ];
 
-for (let i = 1; i <= monsterTypes.length; i++) {
-    let monsterSprite = new Image();
-    monsterSprite.src = `${config.assetsPath}monsters/${i}.png`;
-    monsterSprites.push(monsterSprite);
+for (let mt of monsterTypes) {
+    mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
 }
 
 var hud = new Image();
@@ -152,8 +150,8 @@ const update = () => {
             let monster = new Monster(world);
             monster.x = spawnPoint.x * world.tileWidth;
             monster.y = spawnPoint.y * world.tileWidth;
-            let monsterType = Math.floor(Math.random() * 4);
-            monster.sprite = monsterSprites[monsterType];
+            let monsterType = Math.floor(Math.random() * monsterTypes.length);
+            monster.sprite = monsterTypes[monsterType].sprite;
             monster.name = monsterTypes[monsterType].name;
             monster.maxHP = monsterTypes[monsterType].maxHP;
             monster.level = monsterTypes[monsterType].level;
