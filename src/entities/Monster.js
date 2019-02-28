@@ -1,5 +1,6 @@
 export class Monster {
     constructor(world) {
+        this.id = 0;
         this.world = world;
         this.x = 0;
         this.y = 0;

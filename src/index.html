@@ -3,16 +3,21 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 		<link rel="stylesheet" href="./assets/css/styles.css" />
 		<link rel="icon" href="favicon.ico" type="image/x-icon" />
+		<link href="https://fonts.googleapis.com/css?family=Laila" rel="stylesheet">
 		<title>Soldier</title>
 	</head>
 	<body>
 		<canvas></canvas>
-		<div class="helper">
-			Disable AdBlocker first, then <a onclick="Soldier.generateMap()"><u>Generate</u></a> the map and <a target="_blank" download="map.json" href="#">Download</a> it.
-			Use left mouse button or W, A, S, D to move around and E to attack.
+		<div class="quest-log">
+			<h4>Quest Log</h4>
+			<ol>				
+			</ol>
 		</div>
 		<div class="tile-bar">
 		</div>
 		<input type="image" class="attack" src="./assets/img/attack.png" />
+		<div class="quest-window"><span></span><content></content><div><button>Accept</button></div></div>
+		<!-- Disable AdBlocker first, then <a onclick="Soldier.generateMap()"><u>Generate</u></a> the map and <a target="_blank" download="map.json" href="#">Download</a> it.
+		Use left mouse button or W, A, S, D to move around and E to attack. -->
 	</body>
 </html>

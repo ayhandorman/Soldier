@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { World, Soldier, Monster } from './entities';
+import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
 import map from '../assets/maps/map1.json';
 
@@ -33,7 +33,13 @@ var world = new World(),
         height: 0
     },
     currentButton = 3,
+    questWindow,
+    questDetail,
+    questLog,
+    selectedQuest = null,
+    currentQuest = null,
     monsters = [],
+    npcs = [],
     keysPressed = {
         left: false,
         up: false,
@@ -43,15 +49,42 @@ var world = new World(),
     };
 
 const monsterTypes = [
-    { name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
-    { name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
-    { name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
-    { name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
-    { name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
+    { id: 1, name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
+    { id: 2, name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
+    { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
+    { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
+    { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
 ];
 
 for (let mt of monsterTypes) {
     mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
+}
+
+const questList = [
+    {
+        id: 1,
+        title: "For The First Time", 
+        log: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        exp: 50,
+        monster: 1,
+        slainCount: 10
+    }
+];
+
+const npcInfos = [
+    { name: "Wizzy", x: world.size / 2 * world.tileWidth + 5, y: world.size / 2 * world.tileWidth - 3, image: "wizard", sprite: new Image(), questList: [ questList[0] ] }
+];
+
+for (let npcInfo of npcInfos) {
+    npcInfo.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
+
+    var npc = new NPC(world);
+    npc.name = npcInfo.name;
+    npc.x = npcInfo.x;
+    npc.y = npcInfo.y;
+    npc.sprite = npcInfo.sprite;
+    npc.questList = npcInfo.questList;
+    npcs.push(npc);
 }
 
 var hud = new Image();
@@ -151,6 +184,7 @@ const update = () => {
             monster.x = spawnPoint.x * world.tileWidth;
             monster.y = spawnPoint.y * world.tileWidth;
             let monsterType = Math.floor(Math.random() * monsterTypes.length);
+            monster.id = monsterTypes[monsterType].id;
             monster.sprite = monsterTypes[monsterType].sprite;
             monster.name = monsterTypes[monsterType].name;
             monster.maxHP = monsterTypes[monsterType].maxHP;
@@ -165,7 +199,7 @@ const update = () => {
     }
     // </new monster spawn>
 
-    // <attack monsters>    
+    // <interaction>
     if (keysPressed.attack) {
         let attackArea;
         switch (soldier.direction) {
@@ -179,11 +213,20 @@ const update = () => {
             case world.directions.upRight: attackArea = {x1: soldier.x - 30, y1: soldier.y - 45, x2: soldier.x + 65, y2: soldier.y + 30 }; break;
         }
 
+        // <attack monsters>    
         monsters.filter(monster => monster.x > attackArea.x1 && monster.x < attackArea.x2 && monster.y > attackArea.y1 && monster.y < attackArea.y2)
                 .map((monster) => {
             if (monster.hp <= 0 && !monster.yielded) {
                 soldier.gainExp(monster.level * 5);
                 monster.yielded = true;
+                if (currentQuest != null && currentQuest.counter < currentQuest.slainCount && currentQuest.monster == monster.id) {
+                    currentQuest.counter++;
+                    if (currentQuest.counter == currentQuest.slainCount) {
+                        document.querySelector(".quest-log [data-id='"+currentQuest.id+"']").innerHTML = "<i>Completed!</i>";
+                    } else {
+                        document.querySelector(".quest-log [data-id='"+currentQuest.id+"'] span").innerHTML = currentQuest.counter;
+                    }
+                }
             } else if (soldier.attackCounter == 0 && monster.hp > 0 && monster.damageList.length < 2) {
                 monster.receiveDamage(soldier.ap);
             }
@@ -191,12 +234,26 @@ const update = () => {
 
         monsters.filter(monster => monster.hp <= 0 && monster.damageList.length == 0)
                 .map((monster) => monsters.splice(monsters.indexOf(monster), 1));
+        // </attack monsters>
+
+        // <npc interaction>
+        npcs.filter(npc => npc.x > attackArea.x1 && npc.x < attackArea.x2 && npc.y > attackArea.y1 && npc.y < attackArea.y2)
+            .map((npc) => {
+                if (npc.currentQuest < npc.questList.length) {
+                    selectedQuest = npc.questList[npc.currentQuest];
+                    questWindow.style.display = "flex";
+                    let questMonster = monsters.find(x => x.id == selectedQuest.monster);
+                    questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4>${selectedQuest.log}`;
+                }
+            });
+        // </npc interaction>
     }
-    // </attack monsters>
+    // </interaction>
 
     // <calculate render order>
     let renderOrder = monsters.slice();
     renderOrder.push(soldier);
+    renderOrder.push(...npcs);
     renderOrder.sort((a, b) => a.y - b.y);
     // </calculate render order>
 
@@ -228,6 +285,12 @@ const update = () => {
     world.showFPS();
     world.showMonsterCount(monsters.length);
     // </display stats>
+
+    // <display current quest>
+    if (currentQuest != null) {
+
+    }
+    // </display current quest>
 
     if (touchStartPosition && touchStartPosition.status) {
         ctx.drawImage(arrows, touchStartPosition.x, touchStartPosition.y);
@@ -265,6 +328,22 @@ window.onload = () => {
     }
 
     world.loadTiles();
+
+    // <init quest window>
+    questLog = document.querySelector(".quest-log ol");
+    questWindow = document.querySelector(".quest-window");
+    questDetail = document.querySelector(".quest-window content");
+    document.querySelector(".quest-window span").onclick = () => questWindow.style.display = 'none';
+    document.querySelector(".quest-window button").onclick = () => acceptQuest();
+    const acceptQuest = () => {
+        questWindow.style.display = 'none';
+        currentQuest = selectedQuest;
+        currentQuest.counter = 0;
+        selectedQuest = null;
+        let questMonster = monsters.find(x => x.id == currentQuest.monster);
+        questLog.innerHTML += `<li data-id="${currentQuest.id}"><b>${currentQuest.title}</b><br>${questMonster.name} slain: <span>${currentQuest.counter}</span>/${currentQuest.slainCount}</li>`;
+    }
+    // </init quest>
 
     window.onpagehide = () => saveProgress();
 
