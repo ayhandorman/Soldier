@@ -56,7 +56,7 @@ export class Soldier {
         }
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
-            this.counter = (this.counter + 1) % 36;
+            this.counter = (this.counter + 1) % 48;
             this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -this.movementSpeed : this.movementSpeed;
             this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -this.movementSpeed : this.movementSpeed;
             let directions = this.world.directions;
@@ -92,12 +92,14 @@ export class Soldier {
         context.shadowColor = "black";
         context.fillStyle = "rgba(0,0,0,.3)";
         context.beginPath();
-        context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 16, 8, 0, 0, 2 * Math.PI);
+        context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 12, 6, 0, 0, 2 * Math.PI);
         context.fill();
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 6) * 69, this.direction * 96, 69, 96, screen.width / 2 - 15, screen.height / 2 - 55, 69, 96);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, this.direction * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+
+        //69x96
 
         // <render hp bar>
         let soldierPosition = {
