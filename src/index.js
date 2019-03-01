@@ -52,9 +52,9 @@ var world = new World(),
 const monsterTypes = [
     { id: 1, name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
     { id: 2, name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
-    // { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
-    // { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
-    // { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
+    { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
+    { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
+    { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
 ];
 
 for (let mt of monsterTypes) {
@@ -62,7 +62,7 @@ for (let mt of monsterTypes) {
 }
 
 const npcInfos = [
-    { name: "Wizzy", x: world.size / 2 * world.tileWidth + 5, y: world.size / 2 * world.tileWidth - 3, image: "wizard", sprite: new Image(), questList: [ questList[0] ] }
+    { name: "Wizzy", x: world.size / 2 * world.tileWidth + 5, y: world.size / 2 * world.tileWidth - 3, image: "wizard", sprite: new Image(), questList: [ questList[0], questList[1], questList[2] ] }
 ];
 
 for (let npcInfo of npcInfos) {
@@ -233,7 +233,7 @@ const update = () => {
                     selectedQuest = npc.questList[npc.currentQuest];
                     questWindow.style.display = "flex";
                     let questMonster = monsters.find(x => x.id == selectedQuest.monster);
-                    questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4>${selectedQuest.log}`;
+                    questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
                     document.querySelector(".quest-window button").innerHTML = "Accept";
                 } else if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
                     questWindow.style.display = "flex";

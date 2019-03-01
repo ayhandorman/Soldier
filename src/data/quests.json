@@ -6,5 +6,21 @@
         "exp": 50,
         "monster": 1,
         "slainCount": 10
+    },
+    {
+        "id": 2,
+        "title": "Is That Not Enough?", 
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 75,
+        "monster": 2,
+        "slainCount": 5
+    },
+    {
+        "id": 3,
+        "title": "You Don't Say!", 
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 100,
+        "monster": 3,
+        "slainCount": 5
     }
 ]
