@@ -514,6 +514,9 @@ window.onload = () => {
     soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
     soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
     soldier.maxHP = 200 + (soldier.level - 1) * 10;
+    if (storedHP > soldier.maxHP) {
+        storedHP = soldier.maxHP;
+    }
     soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
 
     (function mainLoop() {
