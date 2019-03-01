@@ -368,6 +368,15 @@ window.onload = () => {
             case "d": keysPressed.right = false; break;
             case "s": keysPressed.down = false; break;
             case "e": keysPressed.attack = false; break;
+            case "\"": 
+                let input = prompt("Please enter command (e.g. movementSpeed=10, hpRecovery=10, ap=50, maxHP=500, hp=500):", "ap=5");
+                if (input) {
+                    let command = input.split('=');
+                    if (command.length > 1) {
+                        soldier[command[0]] = parseInt(command[1]);
+                    }
+                }
+            break;
         }
     }
 
