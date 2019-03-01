@@ -25,6 +25,7 @@ SOFTWARE.
 import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
 import map from '../assets/maps/map1.json';
+import questList from './data/quests.json';
 
 var world = new World(), 
     canvas, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
@@ -51,25 +52,14 @@ var world = new World(),
 const monsterTypes = [
     { id: 1, name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
     { id: 2, name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
-    { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
-    { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
-    { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
+    // { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
+    // { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
+    // { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
 ];
 
 for (let mt of monsterTypes) {
     mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
 }
-
-const questList = [
-    {
-        id: 1,
-        title: "For The First Time", 
-        log: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
-        exp: 50,
-        monster: 1,
-        slainCount: 10
-    }
-];
 
 const npcInfos = [
     { name: "Wizzy", x: world.size / 2 * world.tileWidth + 5, y: world.size / 2 * world.tileWidth - 3, image: "wizard", sprite: new Image(), questList: [ questList[0] ] }
@@ -222,7 +212,7 @@ const update = () => {
                 if (currentQuest != null && currentQuest.counter < currentQuest.slainCount && currentQuest.monster == monster.id) {
                     currentQuest.counter++;
                     if (currentQuest.counter == currentQuest.slainCount) {
-                        document.querySelector(".quest-log [data-id='"+currentQuest.id+"']").innerHTML = "<i>Completed!</i>";
+                        document.querySelector(".quest-log [data-id='"+currentQuest.id+"'] section").innerHTML = "<i>Completed!</i>";
                     } else {
                         document.querySelector(".quest-log [data-id='"+currentQuest.id+"'] span").innerHTML = currentQuest.counter;
                     }
@@ -239,11 +229,15 @@ const update = () => {
         // <npc interaction>
         npcs.filter(npc => npc.x > attackArea.x1 && npc.x < attackArea.x2 && npc.y > attackArea.y1 && npc.y < attackArea.y2)
             .map((npc) => {
-                if (npc.currentQuest < npc.questList.length) {
+                if (npc.currentQuest < npc.questList.length && currentQuest == null) {
                     selectedQuest = npc.questList[npc.currentQuest];
                     questWindow.style.display = "flex";
                     let questMonster = monsters.find(x => x.id == selectedQuest.monster);
                     questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4>${selectedQuest.log}`;
+                    document.querySelector(".quest-window button").innerHTML = "Accept";
+                } else if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
+                    questWindow.style.display = "flex";
+                    document.querySelector(".quest-window button").innerHTML = "Complete";
                 }
             });
         // </npc interaction>
@@ -337,11 +331,19 @@ window.onload = () => {
     document.querySelector(".quest-window button").onclick = () => acceptQuest();
     const acceptQuest = () => {
         questWindow.style.display = 'none';
-        currentQuest = selectedQuest;
-        currentQuest.counter = 0;
-        selectedQuest = null;
-        let questMonster = monsters.find(x => x.id == currentQuest.monster);
-        questLog.innerHTML += `<li data-id="${currentQuest.id}"><b>${currentQuest.title}</b><br>${questMonster.name} slain: <span>${currentQuest.counter}</span>/${currentQuest.slainCount}</li>`;
+        if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
+            document.querySelector(`.quest-log li[data-id="${currentQuest.id}"]`).remove();
+            soldier.gainExp(currentQuest.exp);
+            currentQuest = null;
+            selectedQuest = null;
+            npc.currentQuest++;
+        } else if (currentQuest == null) {
+            currentQuest = selectedQuest;
+            currentQuest.counter = 0;
+            selectedQuest = null;
+            let questMonster = monsters.find(x => x.id == currentQuest.monster);
+            questLog.innerHTML += `<li data-id="${currentQuest.id}"><b>${currentQuest.title}</b><section>${questMonster.name} slain: <span>${currentQuest.counter}</span>/${currentQuest.slainCount}</section></li>`;
+        }
     }
     // </init quest>
 
