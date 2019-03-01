@@ -20,7 +20,9 @@ u{color:darkblue}
 .quest-window{display:none;flex-direction:column;align-items:center;position:absolute;margin:auto;left:0;top:0;right:0;bottom:0;width:320px;height:435px;background:url(../img/window.png) no-repeat;}
 .quest-window>span{position:absolute;width:30px;height:30px;right:0;width:55px;height:55px;cursor:pointer}
 .quest-window>content{flex:1;user-select:none;margin:50px 40px 10px;padding-right:15px;overflow-y:auto;color:#60351D;font-family:'Laila',serif}
-.quest-window h3{margin-top:5px}
+.quest-window h3{margin-top:5px;margin-bottom:10px}
+.quest-window h4{margin:5px 0}
+.quest-window p {margin:8px 0}
 .quest-window>div{height:48px}
 .quest-window button{width:123px;height:48px;color:white;background:url(../img/button.png) no-repeat;background-size:100% 100%;border:0;outline:none;font-family:'Laila',serif;font-size:18px;cursor:pointer}
 .quest-window button:active{width:119px;height:46px}
