@@ -57,8 +57,8 @@ export class Soldier {
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
             this.counter = (this.counter + 1) % 36;
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -movementSpeed : movementSpeed;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -movementSpeed : movementSpeed;
+            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -this.movementSpeed : this.movementSpeed;
+            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -this.movementSpeed : this.movementSpeed;
             let directions = this.world.directions;
 
             switch(true) {
