@@ -31,3 +31,6 @@ u{color:darkblue}
 .attack{display: block}
 .tile-bar{display:none}
 }
+@media(max-width:720px) {
+.quest-log{transform:translate(60px, -70px) scale(.4)}
+}
