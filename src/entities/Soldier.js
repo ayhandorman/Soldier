@@ -27,6 +27,8 @@ export class Soldier {
         this.sprite = new Image();
         this.sprite.src = `${config.assetsPath}soldier.png`;
         this.hpTick = 0;
+        this.movementSpeed = 2;
+        this.hpRecovery = 1;
     }
     
     render = (screen, a, b, keysPressed) => {
@@ -55,8 +57,8 @@ export class Soldier {
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
             this.counter = (this.counter + 1) % 36;
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -2 : 2;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -2 : 2;
+            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -movementSpeed : movementSpeed;
+            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -movementSpeed : movementSpeed;
             let directions = this.world.directions;
 
             switch(true) {
@@ -80,7 +82,7 @@ export class Soldier {
         // <hp recovery>
         this.hpTick = (this.hpTick + 1) % 50;
         if (this.hpTick == 0 && this.damageList.length == 0 && this.hp < this.maxHP) {
-            this.hp++;
+            this.hp+=this.hpRecovery;
         }
         // <hp recovery>
 
