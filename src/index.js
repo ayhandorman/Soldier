@@ -26,6 +26,7 @@ import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
 import questList from './data/quests.json';
 import monsterTypes from './data/monsters.json';
+import spawnPoints from './data/spawnPoints.json';
 
 var world = new World(), 
     canvas, hud, arrows, attackButton, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
@@ -154,27 +155,33 @@ const update = () => {
     // </render world>
 
     // <new monster spawn>
-    if (monsters.length < world.size * 2 && Math.floor(Math.random() * 10) == 0) {
-        let spawnPoint = {
-            x: Math.floor(Math.random() * world.size),
-            y: Math.floor(Math.random() * world.size)
-        }
-        if (!world.tiles[spawnPoint.x][spawnPoint.y].blocking) {
+    for (let spawnPoint of spawnPoints) {
+        debugger
+        if (monsters.filter(x => x.spawnPoint == spawnPoint.id).length < spawnPoint.maxSpawn && Math.floor(Math.random() * 50) == 0) {
             let monster = new Monster(world);
-            monster.x = spawnPoint.x * world.tileWidth;
-            monster.y = spawnPoint.y * world.tileWidth;
-            let monsterType = Math.floor(Math.random() * monsterTypes.length);
-            monster.id = monsterTypes[monsterType].id;
-            monster.sprite = monsterTypes[monsterType].sprite;
-            monster.name = monsterTypes[monsterType].name;
-            monster.maxHP = monsterTypes[monsterType].maxHP;
-            monster.level = monsterTypes[monsterType].level;
-            monster.attackSpeed = monsterTypes[monsterType].attackSpeed;
-            monster.aggressive = monsterTypes[monsterType].aggressive;
-            monster.hp = monster.maxHP;
-            monster.target.x = spawnPoint.x;
-            monster.target.y = spawnPoint.y;
-            monsters.push(monster);
+            let pointToSpawn = {
+                x: spawnPoint.x + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10,
+                y: spawnPoint.y + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10
+            }
+            if (!world.tiles[pointToSpawn.x][pointToSpawn.y].blocking) {
+                monster.x = pointToSpawn.x * world.tileWidth;
+                monster.y = pointToSpawn.y * world.tileWidth;
+                let monsterType = monsterTypes.find(x => x.id == spawnPoint.monster);
+                monster.id = monsterType.id;
+                monster.spawnPoint = spawnPoint.id;
+                monster.sprite = monsterType.sprite;
+                monster.name = monsterType.name;
+                monster.maxHP = monsterType.maxHP;
+                monster.hp = monster.maxHP;
+                monster.level = monsterType.level;
+                monster.attackSpeed = monsterType.attackSpeed;
+                monster.aggressive = monsterType.aggressive;
+                monster.target = {
+                    x: pointToSpawn.x,
+                    y: pointToSpawn.y
+                }
+                monsters.push(monster);
+            }
         }
     }
     // </new monster spawn>

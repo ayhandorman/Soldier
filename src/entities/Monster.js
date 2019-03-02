@@ -2,6 +2,7 @@ export class Monster {
     constructor(world) {
         this.id = 0;
         this.world = world;
+        this.spawnPoint = 0;
         this.x = 0;
         this.y = 0;
         this.counter = 0;

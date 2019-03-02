@@ -1,0 +1,170 @@
+[
+    {
+        "id": 1,
+        "x": 85,
+        "y": 110,
+        "radius": 10,
+        "monster": 1,
+        "maxSpawn": 5
+    },
+    {
+        "id": 2,
+        "x": 125,
+        "y": 85,
+        "radius": 8,
+        "monster": 1,
+        "maxSpawn": 8
+    },
+    {
+        "id": 3,
+        "x": 75,
+        "y": 75,
+        "radius": 6,
+        "monster": 2,
+        "maxSpawn": 5
+    },
+    {
+        "id": 4,
+        "x": 125,
+        "y": 118,
+        "radius": 10,
+        "monster": 2,
+        "maxSpawn": 8
+    },
+    {
+        "id": 5,
+        "x": 85,
+        "y": 65,
+        "radius": 10,
+        "monster": 3,
+        "maxSpawn": 8
+    },
+    {
+        "id": 6,
+        "x": 156,
+        "y": 80,
+        "radius": 10,
+        "monster": 3,
+        "maxSpawn": 5
+    },
+    {
+        "id": 7,
+        "x": 45,
+        "y": 105,
+        "radius": 8,
+        "monster": 4,
+        "maxSpawn": 4
+    },
+    {
+        "id": 8,
+        "x": 30,
+        "y": 80,
+        "radius": 10,
+        "monster": 4,
+        "maxSpawn": 5
+    },
+    {
+        "id": 9,
+        "x": 170,
+        "y": 105,
+        "radius": 6,
+        "monster": 5,
+        "maxSpawn": 5
+    },
+    {
+        "id": 10,
+        "x": 52,
+        "y": 42,
+        "radius": 8,
+        "monster": 5,
+        "maxSpawn": 6
+    },
+    {
+        "id": 11,
+        "x": 27,
+        "y": 136,
+        "radius": 7,
+        "monster": 6,
+        "maxSpawn": 6
+    },
+    {
+        "id": 12,
+        "x": 175,
+        "y": 30,
+        "radius": 8,
+        "monster": 6,
+        "maxSpawn": 5
+    },
+    {
+        "id": 13,
+        "x": 165,
+        "y": 175,
+        "radius": 12,
+        "monster": 7,
+        "maxSpawn": 6
+    },
+    {
+        "id": 14,
+        "x": 15,
+        "y": 42,
+        "radius": 10,
+        "monster": 7,
+        "maxSpawn": 5
+    },
+    {
+        "id": 15,
+        "x": 145,
+        "y": 10,
+        "radius": 10,
+        "monster": 8,
+        "maxSpawn": 5
+    },
+    {
+        "id": 16,
+        "x": 185,
+        "y": 70,
+        "radius": 12,
+        "monster": 8,
+        "maxSpawn": 5
+    },
+    {
+        "id": 17,
+        "x": 160,
+        "y": 135,
+        "radius": 12,
+        "monster": 3,
+        "maxSpawn": 6
+    },
+    {
+        "id": 18,
+        "x": 120,
+        "y": 30,
+        "radius": 10,
+        "monster": 6,
+        "maxSpawn": 5
+    },
+    {
+        "id": 19,
+        "x": 60,
+        "y": 10,
+        "radius": 10,
+        "monster": 7,
+        "maxSpawn": 5
+    },
+    {
+        "id": 20,
+        "x": 20,
+        "y": 15,
+        "radius": 10,
+        "monster": 8,
+        "maxSpawn": 5
+    },
+    {
+        "id": 21,
+        "x": 80,
+        "y": 140,
+        "radius": 8,
+        "monster": 2,
+        "maxSpawn": 4
+    }
+]
