@@ -276,6 +276,7 @@ const update = () => {
     // <display stats>
     world.showFPS();
     world.showMonsterCount(monsters.length);
+    soldier.showCoordinates();
     // </display stats>
 
     if (touchStartPosition && touchStartPosition.status) {

@@ -179,5 +179,9 @@ export class Soldier {
             }];
             // </death with xp penalty>
         }
+    }    
+
+    showCoordinates = () => {
+        this.world.context.fillText(`Coords: ${Math.floor(this.x / this.world.tileWidth)}, ${Math.floor(this.y / this.world.tileWidth)}`, 10, 150);
     }
 }
