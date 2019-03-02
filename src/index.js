@@ -26,6 +26,7 @@ import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
 import map from '../assets/maps/map1.json';
 import questList from './data/quests.json';
+import monsterTypes from './data/monsters.json';
 
 var world = new World(), 
     canvas, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
@@ -49,15 +50,8 @@ var world = new World(),
         attack: false
     };
 
-const monsterTypes = [
-    { id: 1, name: "Chicky", maxHP: 50, level: 1, attackSpeed: 2, aggressive: false, image: 'chicky', sprite: new Image() },
-    { id: 2, name: "Maneater", maxHP: 100, level: 2, attackSpeed: 4, aggressive: false, image: 'maneater', sprite: new Image() },
-    { id: 3, name: "Nessie", maxHP: 130, level: 3, attackSpeed: 6, aggressive: false, image: 'nessie', sprite: new Image() },
-    { id: 4, name: "Devil", maxHP: 150, level: 5, attackSpeed: 8, aggressive: true, image: 'devil', sprite: new Image() },
-    { id: 5, name: "Skeleton", maxHP: 200, level: 6, attackSpeed: 9, aggressive: true, image: 'skeleton', sprite: new Image() }
-];
-
 for (let mt of monsterTypes) {
+    mt.sprite = new Image();
     mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
 }
 
