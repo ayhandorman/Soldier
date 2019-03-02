@@ -166,5 +166,13 @@
         "radius": 8,
         "monster": 2,
         "maxSpawn": 4
+    },
+    {
+        "id": 22,
+        "x": 110,
+        "y": 190,
+        "radius": 10,
+        "monster": 9,
+        "maxSpawn": 3
     }
 ]

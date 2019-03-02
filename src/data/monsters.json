@@ -78,5 +78,15 @@
         "aggressive": true,
         "image": "evil-knight",
         "sprite": null
+    },
+    {
+        "id": 9,
+        "name": "Dark Lord",
+        "maxHP": 950,
+        "level": 18,
+        "attackSpeed": 15,
+        "aggressive": true,
+        "image": "dark-lord",
+        "sprite": null
     }
 ]
