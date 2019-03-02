@@ -1,9 +1,72 @@
 [
-    { "id": 1, "name": "Chicky", "maxHP": 50, "level": 1, "attackSpeed": 2, "aggressive": false, "image": "chicky", "sprite": null },
-    { "id": 2, "name": "Maneater", "maxHP": 100, "level": 2, "attackSpeed": 4, "aggressive": false, "image": "maneater", "sprite": null },
-    { "id": 3, "name": "Nessie", "maxHP": 130, "level": 3, "attackSpeed": 6, "aggressive": false, "image": "nessie", "sprite": null },
-    { "id": 4, "name": "Devil", "maxHP": 150, "level": 5, "attackSpeed": 8, "aggressive": true, "image": "devil", "sprite": null },
-    { "id": 5, "name": "Skeleton", "maxHP": 200, "level": 6, "attackSpeed": 9, "aggressive": true, "image": "skeleton", "sprite": null },
-    { "id": 6, "name": "Dark Wizard", "maxHP": 300, "level": 7, "attackSpeed": 10, "aggressive": true, "image": "dark-wizard", "sprite": null },
-    { "id": 7, "name": "Witch", "maxHP": 450, "level": 9, "attackSpeed": 11, "aggressive": true, "image": "witch", "sprite": null }
+    {
+        "id": 1,
+        "name": "Chicky",
+        "maxHP": 50,
+        "level": 1,
+        "attackSpeed": 2,
+        "aggressive": false,
+        "image": "chicky",
+        "sprite": null
+    },
+    {
+        "id": 2,
+        "name": "Maneater",
+        "maxHP": 100,
+        "level": 2,
+        "attackSpeed": 4,
+        "aggressive": false,
+        "image": "maneater",
+        "sprite": null
+    },
+    {
+        "id": 3,
+        "name": "Nessie",
+        "maxHP": 130,
+        "level": 3,
+        "attackSpeed": 6,
+        "aggressive": false,
+        "image": "nessie",
+        "sprite": null
+    },
+    {
+        "id": 4,
+        "name": "Devil",
+        "maxHP": 150,
+        "level": 5,
+        "attackSpeed": 8,
+        "aggressive": true,
+        "image": "devil",
+        "sprite": null
+    },
+    {
+        "id": 5,
+        "name": "Skeleton",
+        "maxHP": 200,
+        "level": 6,
+        "attackSpeed": 9,
+        "aggressive": true,
+        "image": "skeleton",
+        "sprite": null
+    },
+    {
+        "id": 6,
+        "name": "Dark Wizard",
+        "maxHP": 300,
+        "level": 7,
+        "attackSpeed": 10,
+        "aggressive": true,
+        "image": "dark-wizard",
+        "sprite": null
+    },
+    {
+        "id": 7,
+        "name": "Witch",
+        "maxHP": 450,
+        "level": 9,
+        "attackSpeed": 11,
+        "aggressive": true,
+        "image": "witch",
+        "sprite": null
+    }
 ]
