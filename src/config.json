@@ -1,3 +1,4 @@
 {
+    "domain": "http://localhost:3000/",
     "assetsPath": "./assets/img/"
 }

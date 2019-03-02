@@ -24,7 +24,6 @@ SOFTWARE.
 
 import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
-import map from '../assets/maps/map1.json';
 import questList from './data/quests.json';
 import monsterTypes from './data/monsters.json';
 
@@ -492,34 +491,43 @@ window.onload = () => {
     }
     // </attach listeners>
 
-    if (map) {
-        world.tiles = map;
-    } else {
-        world.generateTiles();
+    const initSoldier = () => {
+        soldier = new Soldier(world);
+        let storedHP = 0;
+        if (localStorage) {
+            soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+            storedHP = parseInt(localStorage.getItem("hp") || 0);
+        } else {
+            soldier.exp = parseInt(getCookie("exp") || 0);
+            storedHP = parseInt(getCookie("hp") || 0);
+        }
+        soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
+        soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
+        soldier.maxHP = 200 + (soldier.level - 1) * 10;
+        if (storedHP > soldier.maxHP) {
+            storedHP = soldier.maxHP;
+        }
+        soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
     }
 
-    world.loadTiles();
-    soldier = new Soldier(world);
-    let storedHP = 0;
-    if (localStorage) {
-        soldier.exp = parseInt(localStorage.getItem("exp") || 0);
-        storedHP = parseInt(localStorage.getItem("hp") || 0);
-    } else {
-        soldier.exp = parseInt(getCookie("exp") || 0);
-        storedHP = parseInt(getCookie("hp") || 0);
-    }
-    soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
-    soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
-    soldier.maxHP = 200 + (soldier.level - 1) * 10;
-    if (storedHP > soldier.maxHP) {
-        storedHP = soldier.maxHP;
-    }
-    soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
-
-    (function mainLoop() {
-        window.requestAnimationFrame(mainLoop);
-        update();
-    })();
+    // <load map>
+    fetch(`${config.domain}/assets/maps/map1.json`)
+    .then(response => response.json())
+    .then(mapData => {
+        if (mapData) {
+            world.tiles = mapData;
+        } else {
+            world.generateTiles();
+        }
+        world.loadTiles();
+        initSoldier();        
+    
+        (function mainLoop() {
+            window.requestAnimationFrame(mainLoop);
+            update();
+        })();
+    });    
+    // </load map>    
 }
 
 module.exports = {
