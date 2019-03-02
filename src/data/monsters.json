@@ -68,5 +68,15 @@
         "aggressive": true,
         "image": "witch",
         "sprite": null
+    },
+    {
+        "id": 8,
+        "name": "Evil Knight",
+        "maxHP": 600,
+        "level": 12,
+        "attackSpeed": 12,
+        "aggressive": true,
+        "image": "evil-knight",
+        "sprite": null
     }
 ]
