@@ -55,7 +55,8 @@ for (let mt of monsterTypes) {
 }
 
 const npcInfos = [
-    { name: "Wizzy", x: world.size / 2 * world.tileWidth + 5, y: world.size / 2 * world.tileWidth - 3, image: "wizard", sprite: new Image(), questList: [ questList[0], questList[1], questList[2] ] }
+    { name: "Wizzy", x: (world.size / 2 + 2) * world.tileWidth, y: (world.size / 2 - 2) * world.tileWidth, image: "wizard", sprite: new Image(), sequence: 5, shadow: { x: 47, y: 19 }, questList: [ questList[0], questList[1], questList[2] ] },
+    { name: "Robosaur", x: (world.size / 2 - 26) * world.tileWidth, y: (world.size / 2 - 8) * world.tileWidth, image: "robozor", sprite: new Image(), sequence: 9, shadow: { x: 40, y: 12 }, questList: [ questList[3], questList[4] ] }
 ];
 
 for (let npcInfo of npcInfos) {
@@ -66,7 +67,9 @@ for (let npcInfo of npcInfos) {
     npc.x = npcInfo.x;
     npc.y = npcInfo.y;
     npc.sprite = npcInfo.sprite;
+    npc.sequence = npcInfo.sequence;
     npc.questList = npcInfo.questList;
+    npc.shadow = npcInfo.shadow;
     npcs.push(npc);
 }
 

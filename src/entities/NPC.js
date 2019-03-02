@@ -8,6 +8,11 @@ export class NPC {
         this.questList = [];
         this.currentQuest = 0;
         this.sprite = null;
+        this.sequence = 0;
+        this.shadow = {
+            x: 0,
+            y: 0
+        };
     }
 
     render = (screen, renderScope, soldier) => {
@@ -25,14 +30,14 @@ export class NPC {
                 y: this.y - soldier.y + screen.height / 2
             }
             let context = world.context;
-            this.counter = (this.counter + 1) % 75;
+            this.counter = (this.counter + 1) % (this.sequence * 15);
             
             // <render shadow>
             context.shadowBlur = 5;
             context.shadowColor = "black";
             context.fillStyle = "rgba(0,0,0,.3)";
             context.beginPath();
-            context.ellipse(npcPosition.x + 47, npcPosition.y + 19, 16, 8, 0, 0, 2 * Math.PI);
+            context.ellipse(npcPosition.x + this.shadow.x, npcPosition.y + this.shadow.y, 16, 8, 0, 0, 2 * Math.PI);
             context.fill();
             context.shadowBlur = 0;
             // </render shadow>
