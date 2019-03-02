@@ -230,7 +230,9 @@ const update = () => {
                     let currentQuest = soldier.questList.find(x => x.id == npc.questList[npc.currentQuest].id);
                     if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
                         selectedQuest = npc.questList[npc.currentQuest];
+                        let questMonster = monsters.find(x => x.id == selectedQuest.monster);
                         questWindow.style.display = "flex";
+                        questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
                         document.querySelector(".quest-window button").innerHTML = "Complete";
                         selectedNPC = npc;
                     }
