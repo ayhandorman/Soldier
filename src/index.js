@@ -29,7 +29,7 @@ import questList from './data/quests.json';
 import monsterTypes from './data/monsters.json';
 
 var world = new World(), 
-    canvas, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
+    canvas, hud, arrows, attackButton, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
     screen = {
         width: 0,
         height: 0
@@ -70,12 +70,6 @@ for (let npcInfo of npcInfos) {
     npc.questList = npcInfo.questList;
     npcs.push(npc);
 }
-
-var hud = new Image();
-hud.src = `${config.assetsPath}hud.png`;
-var arrows = new Image();
-arrows.src = `${config.assetsPath}arrows.png`;
-var attackButton = document.querySelector('.attack');
 
 const setCookie = (name, value, days) => {
     var expires = "";
@@ -305,17 +299,17 @@ window.onresize = () => setCanvasSize();
 window.onorientationchange = () => setCanvasSize();
 
 window.onload = () => {
+
+    // <init ui>
+    hud = new Image();
+    hud.src = `${config.assetsPath}hud.png`;
+    arrows = new Image();
+    arrows.src = `${config.assetsPath}arrows.png`;
+    attackButton = document.querySelector('.attack');
     canvas = document.querySelector("canvas");
     world.context = canvas.getContext("2d");
     setCanvasSize();
-
-    if (map) {
-        world.tiles = map;
-    } else {
-        world.generateTiles();
-    }
-
-    world.loadTiles();
+    // </init ui>
 
     // <init quest window>
     questLog = document.querySelector(".quest-log ol");
@@ -324,7 +318,6 @@ window.onload = () => {
     document.querySelector(".quest-window span").onclick = () => questWindow.style.display = 'none';
     document.querySelector(".quest-window button").onclick = () => acceptQuest();
     const acceptQuest = () => {
-        debugger
         questWindow.style.display = 'none';
         if (selectedQuest && selectedQuest.counter == selectedQuest.slainCount) {
             document.querySelector(`.quest-log li[data-id="${selectedQuest.id}"]`).remove();
@@ -342,6 +335,7 @@ window.onload = () => {
     }
     // </init quest>
 
+    // <attach listeners>
     window.onpagehide = () => saveProgress();
 
     window.onbeforeunload = () => saveProgress();
@@ -496,7 +490,15 @@ window.onload = () => {
         e.preventDefault();
         keysPressed.attack = false;
     }
+    // </attach listeners>
 
+    if (map) {
+        world.tiles = map;
+    } else {
+        world.generateTiles();
+    }
+
+    world.loadTiles();
     soldier = new Soldier(world);
     let storedHP = 0;
     if (localStorage) {
