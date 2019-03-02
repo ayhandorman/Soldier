@@ -299,16 +299,19 @@ window.onorientationchange = () => setCanvasSize();
 
 window.onload = () => {
 
+    // <init canvas>
+    canvas = document.querySelector("canvas");
+    world.context = canvas.getContext("2d");
+    setCanvasSize();
+    // </init canvas>
+
     // <init ui>
     hud = new Image();
     hud.src = `${config.assetsPath}hud.png`;
     arrows = new Image();
     arrows.src = `${config.assetsPath}arrows.png`;
     attackButton = document.querySelector('.attack');
-    canvas = document.querySelector("canvas");
-    world.context = canvas.getContext("2d");
-    setCanvasSize();
-    // </init ui>
+    // <//init ui>
 
     // <init quest window>
     questLog = document.querySelector(".quest-log ol");
@@ -511,6 +514,7 @@ window.onload = () => {
     }
 
     // <load map>
+
     fetch(`${config.domain}/assets/maps/map1.json`)
     .then(response => response.json())
     .then(mapData => {
