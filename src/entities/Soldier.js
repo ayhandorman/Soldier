@@ -24,6 +24,7 @@ export class Soldier {
           y: this.target.y
         }];
         this.damageList = [];
+        this.questList = [];
         this.sprite = new Image();
         this.sprite.src = `${config.assetsPath}soldier.png`;
         this.hpTick = 0;
