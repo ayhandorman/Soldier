@@ -56,23 +56,9 @@ for (let mt of monsterTypes) {
 }
 
 const npcInfos = [
-    { name: "Wizzy", x: (world.size / 2 + 2) * world.tileWidth, y: (world.size / 2 - 2) * world.tileWidth, image: "wizard", sprite: new Image(), sequence: 5, shadow: { x: 47, y: 19 }, questList: [ questList[0], questList[1], questList[2] ] },
-    { name: "Robosaur", x: (world.size / 2 - 26) * world.tileWidth, y: (world.size / 2 - 8) * world.tileWidth, image: "robozor", sprite: new Image(), sequence: 9, shadow: { x: 40, y: 12 }, questList: [ questList[3], questList[4] ] }
+    { name: "Wizzy", x: 102 * world.tileWidth, y: 98 * world.tileWidth, image: "wizard", sprite: new Image(), sequence: 5, shadow: { x: 47, y: 19 }, questList: [ questList[0], questList[1], questList[2] ] },
+    { name: "Robosaur", x: 74 * world.tileWidth, y: 92 * world.tileWidth, image: "robozor", sprite: new Image(), sequence: 9, shadow: { x: 40, y: 12 }, questList: [ questList[3], questList[4] ] }
 ];
-
-for (let npcInfo of npcInfos) {
-    npcInfo.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
-
-    var npc = new NPC(world);
-    npc.name = npcInfo.name;
-    npc.x = npcInfo.x;
-    npc.y = npcInfo.y;
-    npc.sprite = npcInfo.sprite;
-    npc.sequence = npcInfo.sequence;
-    npc.questList = npcInfo.questList;
-    npc.shadow = npcInfo.shadow;
-    npcs.push(npc);
-}
 
 const setCookie = (name, value, days) => {
     var expires = "";
@@ -156,7 +142,6 @@ const update = () => {
 
     // <new monster spawn>
     for (let spawnPoint of spawnPoints) {
-        debugger
         if (monsters.filter(x => x.spawnPoint == spawnPoint.id).length < spawnPoint.maxSpawn && Math.floor(Math.random() * 50) == 0) {
             let monster = new Monster(world);
             let pointToSpawn = {
@@ -526,18 +511,33 @@ window.onload = () => {
         soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
     }
 
-    // <load map>
+    const spawnNPCs = () => {
+        for (let npcInfo of npcInfos) {
+            npcInfo.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
+            var npc = new NPC(world);
+            npc.name = npcInfo.name;
+            npc.x = npcInfo.x;
+            npc.y = npcInfo.y;
+            npc.sprite = npcInfo.sprite;
+            npc.sequence = npcInfo.sequence;
+            npc.questList = npcInfo.questList;
+            npc.shadow = npcInfo.shadow;
+            npcs.push(npc);
+        }
+    }
 
+    // <load map>
     fetch(`${config.domain}/assets/maps/map1.json`)
     .then(response => response.json())
     .then(mapData => {
         if (mapData) {
-            world.tiles = mapData;
+            world.loadMap(mapData);
         } else {
             world.generateTiles();
         }
         world.loadTiles();
-        initSoldier();        
+        spawnNPCs();
+        initSoldier();
     
         (function mainLoop() {
             window.requestAnimationFrame(mainLoop);

@@ -3,7 +3,7 @@ import config from '../config.json';
 export class World {
     
     constructor() {
-        this.size = 200;
+        this.size = 0;
         this.tileWidth = 40;
         this.tileTypes = 51;
         this.selectedTileType = 1;
@@ -44,6 +44,21 @@ export class World {
                 this.images[i].classList.add('selected');
             }
             tileBar.appendChild(this.images[i]);
+        }
+    }
+
+    loadMap = (mapData) => {
+        this.size = mapData.length - 1;
+        for (let i = 0; i <= this.size; i++) {
+            this.tiles[i] = new Array(this.size);
+            for (let j = 0; j <= this.size; j++) {
+                let currentTile = parseInt(mapData[i][j]);
+                this.tiles[i][j] = {
+                    type: currentTile,
+                    direction: 0,
+                    blocking: this.blockingTypes.includes(currentTile)
+                };
+            }
         }
     }
 
