@@ -1,8 +1,8 @@
 body{margin:0}
-.tile-bar{position:absolute;margin:auto;width:700px;left:0;right:0;bottom:0;box-sizing:border-box;padding:1.4% 15px;background:url(../img/tile-bar.png);background-size:100% 100%;border-top-left-radius:10px;border-top-right-radius:10px;text-align:center}
+.tile-bar{position:absolute;width:100%;bottom:0;box-sizing:border-box;padding:10px;background:white;border-top-left-radius:10px;border-top-right-radius:10px;text-align:center}
 .tile-bar>img{border:2px solid #9a792b;margin:5px;border-radius:4px;width:22px}
 .tile-bar>img.selected{border-color:#5b3628;box-shadow:0 0 4px #5b3628}
-.helper{position:absolute;top:0;right:0;width:200px;padding:15px;background:rgba(255,255,255,.3)}
+.helper{position:absolute;top:0;right:0;width:300px;padding:15px;background:rgba(255,255,255,.3)}
 a{cursor:pointer}
 [download]{color:green}
 u{color:darkblue}
