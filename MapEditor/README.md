@@ -1,6 +1,6 @@
-# Soldier
-A simple soldier game to ramble around rocks.
+# Soldier MapEditor
+Map editor for soldier game.
 
 ## How it works?
 
-Hold right mouse button to draw selected tile and left click to send the soldier to current mouse position.
+Hold left mouse button to draw selected tile and download the map after clicking on generate button.
