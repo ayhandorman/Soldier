@@ -17,7 +17,12 @@ export class World {
             right: 6,
             downRight: 7
         };
-        this.blockingTypes = [1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 35, 36, 38, 39, 40, 41, 45, 46, 47, 48, 49];
+        this.blockingTypes = [  
+                                1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 
+                                31, 35, 36, 38, 39, 40, 41, 45, 46, 47, 48, 49, 52, 53, 54, 
+                                55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 70, 
+                                71, 99, 100, 101, 102, 103
+                            ];
         this.images = new Array(this.tileTypes);
         this.tiles = new Array(this.size);
         this.fps = 0;
