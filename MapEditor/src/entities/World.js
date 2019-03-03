@@ -5,7 +5,7 @@ export class World {
     constructor() {
         this.size = 0;
         this.tileWidth = 40;
-        this.tileTypes = 51;
+        this.tileTypes = 99;
         this.selectedTileType = 1;
         this.images = new Array(this.tileTypes);
         this.tiles = new Array(this.size);
@@ -46,7 +46,7 @@ export class World {
     }
 
     render = (screen, renderScope, position) => {
-        this.context.fillStyle = "#3ABE41";
+        this.context.fillStyle = "black";
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
             for (let y = renderScope.y1; y <= renderScope.y2; y++) {
