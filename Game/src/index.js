@@ -487,8 +487,10 @@ window.onload = () => {
     }
     // </attach listeners>
 
-    const initSoldier = () => {
+    const initSoldier = (startingPosition) => {
         soldier = new Soldier(world);
+        soldier.x = startingPosition.x * world.tileWidth;
+        soldier.y = startingPosition.y * world.tileWidth;
         let storedHP = 0;
         if (localStorage) {
             soldier.exp = parseInt(localStorage.getItem("exp") || 0);
@@ -526,10 +528,9 @@ window.onload = () => {
     .then(response => response.json())
     .then(mapData => {
         world.loadMap(mapData.tiles);
-        world.loadTiles();
         spawnPoints = mapData.spawnPoints;
         spawnNPCs(mapData.npcs);
-        initSoldier();
+        initSoldier(mapData.startingPosition);
     
         (function mainLoop() {
             window.requestAnimationFrame(mainLoop);
