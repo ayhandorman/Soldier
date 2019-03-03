@@ -28,22 +28,9 @@ export class World {
     }
 
     loadTiles = () => {
-        let tileBar = document.querySelector(".tile-bar");
         for (let i = 0; i < this.tileTypes; i++) {
             this.images[i] = new Image();
             this.images[i].src = `${config.assetsPath}tiles/${i}.png`;
-            this.images[i].setAttribute('data-tile', i)
-            this.images[i].onclick = (e) => {
-                for (let item of document.querySelectorAll('.tile-bar>img')) {
-                    item.classList.remove('selected');
-                }
-                this.selectedTileType = parseInt(e.target.getAttribute('data-tile'));
-                e.target.classList.add('selected');
-            }
-            if (i == 1) {
-                this.images[i].classList.add('selected');
-            }
-            tileBar.appendChild(this.images[i]);
         }
     }
 
@@ -59,7 +46,8 @@ export class World {
                     blocking: this.blockingTypes.includes(currentTile)
                 };
             }
-        }
+        }        
+        this.loadTiles();
     }
 
     setTile = (cursorPosition) => {
