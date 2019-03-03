@@ -4,8 +4,8 @@ export class Soldier {
 
     constructor(world) {
         this.world = world;
-        this.x = (world.size * world.tileWidth) / 2;
-        this.y = (world.size * world.tileWidth) / 2;
+        this.x = 0;
+        this.y = 0;
         this.counter = 0;
         this.maxHP = 200;
         this.hp = 200;
@@ -15,14 +15,11 @@ export class Soldier {
         this.attackCounter = 0;
         this.direction = world.directions.downRight;
         this.target = {
-          x: parseInt(this.x / world.tileWidth),
-          y: parseInt(this.y / world.tileWidth)
+          x: 0,
+          y: 0
         };
         this.currentStep = 0,
-        this.steps = [{
-          x: this.target.x,
-          y: this.target.y
-        }];
+        this.steps = [];
         this.damageList = [];
         this.questList = [];
         this.sprite = new Image();
