@@ -33,6 +33,7 @@ var world = new World(),
         width: 0,
         height: 0
     },
+    loading = true,
     currentButton = 3,
     questWindow,
     questDetail,
@@ -123,7 +124,66 @@ const markDirections = (x, y) => {
     return false;
 }
 
+const spawnNPCs = (npcInfos) => {
+    for (let npcInfo of npcInfos) {
+        var npc = new NPC(world);
+        npc.name = npcInfo.name;
+        npc.x = npcInfo.x;
+        npc.y = npcInfo.y;
+        npc.sprite = new Image();
+        npc.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
+        npc.sequence = npcInfo.sequence;
+        npc.questList = questList.filter(x => npcInfo.quests.includes(x.id));
+        npc.shadow = npcInfo.shadow;
+        npcs.push(npc);
+    }
+}
+
+const initSoldier = (startingPosition) => {
+    soldier = new Soldier(world);
+    soldier.x = startingPosition.x * world.tileWidth;
+    soldier.y = startingPosition.y * world.tileWidth;
+    let storedHP = 0;
+    if (localStorage) {
+        soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+        storedHP = parseInt(localStorage.getItem("hp") || 0);
+    } else {
+        soldier.exp = parseInt(getCookie("exp") || 0);
+        storedHP = parseInt(getCookie("hp") || 0);
+    }
+    soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
+    soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
+    soldier.maxHP = 200 + (soldier.level - 1) * 10;
+    if (storedHP > soldier.maxHP) {
+        storedHP = soldier.maxHP;
+    }
+    soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
+}
+
+const loadMap = (mapName) => {
+    loading = true;
+    fetch(`${config.domain}/assets/maps/${mapName}.json`)
+    .then(response => response.json())
+    .then(mapData => {
+        monsters = [];
+        npcs = [];
+        world.loadMap(mapData.tiles);
+        spawnPoints = mapData.spawnPoints;
+        spawnNPCs(mapData.npcs);
+        initSoldier(mapData.startingPosition);
+        loading = false;
+    });    
+}
+
 const update = () => {
+
+    if (Math.floor(soldier.x / world.tileWidth) == 137 && Math.floor(soldier.y / world.tileWidth) == 119) {
+        loadMap('map2');
+    }
+    if (Math.floor(soldier.x / world.tileWidth) == 5 && Math.floor(soldier.y / world.tileWidth) == 10) {
+        loadMap('map1');
+    }
+
     renderScope = {
         x1: (() => {let x1 = parseInt((soldier.x - screen.width / 2) / world.tileWidth); return x1 > 0 ? x1 : 0})(),
         y1: (() => {let y1 = parseInt((soldier.y - screen.height / 2) / world.tileWidth); return y1 > 0 ? y1 : 0})(),
@@ -487,57 +547,15 @@ window.onload = () => {
     }
     // </attach listeners>
 
-    const initSoldier = (startingPosition) => {
-        soldier = new Soldier(world);
-        soldier.x = startingPosition.x * world.tileWidth;
-        soldier.y = startingPosition.y * world.tileWidth;
-        let storedHP = 0;
-        if (localStorage) {
-            soldier.exp = parseInt(localStorage.getItem("exp") || 0);
-            storedHP = parseInt(localStorage.getItem("hp") || 0);
-        } else {
-            soldier.exp = parseInt(getCookie("exp") || 0);
-            storedHP = parseInt(getCookie("hp") || 0);
-        }
-        soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
-        soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
-        soldier.maxHP = 200 + (soldier.level - 1) * 10;
-        if (storedHP > soldier.maxHP) {
-            storedHP = soldier.maxHP;
-        }
-        soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
-    }
-
-    const spawnNPCs = (npcInfos) => {
-        for (let npcInfo of npcInfos) {
-            var npc = new NPC(world);
-            npc.name = npcInfo.name;
-            npc.x = npcInfo.x;
-            npc.y = npcInfo.y;
-            npc.sprite = new Image();
-            npc.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
-            npc.sequence = npcInfo.sequence;
-            npc.questList = questList.filter(x => npcInfo.quests.includes(x.id));
-            npc.shadow = npcInfo.shadow;
-            npcs.push(npc);
-        }
-    }
-
-    // <load map>
-    fetch(`${config.domain}/assets/maps/map1.json`)
-    .then(response => response.json())
-    .then(mapData => {
-        world.loadMap(mapData.tiles);
-        spawnPoints = mapData.spawnPoints;
-        spawnNPCs(mapData.npcs);
-        initSoldier(mapData.startingPosition);
-    
-        (function mainLoop() {
-            window.requestAnimationFrame(mainLoop);
+    // <start the game>
+    loadMap('map1');
+    (function mainLoop() {
+        window.requestAnimationFrame(mainLoop);
+        if (!loading) {
             update();
-        })();
-    });    
-    // </load map>    
+        }
+    })();    
+    // </start the game>
 }
 
 module.exports = {
