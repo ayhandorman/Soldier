@@ -122,12 +122,20 @@ window.onload = () => {
         }
     }
 
+    canvas.onwheel = (e) => {
+        if (e.deltaY < 0) {
+            if (world.tileWidth > 5) world.tileWidth--;
+        } else {
+            if (world.tileWidth < 45) world.tileWidth++;
+        }
+    }
+
     canvas.onmousemove = (e) => {
         cursorPosition = {
             x: parseInt((position.x - (screen.width / 2) + e.clientX) / world.tileWidth),
             y: parseInt((position.y - (screen.height / 2) + e.clientY) / world.tileWidth)
         };
-        if (currentButton == 2) {
+        if (currentButton == 0) {
             world.setTile(cursorPosition);
         }
     }
