@@ -54,7 +54,6 @@ export class Soldier {
         }
 
         if (this.x != whereToGo.x || this.y != whereToGo.y) {
-            this.counter = (this.counter + 1) % 48;
             this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -this.movementSpeed : this.movementSpeed;
             this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -this.movementSpeed : this.movementSpeed;
             let directions = this.world.directions;
@@ -75,7 +74,10 @@ export class Soldier {
             }
         }
 
-        this.attackCounter = (this.attackCounter + 1) % 25;
+        if (this.x != whereToGo.x || this.y != whereToGo.y || keysPressed.attack) {
+            this.counter = (this.counter + 1) % 60;
+        }
+        this.attackCounter = (this.attackCounter + 1) % 60;
 
         // <hp recovery>
         this.hpTick = (this.hpTick + 1) % 50;
@@ -95,7 +97,7 @@ export class Soldier {
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, this.direction * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? 8 : 0)) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
 
         //69x96
 
