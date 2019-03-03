@@ -62,19 +62,6 @@ export class World {
         }
     }
 
-    generateTiles = () => {
-        for (let i = 0; i <= this.size; i++) {
-            this.tiles[i] = new Array(this.size);
-            for (let j = 0; j <= this.size; j++) {
-                this.tiles[i][j] = {
-                    type: 0,
-                    direction: 0,
-                    blocking: false
-                };
-            }
-        }
-    }
-
     setTile = (cursorPosition) => {
         this.tiles[cursorPosition.x][cursorPosition.y].type = this.selectedTileType;
         this.tiles[cursorPosition.x][cursorPosition.y].blocking = this.blockingTypes.includes(this.selectedTileType);

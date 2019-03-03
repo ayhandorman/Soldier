@@ -26,7 +26,6 @@ import { World, Soldier, Monster, NPC } from './entities';
 import config from './config.json';
 import questList from './data/quests.json';
 import monsterTypes from './data/monsters.json';
-import spawnPoints from './data/spawnPoints.json';
 
 var world = new World(), 
     canvas, hud, arrows, attackButton, cursorPosition, touchStartPosition, soldier, progressing, renderScope,
@@ -40,6 +39,7 @@ var world = new World(),
     questLog,
     selectedQuest = null,
     selectedNPC = null,
+    spawnPoints,
     monsters = [],
     npcs = [],
     keysPressed = {
@@ -54,11 +54,6 @@ for (let mt of monsterTypes) {
     mt.sprite = new Image();
     mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
 }
-
-const npcInfos = [
-    { name: "Wizzy", x: 102 * world.tileWidth, y: 98 * world.tileWidth, image: "wizard", sprite: new Image(), sequence: 5, shadow: { x: 47, y: 19 }, questList: [ questList[0], questList[1], questList[2] ] },
-    { name: "Robosaur", x: 74 * world.tileWidth, y: 92 * world.tileWidth, image: "robozor", sprite: new Image(), sequence: 9, shadow: { x: 40, y: 12 }, questList: [ questList[3], questList[4] ] }
-];
 
 const setCookie = (name, value, days) => {
     var expires = "";
@@ -511,16 +506,16 @@ window.onload = () => {
         soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
     }
 
-    const spawnNPCs = () => {
+    const spawnNPCs = (npcInfos) => {
         for (let npcInfo of npcInfos) {
-            npcInfo.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
             var npc = new NPC(world);
             npc.name = npcInfo.name;
             npc.x = npcInfo.x;
             npc.y = npcInfo.y;
-            npc.sprite = npcInfo.sprite;
+            npc.sprite = new Image();
+            npc.sprite.src = `${config.assetsPath}npcs/${npcInfo.image}.png`;
             npc.sequence = npcInfo.sequence;
-            npc.questList = npcInfo.questList;
+            npc.questList = questList.filter(x => npcInfo.quests.includes(x.id));
             npc.shadow = npcInfo.shadow;
             npcs.push(npc);
         }
@@ -530,13 +525,10 @@ window.onload = () => {
     fetch(`${config.domain}/assets/maps/map1.json`)
     .then(response => response.json())
     .then(mapData => {
-        if (mapData) {
-            world.loadMap(mapData);
-        } else {
-            world.generateTiles();
-        }
+        world.loadMap(mapData.tiles);
         world.loadTiles();
-        spawnNPCs();
+        spawnPoints = mapData.spawnPoints;
+        spawnNPCs(mapData.npcs);
         initSoldier();
     
         (function mainLoop() {
