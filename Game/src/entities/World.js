@@ -24,7 +24,7 @@ export class World {
                                 71, 99, 100, 101, 102, 103
                             ];
         this.images = new Array(this.tileTypes);
-        this.tiles = new Array(this.size);
+        this.tiles = [];
         this.fps = 0;
         this.fpsCounter = 0;
         this.lastRender = new Date();
@@ -41,6 +41,7 @@ export class World {
 
     loadMap = (mapData) => {
         this.size = mapData.length - 1;
+        this.tiles = new Array(this.size);
         for (let i = 0; i <= this.size; i++) {
             this.tiles[i] = new Array(this.size);
             for (let j = 0; j <= this.size; j++) {
@@ -65,11 +66,7 @@ export class World {
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
             for (let y = renderScope.y1; y <= renderScope.y2; y++) {
-                try {
-                    this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
-                } catch (err) {
-                    console.log(err);
-                }
+                this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
             }
         }
 
