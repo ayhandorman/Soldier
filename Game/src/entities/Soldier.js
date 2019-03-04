@@ -74,9 +74,8 @@ export class Soldier {
             }
         }
 
-        if (this.x != whereToGo.x || this.y != whereToGo.y || keysPressed.attack) {
-            this.counter = (this.counter + 1) % 60;
-        }
+        let moving = this.x != whereToGo.x || this.y != whereToGo.y;
+        this.counter = (this.counter + 1) % 60;        
         this.attackCounter = (this.attackCounter + 1) % 60;
 
         // <hp recovery>
@@ -97,7 +96,7 @@ export class Soldier {
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? 8 : 0)) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (moving ? (keysPressed.attack ? 8 : 0) : 16)) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
 
         //69x96
 
@@ -107,9 +106,9 @@ export class Soldier {
             y: screen.height / 2
         }
         context.lineWidth = 0.8;
-        context.strokeRect(soldierPosition.x - 10, soldierPosition.y - 50, 52, 7);
+        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 50, 52, 7);
         context.fillStyle = "lightgreen";
-        context.fillRect(soldierPosition.x - 9, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
+        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 49, 50 / this.maxHP * this.hp, 5);
         context.font = "8px Arial";
         context.fillStyle = "white";
         context.textAlign = "center";
