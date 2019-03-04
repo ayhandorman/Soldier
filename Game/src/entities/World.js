@@ -62,7 +62,7 @@ export class World {
     }
 
     render = (screen, renderScope, soldier) => {
-        this.context.fillStyle = "#3ABE41";
+        this.context.fillStyle = "black";
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
             for (let y = renderScope.y1; y <= renderScope.y2; y++) {
@@ -87,7 +87,7 @@ export class World {
         }
         this.context.font = "18px Arial";        
         this.context.textAlign = "left"; 
-        this.context.fillStyle = "rgba(0,0,0,.3)";
+        this.context.fillStyle = "rgba(255,255,255,.4)";
         this.context.fillText("FPS: " + this.fps, 10, 110);
     }
 
