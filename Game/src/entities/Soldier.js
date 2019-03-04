@@ -96,7 +96,7 @@ export class Soldier {
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? 8 : (moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (moving ? 8 : 24) : (moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
 
         //69x96
 
