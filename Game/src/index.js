@@ -228,14 +228,14 @@ const update = () => {
             if (npc.currentQuest < npc.questList.length && soldier.questList.findIndex(x => x.id == npc.questList[npc.currentQuest].id) == -1) {
                 selectedQuest = npc.questList[npc.currentQuest];
                 questWindow.style.display = "flex";
-                let questMonster = monsters.find(x => x.id == selectedQuest.monster);
+                let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
                 questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
                 document.querySelector(".quest-window button").innerHTML = "Accept";
             } else { 
                 let currentQuest = soldier.questList.find(x => x.id == npc.questList[npc.currentQuest].id);
                 if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
                     selectedQuest = npc.questList[npc.currentQuest];
-                    let questMonster = monsters.find(x => x.id == selectedQuest.monster);
+                    let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
                     questWindow.style.display = "flex";
                     questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
                     document.querySelector(".quest-window button").innerHTML = "Complete";
@@ -341,7 +341,7 @@ window.onload = () => {
         } else if (soldier.questList.findIndex(x => x.id == selectedQuest.id) == -1) {
             soldier.questList.push(selectedQuest)
             selectedQuest.counter = 0;
-            let questMonster = monsters.find(x => x.id == selectedQuest.monster);
+            let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
             questLog.innerHTML += `<li data-id="${selectedQuest.id}"><b>${selectedQuest.title}</b><section>${questMonster.name} slain: <span>${selectedQuest.counter}</span>/${selectedQuest.slainCount}</section></li>`;
             selectedQuest = null;
         }
