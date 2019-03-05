@@ -32,11 +32,43 @@
         "slainCount": 10
     },
     {
-        "id": 4,
+        "id": 5,
         "title": "'Tis Getting Harder", 
         "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
         "exp": 200,
         "monster": 5,
         "slainCount": 15
+    },
+    {
+        "id": 6,
+        "title": "Enemy Sighted!",
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 280,
+        "monster": 6,
+        "slainCount": 12
+    },
+    {
+        "id": 7,
+        "title": "Serious Business",
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 370,
+        "monster": 7,
+        "slainCount": 15
+    },
+    {
+        "id": 8,
+        "title": "Nightmare Never Ends",
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 500,
+        "monster": 8,
+        "slainCount": 18
+    },
+    {
+        "id": 9,
+        "title": "Ultimate Effort",
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 650,
+        "monster": 9,
+        "slainCount": 20
     }
 ]
