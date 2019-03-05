@@ -98,25 +98,12 @@ const spawnNPCs = (npcInfos) => {
     }
 }
 
-const initSoldier = (startingPosition) => {
-    soldier = new Soldier(world);
+
+
+const spawnSoldier = (startingPosition) => {
+    soldier.world = world;
     soldier.x = startingPosition.x * world.tileWidth;
     soldier.y = startingPosition.y * world.tileWidth;
-    let storedHP = 0;
-    if (localStorage) {
-        soldier.exp = parseInt(localStorage.getItem("exp") || 0);
-        storedHP = parseInt(localStorage.getItem("hp") || 0);
-    } else {
-        soldier.exp = parseInt(getCookie("exp") || 0);
-        storedHP = parseInt(getCookie("hp") || 0);
-    }
-    soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
-    soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
-    soldier.maxHP = 200 + (soldier.level - 1) * 10;
-    if (storedHP > soldier.maxHP) {
-        storedHP = soldier.maxHP;
-    }
-    soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
 }
 
 const loadMap = (mapName) => {
@@ -129,7 +116,7 @@ const loadMap = (mapName) => {
         world.loadMap(mapData.tiles);
         spawnPoints = mapData.spawnPoints;
         spawnNPCs(mapData.npcs);
-        initSoldier(mapData.startingPosition);
+        spawnSoldier(mapData.startingPosition);
         loading = false;
     });    
 }
@@ -451,6 +438,25 @@ window.onload = () => {
         keysPressed.attack = false;
     }
     // </attach listeners>
+
+    // <init soldier>
+    soldier = new Soldier(world);
+    let storedHP = 0;
+    if (localStorage) {
+        soldier.exp = parseInt(localStorage.getItem("exp") || 0);
+        storedHP = parseInt(localStorage.getItem("hp") || 0);
+    } else {
+        soldier.exp = parseInt(getCookie("exp") || 0);
+        storedHP = parseInt(getCookie("hp") || 0);
+    }
+    soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
+    soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
+    soldier.maxHP = 200 + (soldier.level - 1) * 10;
+    if (storedHP > soldier.maxHP) {
+        storedHP = soldier.maxHP;
+    }
+    soldier.hp = storedHP > 0 ? storedHP : soldier.maxHP;
+    // </init soldier>
 
     // <start the game>
     loadMap('map1');
