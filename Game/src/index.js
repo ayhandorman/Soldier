@@ -162,6 +162,18 @@ const update = () => {
                 x: spawnPoint.x + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10,
                 y: spawnPoint.y + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10
             }
+            if (pointToSpawn.x < 0) {
+                pointToSpawn.x = 0;
+            }
+            if (pointToSpawn.x > world.size) {
+                pointToSpawn.x = world.size;
+            }
+            if (pointToSpawn.y < 0) {
+                pointToSpawn.y = 0;
+            }
+            if (pointToSpawn.y > world.size) {
+                pointToSpawn.y = world.size;
+            }
             if (!world.tiles[pointToSpawn.x][pointToSpawn.y].blocking) {
                 monster.x = pointToSpawn.x * world.tileWidth;
                 monster.y = pointToSpawn.y * world.tileWidth;
