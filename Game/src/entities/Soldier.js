@@ -14,12 +14,6 @@ export class Soldier {
         this.ap = 6.5;
         this.attackCounter = 0;
         this.direction = world.directions.downRight;
-        this.target = {
-          x: 0,
-          y: 0
-        };
-        this.currentStep = 0,
-        this.steps = [];
         this.damageList = [];
         this.questList = [];
         this.sprite = new Image();
@@ -28,53 +22,42 @@ export class Soldier {
         this.movementSpeed = 2;
         this.hpRecovery = 1;
     }
+
+    checkTile = (x, y) => {
+        return this.world.tiles[Math.round(x / this.world.tileWidth)][Math.round(y / this.world.tileWidth)].blocking;
+    }
     
     render = (screen, a, b, keysPressed) => {
-
-        let whereToGo;
-        let keyControl = keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down;
-        if (keyControl) {
-            whereToGo = {
-                x: keysPressed.left && this.x > 0 ? this.x - 1 : keysPressed.right && this.x < this.world.size * this.world.tileWidth ? this.x + 1 : this.x,
-                y: keysPressed.up && this.y > 0 ? this.y - 1 : keysPressed.down && this.y < this.world.size * this.world.tileWidth ? this.y + 1 : this.y
-            }
-            if (this.world.tiles[parseInt(Math.round(whereToGo.x / this.world.tileWidth))][Math.round(parseInt(this.y / this.world.tileWidth))].blocking) {
-                whereToGo.x = this.x;
-            }
-            if (this.world.tiles[parseInt(Math.round(this.x / this.world.tileWidth))][Math.round(parseInt(whereToGo.y / this.world.tileWidth))].blocking) {
-                whereToGo.y = this.y;
-            }
-            this.steps = [];
-        } else 
-        {
-            whereToGo = this.steps[this.currentStep] ? {
-                x: this.steps[this.currentStep].x * this.world.tileWidth,
-                y: this.steps[this.currentStep].y * this.world.tileWidth
-            } : {x: this.x, y: this.y}
-        }
-
-        if (this.x != whereToGo.x || this.y != whereToGo.y) {
-            this.x += whereToGo.x == this.x ? 0 : whereToGo.x < this.x ? -this.movementSpeed : this.movementSpeed;
-            this.y += whereToGo.y == this.y ? 0 : whereToGo.y < this.y ? -this.movementSpeed : this.movementSpeed;
+        let moving = false;
+        if (keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down) {
             let directions = this.world.directions;
+            moving = true;
 
             switch(true) {
-                case (this.x > whereToGo.x && this.y == whereToGo.y): this.direction = keyControl ? directions.right : directions.left; break;
-                case (this.x < whereToGo.x && this.y == whereToGo.y): this.direction = keyControl ? directions.left : directions.right; break;
-                case (this.y > whereToGo.y && this.x == whereToGo.x): this.direction = keyControl ? directions.down : directions.up; break;
-                case (this.y < whereToGo.y && this.x == whereToGo.x): this.direction = keyControl ? directions.up : directions.down; break;
-                case (this.x > whereToGo.x && this.y > whereToGo.y): this.direction = keyControl ? directions.downRight : directions.upLeft; break;
-                case (this.x < whereToGo.x && this.y < whereToGo.y): this.direction = keyControl ? directions.upLeft : directions.downRight; break;
-                case (this.x > whereToGo.x && this.y < whereToGo.y): this.direction = keyControl ? directions.upRight : directions.downLeft; break;
-                case (this.x < whereToGo.x && this.y > whereToGo.y): this.direction = keyControl ? directions.downLeft : directions.upRight; break;
+                case (keysPressed.right && !keysPressed.up && !keysPressed.down): this.direction = directions.right; break;
+                case (keysPressed.left && !keysPressed.up && !keysPressed.down): this.direction = directions.left; break;
+                case (keysPressed.down && !keysPressed.left && !keysPressed.right): this.direction = directions.down; break;
+                case (keysPressed.up && !keysPressed.left && !keysPressed.right): this.direction = directions.up; break;
+                case (keysPressed.down && keysPressed.right): this.direction = directions.downRight; break;
+                case (keysPressed.down && keysPressed.left): this.direction = directions.downLeft; break;
+                case (keysPressed.up && keysPressed.right): this.direction = directions.upRight; break;
+                case (keysPressed.up && keysPressed.left): this.direction = directions.upLeft; break;
             }
-        } else {
-            if (this.currentStep < this.steps.length) {
-                this.currentStep++;
+
+            if (keysPressed.right && !this.checkTile(this.x + this.movementSpeed, this.y)) {
+                this.x += this.movementSpeed;
+            }
+            if (keysPressed.left && !this.checkTile(this.x - this.movementSpeed, this.y)) {
+                this.x -= this.movementSpeed;
+            }
+            if (keysPressed.down && !this.checkTile(this.x, this.y + this.movementSpeed)) {
+                this.y += this.movementSpeed;
+            }
+            if (keysPressed.up && !this.checkTile(this.x, this.y - this.movementSpeed)) {
+                this.y -= this.movementSpeed;
             }
         }
 
-        let moving = this.x != whereToGo.x || this.y != whereToGo.y;
         this.counter = (this.counter + 1) % 60;        
         this.attackCounter = (this.attackCounter + 1) % 60;
 
@@ -97,8 +80,6 @@ export class Soldier {
         // </render shadow>
 
         context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (moving ? 8 : 24) : (moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
-
-        //69x96
 
         // <render hp bar>
         let soldierPosition = {
@@ -166,15 +147,6 @@ export class Soldier {
             this.x = (this.world.size * this.world.tileWidth) / 2;
             this.y = (this.world.size * this.world.tileWidth) / 2;            
             this.direction = this.world.directions.downRight;
-            this.target = {
-                x: parseInt(this.world.size / 2),
-                y: parseInt(this.world.size / 2)
-            };
-            this.currentStep = 0,
-            this.steps = [{
-                x: this.target.x,
-                y: this.target.y
-            }];
             // </death with xp penalty>
         }
     }    

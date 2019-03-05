@@ -69,12 +69,6 @@ export class World {
                 this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
             }
         }
-
-        // <render target>
-        if (soldier.currentStep < soldier.steps.length) {
-            this.context.drawImage(this.targetImage, soldier.target.x * this.tileWidth - soldier.x + screen.width / 2, soldier.target.y * this.tileWidth - 15 - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
-        }
-        // </render target>
     }
 
     showFPS = () => {

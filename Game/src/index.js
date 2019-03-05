@@ -34,7 +34,6 @@ var world = new World(),
         height: 0
     },
     loading = true,
-    currentButton = 3,
     questWindow,
     questDetail,
     questLog,
@@ -82,46 +81,6 @@ const setCanvasSize = () => {
         canvas.width = screen.width = window.innerWidth;
         canvas.height = screen.height = window.innerHeight;
     }, 500);
-}
-
-const resetDirections = () => {
-    for (let i = 0; i <= world.size; i++) {
-        for (let j = 0; j <= world.size; j++) {
-            world.tiles[i][j].direction = 0;
-        }
-    }
-}
-
-const markDirections = (x, y) => {
-    if (x > 0 && !world.tiles[x - 1][y].blocking && world.tiles[x - 1][y].direction == 0) {
-        world.tiles[x - 1][y].direction = -4;
-        if (x - 1 == soldier.target.x && y == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    if (y > 0 && !world.tiles[x][y - 1].blocking && world.tiles[x][y - 1].direction == 0) {
-        world.tiles[x][y - 1].direction = 2;
-        if (x == soldier.target.x && y - 1 == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    if (x < world.size && !world.tiles[x + 1][y].blocking && world.tiles[x + 1][y].direction == 0) {
-        world.tiles[x + 1][y].direction = 4;
-        if (x + 1 == soldier.target.x && y == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    if (y < world.size && !world.tiles[x][y + 1].blocking && world.tiles[x][y + 1].direction == 0) {
-        world.tiles[x][y + 1].direction = -2;
-        if (x == soldier.target.x && y + 1 == soldier.target.y) {
-            return true;
-        }
-        progressing = true;
-    }
-    return false;
 }
 
 const spawnNPCs = (npcInfos) => {
@@ -429,81 +388,15 @@ window.onload = () => {
             x: parseInt((soldier.x - (screen.width / 2) + e.clientX) / world.tileWidth),
             y: parseInt((soldier.y - (screen.height / 2) + e.clientY) / world.tileWidth)
         };
-        if (currentButton == 2) {
-            world.setTile(cursorPosition);
-        }
     }
 
     canvas.onmousedown = (e) => {
-        currentButton = e.button;
-
-        if (currentButton == 0 && world.tiles[cursorPosition.x][cursorPosition.y].blocking)
-        {
-        return; 
-        }
-        if (currentButton == 2) {
-            world.setTile(cursorPosition);
-        } else if (currentButton == 0) {
-            resetDirections();
-            soldier.target = {
-                x: cursorPosition.x,
-                y: cursorPosition.y
-            }
-
-            // find
-            var found = false;
-            var initialSearch = false;
-            progressing = true;
-            
-            while (!found && progressing) {
-                if (!initialSearch) {
-                    found = markDirections(parseInt(soldier.x / world.tileWidth), parseInt(soldier.y / world.tileWidth));
-                    initialSearch = true;
-                    } else {
-                    progressing = false;
-                    for (let i = 0; i < world.size; i++) {
-                        for (let j = 0; j < world.size; j++) {
-                            if (world.tiles[i][j].direction != 0) {
-                                found = markDirections(i, j);
-                                if (found) {
-                                    break;
-                                }
-                            }            
-                        }
-                        if (found) break;
-                    }
-                }
-            }
-            if (found) {
-                soldier.currentStep = 0;
-                let currentLocation = {
-                    x: soldier.target.x,
-                    y: soldier.target.y
-                }
-                let soldierLocation = {
-                    x: parseInt(soldier.x / world.tileWidth),
-                    y: parseInt(soldier.y / world.tileWidth)
-                }
-                soldier.steps = [{x: currentLocation.x, y: currentLocation.y}];            
-                while (currentLocation.x != soldierLocation.x || currentLocation.y != soldierLocation.y) {
-                    switch (world.tiles[currentLocation.x][currentLocation.y].direction) {
-                        case -4: ++currentLocation.x; break;
-                        case  1: ++currentLocation.x; ++currentLocation.y; break;
-                        case  2: ++currentLocation.y; break;
-                        case  3: --currentLocation.x; ++currentLocation.y; break;
-                        case  4: --currentLocation.x; break;
-                        case -1: --currentLocation.x; --currentLocation.y; break;
-                        case -2: --currentLocation.y; break;
-                        case -3: ++currentLocation.x; --currentLocation.y; break;          
-                    }
-                    soldier.steps.push({x: currentLocation.x, y: currentLocation.y});
-                }
-                soldier.steps = soldier.steps.reverse();
-            }
+        if (e.button == 0) {
+            keysPressed.attack = true;
         }
     }
 
-    canvas.onmouseup = () => currentButton = 3;
+    canvas.onmouseup = () => keysPressed.attack = false;
 
     canvas.ontouchstart = (e) => {
         touchStartPosition = {
