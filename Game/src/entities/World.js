@@ -6,7 +6,6 @@ export class World {
         this.size = 0;
         this.tileWidth = 40;
         this.tileTypes = 104;
-        this.selectedTileType = 1;
         this.directions = {
             down: 0,
             downLeft: 1,
@@ -48,17 +47,11 @@ export class World {
                 let currentTile = parseInt(mapData[i][j]);
                 this.tiles[i][j] = {
                     type: currentTile,
-                    direction: 0,
                     blocking: this.blockingTypes.includes(currentTile)
                 };
             }
         }        
         this.loadTiles();
-    }
-
-    setTile = (cursorPosition) => {
-        this.tiles[cursorPosition.x][cursorPosition.y].type = this.selectedTileType;
-        this.tiles[cursorPosition.x][cursorPosition.y].blocking = this.blockingTypes.includes(this.selectedTileType);
     }
 
     render = (screen, renderScope, soldier) => {
