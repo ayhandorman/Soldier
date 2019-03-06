@@ -5,7 +5,7 @@ export class World {
     constructor() {
         this.size = 0;
         this.tileWidth = 40;
-        this.tileTypes = 104;
+        this.tileTypes = 112;
         this.selectedTileType = 1;
         this.images = new Array(this.tileTypes);
         this.tiles = new Array(this.size);
