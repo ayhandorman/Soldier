@@ -278,6 +278,7 @@ const saveProgress = () => {
     if (localStorage) {
         localStorage.setItem("exp", soldier.exp);
         localStorage.setItem("hp", soldier.hp);
+        localStorage.setItem("quests", JSON.stringify(soldier.questList));
     }
 }
 
@@ -422,6 +423,14 @@ window.onload = () => {
     if (localStorage) {
         soldier.exp = parseInt(localStorage.getItem("exp") || 0);
         storedHP = parseInt(localStorage.getItem("hp") || 0);
+        let storedQuestList = JSON.parse(localStorage.getItem("quests"));
+        if (storedQuestList && storedQuestList.length > 0) {
+            soldier.questList = storedQuestList;
+            for (let quest of storedQuestList.filter(x => !x.completed)) {
+                let questMonster = monsterTypes.find(x => x.id == quest.monster);
+                questLog.innerHTML += `<li data-id="${quest.id}"><b>${quest.title}</b><section>${questMonster.name} slain: <span>${quest.counter}</span>/${quest.slainCount}</section></li>`;
+            }
+        }
     }
     soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
     soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
