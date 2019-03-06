@@ -225,16 +225,20 @@ const update = () => {
         // <npc interaction>
         npcs.filter(npc => npc.x + 40 > attackArea.x1 && npc.x < attackArea.x2 && npc.y > attackArea.y1 && npc.y < attackArea.y2)
             .map((npc) => {
-            if (npc.currentQuest < npc.questList.length && soldier.questList.findIndex(x => x.id == npc.questList[npc.currentQuest].id) == -1) {
-                selectedQuest = npc.questList[npc.currentQuest];
-                questWindow.style.display = "flex";
-                let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
-                questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
-                document.querySelector(".quest-window button").innerHTML = "Accept";
-            } else { 
-                let currentQuest = soldier.questList.find(x => x.id == npc.questList[npc.currentQuest].id);
-                if (currentQuest && currentQuest.counter == currentQuest.slainCount) {
-                    selectedQuest = npc.questList[npc.currentQuest];
+                keysPressed.attack = false;
+                let activeQuestList = soldier.questList.length > 0 && soldier.questList.filter(x => !x.completed && npc.questList.findIndex(q => q.id == x.id) > -1);
+                let currentQuest = activeQuestList && activeQuestList.length > 0 && activeQuestList.reduce((a, b) => (a.id > b.id) ? a : b);
+                if (!currentQuest) {
+                    let remainingQuests = npc.questList.filter(x => soldier.questList.findIndex(q => q.id == x.id) == -1);
+                    selectedQuest = remainingQuests && remainingQuests.length > 0 && remainingQuests.reduce((a, b) => (a.id < b.id) ? a : b);
+                    if (selectedQuest) {
+                        questWindow.style.display = "flex";
+                        let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
+                        questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
+                        document.querySelector(".quest-window button").innerHTML = "Accept";
+                    }
+                } else if (currentQuest.counter == currentQuest.slainCount) {
+                    selectedQuest = currentQuest;
                     let questMonster = monsterTypes.find(x => x.id == selectedQuest.monster);
                     questWindow.style.display = "flex";
                     questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
@@ -242,7 +246,7 @@ const update = () => {
                     selectedNPC = npc;
                 }
             }
-        });
+        );
         // </npc interaction>
     }
     // </interaction>
@@ -335,9 +339,8 @@ window.onload = () => {
         if (selectedQuest && selectedQuest.counter == selectedQuest.slainCount) {
             document.querySelector(`.quest-log li[data-id="${selectedQuest.id}"]`).remove();
             soldier.gainExp(selectedQuest.exp);
-            soldier.questList.splice(soldier.questList.indexOf(selectedQuest), 1);
+            soldier.questList.find(x => x.id == selectedQuest.id).completed = true;
             selectedQuest = null;
-            selectedNPC.currentQuest++;
         } else if (soldier.questList.findIndex(x => x.id == selectedQuest.id) == -1) {
             soldier.questList.push(selectedQuest)
             selectedQuest.counter = 0;

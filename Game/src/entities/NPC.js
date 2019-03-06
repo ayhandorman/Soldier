@@ -6,7 +6,6 @@ export class NPC {
         this.counter = 0;
         this.name = "";
         this.questList = [];
-        this.currentQuest = 0;
         this.sprite = null;
         this.sequence = 0;
         this.shadow = {
