@@ -24,6 +24,7 @@ export class World {
                             ];
         this.images = new Array(this.tileTypes);
         this.tiles = [];
+        this.gates = [];
         this.fps = 0;
         this.fpsCounter = 0;
         this.lastRender = new Date();
@@ -39,18 +40,19 @@ export class World {
     }
 
     loadMap = (mapData) => {
-        this.size = mapData.length - 1;
+        this.size = mapData.tiles.length - 1;
         this.tiles = new Array(this.size);
         for (let i = 0; i <= this.size; i++) {
             this.tiles[i] = new Array(this.size);
             for (let j = 0; j <= this.size; j++) {
-                let currentTile = parseInt(mapData[i][j]);
+                let currentTile = parseInt(mapData.tiles[i][j]);
                 this.tiles[i][j] = {
                     type: currentTile,
                     blocking: this.blockingTypes.includes(currentTile)
                 };
             }
-        }        
+        }
+        this.gates = mapData.gates;
         this.loadTiles();
     }
 

@@ -84,29 +84,28 @@ const spawnSoldier = (startingPosition) => {
     soldier.y = startingPosition.y * world.tileWidth;
 }
 
-const loadMap = (mapName) => {
+const loadMap = (mapName, entryPoint) => {
     loading = true;
     fetch(`${config.domain}/assets/maps/${mapName}.json`)
     .then(response => response.json())
     .then(mapData => {
         monsters = [];
         npcs = [];
-        world.loadMap(mapData.tiles);
+        world.loadMap(mapData);
         spawnPoints = mapData.spawnPoints;
         spawnNPCs(mapData.npcs);
-        spawnSoldier(mapData.startingPosition);
+        spawnSoldier(entryPoint || mapData.startingPosition);
         loading = false;
     });    
 }
 
 const update = () => {
 
-    if (Math.floor(soldier.x / world.tileWidth) == 137 && Math.floor(soldier.y / world.tileWidth) == 119) {
-        loadMap('map2');
-    }
-    if (Math.floor(soldier.x / world.tileWidth) == 5 && Math.floor(soldier.y / world.tileWidth) == 10) {
-        loadMap('map1');
-    }
+    // <load next map once stepped on a gate>
+    world.gates.filter(gate => gate.x == Math.floor(soldier.x / world.tileWidth) && gate.y == Math.floor(soldier.y / world.tileWidth)).map(gate => {
+        loadMap(gate.goTo, gate.entryPoint);
+    });
+    // </load next map once stepped on a gate>
 
     renderScope = {
         x1: (() => {let x1 = parseInt((soldier.x - screen.width / 2) / world.tileWidth); return x1 > 0 ? x1 : 0})(),
