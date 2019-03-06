@@ -213,7 +213,7 @@ const update = () => {
                         document.querySelector(".quest-log [data-id='"+currentQuest.id+"'] span").innerHTML = currentQuest.counter;
                     }
                 }
-            } else if (soldier.attackCounter == 0 && monster.hp > 0 && monster.damageList.length < 2) {
+            } else if (soldier.counter >= 40 && soldier.counter <= 45 && monster.hp > 0 && monster.damageList.length < 2) {
                 monster.receiveDamage(soldier.ap);
             }
         });
