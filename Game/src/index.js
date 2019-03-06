@@ -38,7 +38,6 @@ var world = new World(),
     questDetail,
     questLog,
     selectedQuest = null,
-    selectedNPC = null,
     spawnPoints,
     monsters = [],
     npcs = [],
@@ -222,7 +221,6 @@ const update = () => {
                     questWindow.style.display = "flex";
                     questDetail.innerHTML = `<h3>${selectedQuest.title}</h3><h4>${questMonster.name} slain: ${selectedQuest.slainCount}</h4><h4>Reward: ${selectedQuest.exp} exp</h4>${selectedQuest.log}`;
                     document.querySelector(".quest-window button").innerHTML = "Complete";
-                    selectedNPC = npc;
                 }
             }
         );
