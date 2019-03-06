@@ -55,27 +55,6 @@ for (let mt of monsterTypes) {
     mt.sprite.src = `${config.assetsPath}monsters/${mt.image}.png`;
 }
 
-const setCookie = (name, value, days) => {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-const getCookie = (name) => {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
 const setCanvasSize = () => {
     setTimeout(() => {
         canvas.width = screen.width = window.innerWidth;
@@ -301,9 +280,6 @@ const saveProgress = () => {
     if (localStorage) {
         localStorage.setItem("exp", soldier.exp);
         localStorage.setItem("hp", soldier.hp);
-    } else {
-        setCookie("exp", soldier.exp, 3650);
-        setCookie("hp", soldier.hp, 3650);
     }
 }
 
@@ -448,9 +424,6 @@ window.onload = () => {
     if (localStorage) {
         soldier.exp = parseInt(localStorage.getItem("exp") || 0);
         storedHP = parseInt(localStorage.getItem("hp") || 0);
-    } else {
-        soldier.exp = parseInt(getCookie("exp") || 0);
-        storedHP = parseInt(getCookie("hp") || 0);
     }
     soldier.level = soldier.exp == 0 ? 1 : Math.ceil((Math.sqrt(soldier.exp / 100)));
     soldier.ap = Math.pow(soldier.level, 2) * 1.5 + 5;
