@@ -26,7 +26,7 @@ export class Soldier {
         let world = this.world;
         return  x < 0 || y < 0 || x > world.size * world.tileWidth || y > world.size * world.tileWidth || 
                 world.tiles[Math.round(x / world.tileWidth)][Math.round(y / world.tileWidth)].blocking ||
-                world.objects.filter(o => x > o.x - 20 && x < o.x + o.blockingWidth - 10 && y > o.y - o.blockingHeight + 15 && y < o.y + 20).length > 0;
+                world.objects.filter(o => x > o.x + (o.width - o.blockingWidth) / 2 - 20 && x < o.x + o.blockingWidth + (o.width - o.blockingWidth) / 2 - 10 && y > o.y - o.blockingHeight + 15 && y < o.y + 20).length > 0;
     }
     
     render = (screen, a, b, keysPressed) => {
@@ -154,5 +154,6 @@ export class Soldier {
 
     showCoordinates = () => {
         this.world.context.fillText(`Coords: ${Math.floor(this.x / this.world.tileWidth)}, ${Math.floor(this.y / this.world.tileWidth)}`, 10, 150);
+        this.world.context.fillText(`${this.x}, ${this.y}`, 78, 172);
     }
 }
