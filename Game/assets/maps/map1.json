@@ -28,9 +28,11 @@
     {"id":22,"x":110,"y":190,"radius":10,"monster":9,"maxSpawn":3}
 ],
 "objects": [
-    {"x":3300,"y":3800,"width":76,"height":44,"blockingWidth":76,"blockingHeight":40,"image":"boat","sprite":null, "sequence": 1},
+    {"x":3200,"y":3800,"width":76,"height":44,"blockingWidth":76,"blockingHeight":40,"image":"boat","sprite":null, "sequence": 1},
     {"x":3352,"y":4448,"width":130,"height":130,"blockingWidth":45,"blockingHeight":35,"image":"tree","sprite":null, "sequence": 1},
-    {"x":3066,"y":4100,"width":64,"height":64,"blockingWidth":24,"blockingHeight":20,"image":"flag","sprite":null, "sequence": 8}
+    {"x":3066,"y":4100,"width":64,"height":64,"blockingWidth":24,"blockingHeight":20,"image":"flag","sprite":null, "sequence": 8},
+    {"x":3524,"y":4180,"width":64,"height":60,"blockingWidth":64,"blockingHeight":35,"image":"hay","sprite":null, "sequence": 1},
+    {"x":5230,"y":4648,"width":114,"height":96,"blockingWidth":114,"blockingHeight":54,"image":"bazaar","sprite":null, "sequence": 1}
 ],
 "gates": [
     {"x":138,"y":119,"goTo":"map2","entryPoint":{"x":5,"y":9}}

@@ -1,6 +1,9 @@
 {"startingPosition":{"x":3,"y":2},
 "npcs":[],
 "spawnPoints":[],
+"objects":[
+    {"x":44,"y":280,"width":32,"height":64,"blockingWidth":32,"blockingHeight":55,"image":"bed","sprite":null, "sequence": 1}
+],
 "gates": [
     {"x":4,"y":1,"goTo":"map2","entryPoint":{"x":5,"y":3}}
 ],
