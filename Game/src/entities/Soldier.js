@@ -24,7 +24,9 @@ export class Soldier {
 
     checkTile = (x, y) => {
         let world = this.world;
-        return x < 0 || y < 0 || x > world.size * world.tileWidth || y > world.size * world.tileWidth || world.tiles[Math.round(x / world.tileWidth)][Math.round(y / world.tileWidth)].blocking;
+        return  x < 0 || y < 0 || x > world.size * world.tileWidth || y > world.size * world.tileWidth || 
+                world.tiles[Math.round(x / world.tileWidth)][Math.round(y / world.tileWidth)].blocking ||
+                world.objects.filter(o => x > o.x - 20 && x < o.x + o.blockingWidth - 10 && y > o.y - o.blockingHeight + 15 && y < o.y + 20).length > 0;
     }
     
     render = (screen, a, b, keysPressed) => {

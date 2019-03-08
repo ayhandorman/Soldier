@@ -27,6 +27,9 @@
     {"id":21,"x":80,"y":140,"radius":8,"monster":2,"maxSpawn":4},
     {"id":22,"x":110,"y":190,"radius":10,"monster":9,"maxSpawn":3}
 ],
+"objects": [
+    {"x":3300,"y":3800,"width":76,"height":44,"blockingWidth":76,"blockingHeight":40,"image":"boat","sprite":null, "sequence": 1}
+],
 "gates": [
     {"x":138,"y":119,"goTo":"map2","entryPoint":{"x":5,"y":9}}
 ],

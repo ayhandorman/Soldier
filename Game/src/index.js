@@ -227,10 +227,15 @@ const update = () => {
     }
     // </interaction>
 
+    // <calculate objects to render>
+    let objects = world.objects.filter(x => x.x + x.width > renderScope.x1 * world.tileWidth && x.x < (renderScope.x2 + 1) * world.tileWidth && x.y + x.height > renderScope.y1 * world.tileWidth && x.y < (renderScope.y2 + 2) * world.tileWidth);
+    // </calculate objects to render>
+
     // <calculate render order>
     let renderOrder = monsters.slice();
     renderOrder.push(soldier);
     renderOrder.push(...npcs);
+    renderOrder.push(...objects);
     renderOrder.sort((a, b) => a.y - b.y);
     // </calculate render order>
 

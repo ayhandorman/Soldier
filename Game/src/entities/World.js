@@ -25,11 +25,10 @@ export class World {
         this.images = new Array(this.tileTypes);
         this.tiles = [];
         this.gates = [];
+        this.objects = [];
         this.fps = 0;
         this.fpsCounter = 0;
         this.lastRender = new Date();
-        this.targetImage = new Image();
-        this.targetImage.src = `${config.assetsPath}target.png`;
     }
 
     loadTiles = () => {
@@ -53,7 +52,19 @@ export class World {
             }
         }
         this.gates = mapData.gates;
+        this.objects = mapData.objects;
+        for (let object of this.objects) {
+            object.sprite = new Image();
+            object.sprite.src = `${config.assetsPath}objects/${object.image}.png`;
+            object.counter = 0;
+            object.render = (screen, renderScope, soldier) => this.renderObject(object, screen, renderScope, soldier);
+        }
         this.loadTiles();
+    }
+
+    renderObject = (object, screen, renderScope, soldier) => {
+        object.counter = (object.counter + 1) % (object.sequence);
+        this.context.drawImage(object.sprite, object.width * object.counter, 0, object.width, object.height, object.x - soldier.x + screen.width / 2, object.y - object.height - soldier.y + screen.height / 2 + 20, object.width, object.height);
     }
 
     render = (screen, renderScope, soldier) => {
