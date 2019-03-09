@@ -446,7 +446,7 @@ window.onload = () => {
     // </init soldier>
 
     // <start the game>
-    loadMap('map1');
+    loadMap('home');
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
         if (!loading) {
