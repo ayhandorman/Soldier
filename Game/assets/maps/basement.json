@@ -1,6 +1,8 @@
 {"startingPosition":{"x":3,"y":2},
 "npcs":[],
-"spawnPoints":[],
+"spawnPoints":[
+    {"id":1,"x":5,"y":5,"radius":4,"monster":10,"maxSpawn":2,"spawnDelay":0}
+],
 "objects":[
     {"x":44,"y":280,"width":32,"height":64,"blockingWidth":32,"blockingHeight":55,"image":"bed","sprite":null, "sequence": 1}
 ],
