@@ -63,7 +63,9 @@ export class World {
     }
 
     renderObject = (object, screen, renderScope, soldier) => {
-        object.counter = (object.counter + .2) % object.sequence;
+        if (!object.interactive || (soldier.moving && soldier.x > object.x - 25 && soldier.x < object.x + object.width - 25 && soldier.y > object.y - 15 && soldier.y < object.y + object.height - 25)) {
+            object.counter = (object.counter + .2) % object.sequence;
+        }
         this.context.drawImage(object.sprite, object.width * Math.floor(object.counter), 0, object.width, object.height, object.x - soldier.x + screen.width / 2, object.y - object.height - soldier.y + screen.height / 2 + 20, object.width, object.height);
     }
 

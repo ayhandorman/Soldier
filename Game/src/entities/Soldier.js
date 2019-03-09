@@ -20,6 +20,7 @@ export class Soldier {
         this.hpTick = 0;
         this.movementSpeed = 2;
         this.hpRecovery = 1;
+        this.moving = false;
     }
 
     checkTile = (x, y) => {
@@ -30,10 +31,10 @@ export class Soldier {
     }
     
     render = (screen, a, b, keysPressed) => {
-        let moving = false;
+        this.moving = false;
         if (keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down) {
             let directions = this.world.directions;
-            moving = true;
+            this.moving = true;
 
             switch(true) {
                 case (keysPressed.right && !keysPressed.up && !keysPressed.down): this.direction = directions.right; break;
@@ -80,7 +81,7 @@ export class Soldier {
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (moving ? 8 : 24) : (moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (this.moving ? 8 : 24) : (this.moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
 
         // <render hp bar>
         let soldierPosition = {

@@ -4,7 +4,7 @@
     {"id":1,"x":5,"y":5,"radius":4,"monster":10,"maxSpawn":2,"spawnDelay":0}
 ],
 "objects":[
-    {"x":44,"y":280,"width":32,"height":64,"blockingWidth":32,"blockingHeight":55,"image":"bed","sprite":null, "sequence": 1}
+    {"x":44,"y":280,"width":32,"height":64,"blockingWidth":32,"blockingHeight":55,"image":"bed","sprite":null,"interactive":false,"sequence":1}
 ],
 "gates": [
     {"x":4,"y":1,"goTo":"tavern","entryPoint":{"x":5,"y":3}}
