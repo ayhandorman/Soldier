@@ -88,5 +88,15 @@
         "aggressive": true,
         "image": "dark-lord",
         "sprite": null
+    },
+    {
+        "id": 10,
+        "name": "Rat",
+        "maxHP": 1,
+        "level": 1,
+        "attackSpeed": 1,
+        "aggressive": false,
+        "image": "rat",
+        "sprite": null
     }
 ]
