@@ -120,7 +120,7 @@ const update = () => {
 
     // <new monster spawn>
     for (let spawnPoint of spawnPoints) {
-        if (monsters.filter(x => x.spawnPoint == spawnPoint.id).length < spawnPoint.maxSpawn && Math.floor(Math.random() * 50) == 0) {
+        if (monsters.filter(x => x.spawnPoint == spawnPoint.id).length < spawnPoint.maxSpawn && Math.floor(Math.random() * spawnPoint.spawnDelay) == 0) {
             let monster = new Monster(world);
             let pointToSpawn = {
                 x: spawnPoint.x + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10,
