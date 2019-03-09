@@ -123,8 +123,8 @@ const update = () => {
         if (monsters.filter(x => x.spawnPoint == spawnPoint.id).length < spawnPoint.maxSpawn && Math.floor(Math.random() * spawnPoint.spawnDelay) == 0) {
             let monster = new Monster(world);
             let pointToSpawn = {
-                x: spawnPoint.x + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10,
-                y: spawnPoint.y + Math.ceil(spawnPoint.radius * 2 * Math.random()) - 10
+                x: spawnPoint.x + Math.ceil(spawnPoint.radius * 2 * Math.random()) - spawnPoint.radius,
+                y: spawnPoint.y + Math.ceil(spawnPoint.radius * 2 * Math.random()) - spawnPoint.radius
             }
             if (pointToSpawn.x < 0) {
                 pointToSpawn.x = 0;
