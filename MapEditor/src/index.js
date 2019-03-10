@@ -82,6 +82,11 @@ const update = () => {
 const downloadMap = () => {
     if (!mapData) {
         mapData = {
+            startingPosition: {x: 0, y: 0},
+            npcs: [],
+            spawnPoints: [],
+            objects: [],
+            gates: [],
             tiles: []
         };
     }
