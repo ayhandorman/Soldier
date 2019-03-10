@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 import { World } from './entities/World';
-import config from './config.json';
 
 var world = new World(), 
     canvas, cursorPosition, renderScope, mapData,
@@ -35,6 +34,7 @@ var world = new World(),
         x: 400,
         y: 400
     },
+    brushSize = 1,
     currentButton = 3,
     keysPressed = {
         left: false,
@@ -80,6 +80,11 @@ const update = () => {
 }
 
 const downloadMap = () => {
+    if (!mapData) {
+        mapData = {
+            tiles: []
+        };
+    }
     mapData.tiles = world.tiles;
     document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + JSON.stringify(mapData));
 }
@@ -96,6 +101,7 @@ window.onload = () => {
     setCanvasSize();
     // </init canvas>
 
+    // <load map functionality>
     var fileSelect = document.querySelector("[type='file']");
     fileSelect.onchange = (e) => {
         var reader = new FileReader();
@@ -106,6 +112,14 @@ window.onload = () => {
         };
         reader.readAsText(e.target.files[0]);
     }
+    // </load map functionality>
+
+    // <change brush size functionality>
+    var brushSizeSelect = document.querySelector("select");
+    brushSizeSelect.onchange = (e) => {
+        brushSize = parseInt(e.target.value);
+    }
+    // </change brush size functionality>
 
     // <attach listeners>
     document.onkeydown = (e) => {
@@ -148,7 +162,15 @@ window.onload = () => {
             y: parseInt((position.y - (screen.height / 2) + e.clientY) / world.tileWidth)
         };
         if (currentButton == 0) {
-            world.setTile(cursorPosition);
+            //world.setTile(cursorPosition);
+            let halfSize = Math.floor(brushSize / 2);
+            for (let i = cursorPosition.x - halfSize; i <= cursorPosition.x + halfSize; i++) {
+                for (let j = cursorPosition.y - halfSize; j <= cursorPosition.y + halfSize; j++) {
+                    if (i >= 0 && i <= world.size && j >= 0 && j <= world.size) {
+                        world.setTile({x: i, y: j});
+                    }
+                }    
+            }
         }
     }
 
@@ -156,7 +178,15 @@ window.onload = () => {
         currentButton = e.button;
 
         if (currentButton == 0) {
-            world.setTile(cursorPosition);
+            //world.setTile(cursorPosition);
+            let halfSize = Math.floor(brushSize / 2);
+            for (let i = cursorPosition.x - halfSize; i <= cursorPosition.x + halfSize; i++) {
+                for (let j = cursorPosition.y - halfSize; j <= cursorPosition.y + halfSize; j++) {
+                    if (i >= 0 && i <= world.size && j >= 0 && j <= world.size) {
+                        world.setTile({x: i, y: j});
+                    }
+                }    
+            }
         }
     }
 
