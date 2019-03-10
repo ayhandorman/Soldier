@@ -26,7 +26,7 @@ import { World } from './entities/World';
 import config from './config.json';
 
 var world = new World(), 
-    canvas, cursorPosition, renderScope,
+    canvas, cursorPosition, renderScope, mapData,
     screen = {
         width: 0,
         height: 0
@@ -80,7 +80,8 @@ const update = () => {
 }
 
 const downloadMap = () => {
-    document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + JSON.stringify(world.tiles));
+    mapData.tiles = world.tiles;
+    document.querySelector("[download]").setAttribute("href", "data:text/json;charset=utf-8," + JSON.stringify(mapData));
 }
 
 document.oncontextmenu = (e) => e.preventDefault();
@@ -94,6 +95,17 @@ window.onload = () => {
     world.context = canvas.getContext("2d");
     setCanvasSize();
     // </init canvas>
+
+    var fileSelect = document.querySelector("[type='file']");
+    fileSelect.onchange = (e) => {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            mapData = JSON.parse(e.target.result);
+            world.size = mapData.tiles[0].length - 1;
+            world.tiles = mapData.tiles;
+        };
+        reader.readAsText(e.target.files[0]);
+    }
 
     // <attach listeners>
     document.onkeydown = (e) => {
