@@ -5,7 +5,7 @@ export class World {
     constructor() {
         this.size = 0;
         this.tileWidth = 40;
-        this.tileTypes = 112;
+        this.tileTypes = 113;
         this.directions = {
             down: 0,
             downLeft: 1,
