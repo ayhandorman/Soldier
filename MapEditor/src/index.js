@@ -73,7 +73,7 @@ const update = () => {
     if (cursorPosition) {
         world.context.font = "18px Arial";        
         world.context.textAlign = "left"; 
-        world.context.fillStyle = "rgba(0,0,0,.3)";
+        world.context.fillStyle = "white";
         world.context.fillText(`${cursorPosition.x}, ${cursorPosition.y}`, 10, 25);
     }
     // </display coords>
