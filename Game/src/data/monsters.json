@@ -82,9 +82,9 @@
     {
         "id": 9,
         "name": "Dark Lord",
-        "maxHP": 950,
-        "level": 18,
-        "attackSpeed": 15,
+        "maxHP": 1000,
+        "level": 22,
+        "attackSpeed": 16,
         "aggressive": true,
         "image": "dark-lord",
         "sprite": null
