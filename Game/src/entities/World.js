@@ -5,7 +5,7 @@ export class World {
     constructor() {
         this.size = 0;
         this.tileWidth = 40;
-        this.tileTypes = 123;
+        this.tileTypes = 124;
         this.directions = {
             down: 0,
             downLeft: 1,
@@ -20,7 +20,7 @@ export class World {
                                 1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 
                                 31, 34, 35, 36, 38, 39, 40, 41, 45, 46, 47, 48, 49, 52, 53, 54, 
                                 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 70, 71, 
-                                99, 100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 113
+                                99, 100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 113, 123
                             ];
         this.images = new Array(this.tileTypes);
         this.tiles = [];
@@ -47,7 +47,8 @@ export class World {
                 let currentTile = parseInt(mapData.tiles[i][j]);
                 this.tiles[i][j] = {
                     type: currentTile,
-                    blocking: this.blockingTypes.includes(currentTile)
+                    blocking: this.blockingTypes.includes(currentTile),
+                    counter: 0
                 };
             }
         }
@@ -74,7 +75,12 @@ export class World {
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
             for (let y = renderScope.y1; y <= renderScope.y2; y++) {
-                this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
+                if (this.tiles[x][y].type == 123) {
+                    this.tiles[x][y].counter = (this.tiles[x][y].counter + .15) % 10;
+                    this.context.drawImage(this.images[this.tiles[x][y].type], Math.floor(this.tiles[x][y].counter) * this.tileWidth, 0, this.tileWidth, this.tileWidth, x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
+                } else {
+                    this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
+                }
             }
         }
     }
