@@ -4,7 +4,7 @@ export class World {
     
     constructor() {
         this.size = 0;
-        this.tileWidth = 40;
+        this.tileWidth = 30;
         this.tileTypes = 124;
         this.selectedTileType = 1;
         this.images = new Array(this.tileTypes);
@@ -50,7 +50,7 @@ export class World {
         this.context.fillRect(0, 0, screen.width, screen.height);
         for (let x = renderScope.x1; x <= renderScope.x2; x++) {
             for (let y = renderScope.y1; y <= renderScope.y2; y++) {
-                this.context.drawImage(this.images[this.tiles[x][y]], x * this.tileWidth - position.x + screen.width / 2, y * this.tileWidth - position.y + screen.height / 2, this.tileWidth, this.tileWidth);
+                this.context.drawImage(this.images[this.tiles[x][y]], 0, 0, this.tileWidth, this.tileWidth, x * this.tileWidth - position.x + screen.width / 2, y * this.tileWidth - position.y + screen.height / 2, this.tileWidth, this.tileWidth);
             }
         }
     }
