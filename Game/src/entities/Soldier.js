@@ -70,7 +70,7 @@ export class Soldier {
         // <hp recovery>
         this.hpTick = (this.hpTick + 1) % 50;
         if (this.hpTick == 0 && this.damageList.length == 0 && this.hp < this.maxHP) {
-            this.hp+=this.hpRecovery;
+            this.hp += this.hpRecovery;
         }
         // <hp recovery>
 
