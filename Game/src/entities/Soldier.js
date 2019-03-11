@@ -31,6 +31,10 @@ export class Soldier {
     }
     
     render = (screen, a, b, keysPressed) => {
+        let origin = {
+            x: Math.floor(screen.width / 2),
+            y: Math.floor(screen.height / 2)
+        }
         this.moving = false;
         if (keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down) {
             let directions = this.world.directions;
@@ -76,17 +80,17 @@ export class Soldier {
         context.shadowColor = "black";
         context.fillStyle = "rgba(0,0,0,.3)";
         context.beginPath();
-        context.ellipse(screen.width / 2 + 20, screen.height / 2 + 12, 12, 6, 0, 0, 2 * Math.PI);
+        context.ellipse(origin.x + 20, origin.y + 12, 12, 6, 0, 0, 2 * Math.PI);
         context.fill();
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (this.moving ? 8 : 24) : (this.moving ? 0 : 16))) * 64, 64, 64, screen.width / 2 - 12, screen.height / 2 - 42, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (this.moving ? 8 : 24) : (this.moving ? 0 : 16))) * 64, 64, 64, origin.x - 12, origin.y - 42, 64, 64);
 
         // <render hp bar>
         let soldierPosition = {
-            x: screen.width / 2,
-            y: screen.height / 2
+            x: origin.x,
+            y: origin.y
         }
         context.lineWidth = 0.8;
         context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 50, 52, 7);
@@ -101,8 +105,8 @@ export class Soldier {
         if (this.damageList.length > 0) {
             let _damageList = Object.assign([], this.damageList);
             let damageStartPosition = {
-                x: screen.width / 2 + 20,
-                y: screen.height / 2 - 90
+                x: origin.x + 20,
+                y: origin.y - 90
             }
             context.fillStyle = "red";
             context.textAlign = "center"; 
