@@ -29,12 +29,8 @@ export class Soldier {
                 world.tiles[Math.round(x / world.tileWidth)][Math.round(y / world.tileWidth)].blocking ||
                 world.objects.filter(o => x > o.x + (o.width - o.blockingWidth) / 2 - 20 && x < o.x + o.blockingWidth + (o.width - o.blockingWidth) / 2 - 10 && y > o.y - o.blockingHeight + 15 && y < o.y + 20).length > 0;
     }
-    
-    render = (screen, a, b, keysPressed) => {
-        let origin = {
-            x: Math.floor(screen.width / 2),
-            y: Math.floor(screen.height / 2)
-        }
+
+    update = (keysPressed) => {
         this.moving = false;
         if (keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down) {
             let directions = this.world.directions;
@@ -73,6 +69,13 @@ export class Soldier {
             this.hp += this.hpRecovery;
         }
         // <hp recovery>
+    }
+    
+    render = (screen, a, b, keysPressed) => {
+        let origin = {
+            x: Math.floor(screen.width / 2),
+            y: Math.floor(screen.height / 2)
+        }
 
         let context = this.world.context;
         // <render shadow>

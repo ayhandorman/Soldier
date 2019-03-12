@@ -269,6 +269,8 @@ const update = () => {
     soldier.showCoordinates();
     // </display stats>
 
+    soldier.update(keysPressed);
+
     if (touchStartPosition && touchStartPosition.status) {
         ctx.drawImage(arrows, touchStartPosition.x, touchStartPosition.y);
     }
