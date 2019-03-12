@@ -1,4 +1,8 @@
-{"name": "Underworld","startingPosition":{"x":30,"y":14},"npcs":[],"spawnPoints":[{"id":1,"x":60,"y":48,"radius":14,"monster":9,"maxSpawn":10,"spawnDelay":30}],
+{"name": "Underworld","startingPosition":{"x":30,"y":14},"npcs":[],
+"spawnPoints":[
+    {"id":1,"x":60,"y":48,"radius":14,"monster":9,"maxSpawn":10,"spawnDelay":30},
+    {"id":1,"x":43,"y":63,"radius":6,"monster":12,"maxSpawn":4,"spawnDelay":40}
+],
 "objects":[
     {"x":1080,"y":2800,"width":26,"height":26,"blockingWidth":-10,"blockingHeight":-10,"image":"portal","sprite":null,"sequence":1},
     {"x":2400,"y":3200,"width":26,"height":26,"blockingWidth":-10,"blockingHeight":-10,"image":"portal","sprite":null,"sequence":1}

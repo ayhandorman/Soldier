@@ -102,11 +102,21 @@
     {
         "id": 11,
         "name": "Tiger",
-        "maxHP": 1200,
-        "level": 26,
-        "attackSpeed": 20,
+        "maxHP": 1400,
+        "level": 30,
+        "attackSpeed": 22,
         "aggressive": true,
         "image": "tiger",
+        "sprite": null
+    },
+    {
+        "id": 12,
+        "name": "Reaper",
+        "maxHP": 1200,
+        "level": 25,
+        "attackSpeed": 18,
+        "aggressive": true,
+        "image": "reaper",
         "sprite": null
     }
 ]
