@@ -1,4 +1,4 @@
-{
+{"name": "The Jungle",
     "startingPosition":{"x":3,"y":3},
     "npcs":[
         {"name":"Purr","x":560,"y":120,"image":"purr","sprite":null,"sequence":5,"shadow":{"x":40,"y":14},"quests":[10]}

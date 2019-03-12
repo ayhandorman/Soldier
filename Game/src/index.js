@@ -96,7 +96,7 @@ const loadMap = (mapName, entryPoint) => {
         spawnNPCs(mapData.npcs);
         spawnSoldier(entryPoint || mapData.startingPosition);
         loading = false;
-    });    
+    });
 }
 
 const update = () => {
@@ -268,6 +268,15 @@ const update = () => {
     world.showMonsterCount(monsters.length);
     soldier.showCoordinates();
     // </display stats>
+
+    // <display map name>
+    if (world.nameCounter > 0) {
+        ctx.font = "bold 54px Laila";
+        ctx.textAlign = "center"; 
+        ctx.fillStyle = "rgba(255,255,255,.8)";
+        ctx.fillText(world.name, screen.width / 2 + 20, screen.height / 3);
+    }
+    // </display map name>
 
     soldier.update(keysPressed);
 

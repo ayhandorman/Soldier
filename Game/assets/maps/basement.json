@@ -1,4 +1,6 @@
-{"startingPosition":{"x":3,"y":2},
+{
+"name": "Basement",
+"startingPosition":{"x":3,"y":2},
 "npcs":[],
 "spawnPoints":[
     {"id":1,"x":5,"y":5,"radius":4,"monster":10,"maxSpawn":2,"spawnDelay":0}

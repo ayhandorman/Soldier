@@ -26,6 +26,8 @@ export class World {
         this.tiles = [];
         this.gates = [];
         this.objects = [];
+        this.nameCounter = 0;
+        this.name = "";
         this.fps = 0;
         this.fpsCounter = 0;
         this.lastRender = new Date();
@@ -61,6 +63,8 @@ export class World {
             object.render = (screen, renderScope, soldier) => this.renderObject(object, screen, renderScope, soldier);
         }
         this.loadTiles();
+        this.nameCounter = 240;
+        this.name = mapData.name;
     }
 
     renderObject = (object, screen, renderScope, soldier) => {
@@ -82,6 +86,9 @@ export class World {
                     this.context.drawImage(this.images[this.tiles[x][y].type], x * this.tileWidth - soldier.x + screen.width / 2, y * this.tileWidth - soldier.y + screen.height / 2, this.tileWidth, this.tileWidth);
                 }
             }
+        }
+        if (this.nameCounter > 0) {
+            --this.nameCounter;
         }
     }
 
