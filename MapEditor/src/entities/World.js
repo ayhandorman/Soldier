@@ -9,6 +9,7 @@ export class World {
         this.selectedTileType = 1;
         this.images = new Array(this.tileTypes);
         this.tiles = new Array(this.size);
+        this.objects = [];
     }
 
     generateMap = (size) => {
