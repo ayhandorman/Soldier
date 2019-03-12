@@ -70,5 +70,13 @@
         "exp": 650,
         "monster": 9,
         "slainCount": 20
+    },
+    {
+        "id": 10,
+        "title": "Jungle Book",
+        "log": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat.</p> <p>Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel fringilla nibh. Curabitur congue semper consequat. Vivamus sagittis ipsum sit amet metus semper convallis. Maecenas tempor mauris tempus laoreet pharetra. Sed dignissim augue ante, quis tincidunt leo finibus a. Sed maximus urna ac nunc dictum tincidunt. Pellentesque varius fermentum erat, ut posuere magna imperdiet ut. Maecenas a semper nibh, sed ultricies nulla. In orci enim, faucibus sit amet nunc eget, porta pharetra ligula. Donec ullamcorper neque leo, quis accumsan sem molestie at. Sed vel congue mi.</p>",
+        "exp": 1300,
+        "monster": 11,
+        "slainCount": 10
     }
 ]
