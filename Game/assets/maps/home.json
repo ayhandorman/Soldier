@@ -1,4 +1,6 @@
-{"startingPosition":{"x":73,"y":111},"npcs":[{"name":"Wizzy","x":3200,"y":4480,"image":"wizard","sprite":null,"sequence":5,"shadow":{"x":47,"y":19},"quests":[0,1,2]},{"name":"Robosaur","x":5260,"y":4700,"image":"robozor","sprite":null,"sequence":9,"shadow":{"x":40,"y":12},"quests":[3,4,5]}],
+{"startingPosition":{"x":73,"y":111},"npcs":[
+    {"name":"Wizzy","x":3200,"y":4480,"image":"wizard","sprite":null,"sequence":5,"shadow":{"x":47,"y":19},"quests":[0,1,2]},{"name":"Robosaur","x":5260,"y":4700,"image":"robozor","sprite":null,"sequence":9,"shadow":{"x":40,"y":12},"quests":[3,4,5]}
+],
 "spawnPoints":[
     {"id":1,"x":101,"y":100,"radius":10,"monster":1,"maxSpawn":5,"spawnDelay":50},
     {"id":2,"x":85,"y":138,"radius":8,"monster":1,"maxSpawn":8,"spawnDelay":50},
