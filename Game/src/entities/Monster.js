@@ -84,7 +84,7 @@ export class Monster {
                 context.font = "14px Arial";
                 context.textAlign = "center"; 
                 context.fillStyle = this.aggressive ? "#ad1414" : "#f4c842";
-                context.fillText(`${this.name} (${this.level - soldier.level >= 5 ? '💀' : this.level})`, monsterPosition.x + 20, monsterPosition.y - 20);
+                context.fillText(`${this.name} (${this.level - soldier.level >= 5 ? '?' : this.level})`, monsterPosition.x + 20, monsterPosition.y - 20);
                 context.lineWidth = 0.8;
                 context.strokeRect(monsterPosition.x - 4, monsterPosition.y - 40, 48, 8);
                 context.fillStyle = "red";
