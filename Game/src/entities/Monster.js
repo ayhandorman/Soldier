@@ -29,8 +29,7 @@ export class Monster {
                 x: parseInt(soldier.x / world.tileWidth),
                 y: parseInt(soldier.y / world.tileWidth)
             }
-        }
-        if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
+        } else if (this.x == this.target.x * world.tileWidth && this.y == this.target.y * world.tileWidth) {
             let availableDirections = [];
             if (this.x / world.tileWidth > 0 && !world.tiles[this.x / world.tileWidth - 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.left);
             if (this.x / world.tileWidth < world.size && !world.tiles[this.x / world.tileWidth + 1][this.y / world.tileWidth].blocking) availableDirections.push(world.directions.right);
@@ -43,17 +42,16 @@ export class Monster {
                 case world.directions.up: this.target.y--; break;
                 case world.directions.down: this.target.y++; break;
             }
-        } else {
-            this.counter = (this.counter + 1) % 30;
-            
-            if (this.x != this.target.x * world.tileWidth) {
-                this.x += this.x < this.target.x * world.tileWidth && !world.tiles[Math.round((this.x + 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? 1 : 0;
-                this.x += this.x > this.target.x * world.tileWidth && !world.tiles[Math.round((this.x - 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? -1 : 0;
-            }
-            if (this.y != this.target.y * world.tileWidth) {
-                this.y += this.y < this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y + 1) / world.tileWidth)].blocking ? 1 : 0;
-                this.y += this.y > this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y - 1) / world.tileWidth)].blocking ? -1 : 0;
-            }
+        }
+        this.counter = (this.counter + 1) % 30;
+        
+        if (this.x != this.target.x * world.tileWidth) {
+            this.x += this.x < this.target.x * world.tileWidth && !world.tiles[Math.round((this.x + 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? 1 : 0;
+            this.x += this.x > this.target.x * world.tileWidth && !world.tiles[Math.round((this.x - 1) / world.tileWidth)][Math.round(this.y / world.tileWidth)].blocking ? -1 : 0;
+        }
+        if (this.y != this.target.y * world.tileWidth) {
+            this.y += this.y < this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y + 1) / world.tileWidth)].blocking ? 1 : 0;
+            this.y += this.y > this.target.y * world.tileWidth && !world.tiles[Math.round(this.x / world.tileWidth)][Math.round((this.y - 1) / world.tileWidth)].blocking ? -1 : 0;
         }
         this.attackCounter = (this.attackCounter + 1) % (30 - this.attackSpeed);
         if (Math.abs(this.x - soldier.x) < world.tileWidth + 10 && Math.abs(this.y - soldier.y) < world.tileWidth + 10 && (this.hp < this.maxHP || this.aggressive) && this.attackCounter == 0 && this.hp > 0) {
