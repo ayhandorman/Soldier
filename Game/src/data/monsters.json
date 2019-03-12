@@ -98,5 +98,15 @@
         "aggressive": false,
         "image": "rat",
         "sprite": null
+    },
+    {
+        "id": 11,
+        "name": "Tiger",
+        "maxHP": 1200,
+        "level": 26,
+        "attackSpeed": 20,
+        "aggressive": true,
+        "image": "tiger",
+        "sprite": null
     }
 ]
