@@ -161,6 +161,10 @@ export class Soldier {
     }    
 
     showCoordinates = () => {
+        this.world.context.fillStyle = "rgba(0,0,0,.6)";
+        this.world.context.fillText(`Coords: ${Math.floor(this.x / this.world.tileWidth)}, ${Math.floor(this.y / this.world.tileWidth)}`, 11, 151);
+        this.world.context.fillText(`${this.x}, ${this.y}`, 79, 173);
+        this.world.context.fillStyle = "rgba(255,255,255,.6)";
         this.world.context.fillText(`Coords: ${Math.floor(this.x / this.world.tileWidth)}, ${Math.floor(this.y / this.world.tileWidth)}`, 10, 150);
         this.world.context.fillText(`${this.x}, ${this.y}`, 78, 172);
     }

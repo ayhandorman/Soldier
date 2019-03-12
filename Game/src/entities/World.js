@@ -95,11 +95,16 @@ export class World {
         }
         this.context.font = "18px Arial";        
         this.context.textAlign = "left"; 
-        this.context.fillStyle = "rgba(255,255,255,.4)";
+        this.context.fillStyle = "rgba(0,0,0,.6)";
+        this.context.fillText("FPS: " + this.fps, 11, 111);
+        this.context.fillStyle = "rgba(255,255,255,.6)";
         this.context.fillText("FPS: " + this.fps, 10, 110);
     }
 
     showMonsterCount = (count) => {
+        this.context.fillStyle = "rgba(0,0,0,.6)";
+        this.context.fillText("Monsters: " + count, 11, 131);
+        this.context.fillStyle = "rgba(255,255,255,.6)";
         this.context.fillText("Monsters: " + count, 10, 130);
     }
 }
