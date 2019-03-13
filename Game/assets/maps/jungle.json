@@ -1,12 +1,12 @@
 {"name": "The Jungle",
     "startingPosition":{"x":3,"y":3},
     "npcs":[
-        {"name":"Purr","x":560,"y":120,"image":"purr","sprite":null,"sequence":5,"shadow":{"x":40,"y":14},"quests":[10]}
+        {"name":"Purr","x":560,"y":120,"image":"purr","sprite":null,"sequence":5,"shadow":{"x":40,"y":14},"quests":[10,12]}
     ],
     "spawnPoints":[
         {"id":1,"x":42,"y":10,"radius":10,"monster":11,"maxSpawn":8,"spawnDelay":100},
         {"id":2,"x":15,"y":28,"radius":12,"monster":11,"maxSpawn":10,"spawnDelay":100},
-        {"id":3,"x":40,"y":48,"radius":15,"monster":11,"maxSpawn":12,"spawnDelay":100}
+        {"id":3,"x":48,"y":37,"radius":10,"monster":14,"maxSpawn":5,"spawnDelay":100}
     ],
     "objects":[
         {"x":400,"y":320,"width":130,"height":130,"blockingWidth":45,"blockingHeight":35,"image":"tree","sprite":null,"sequence":1},

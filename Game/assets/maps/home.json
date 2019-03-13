@@ -24,7 +24,8 @@
     {"id":20,"x":20,"y":15,"radius":10,"monster":8,"maxSpawn":5,"spawnDelay":50},
     {"id":21,"x":80,"y":140,"radius":8,"monster":2,"maxSpawn":4,"spawnDelay":50},
     {"id":22,"x":110,"y":190,"radius":10,"monster":9,"maxSpawn":3,"spawnDelay":50},    
-    {"id":23,"x":11,"y":9,"radius":12,"monster":8,"maxSpawn":30,"spawnDelay":5}
+    {"id":23,"x":11,"y":9,"radius":12,"monster":8,"maxSpawn":30,"spawnDelay":5},    
+    {"id":24,"x":79,"y":116,"radius":1,"monster":13,"maxSpawn":1,"spawnDelay":120}
     ],
     "objects":[
         {"x":3200,"y":3800,"width":76,"height":44,"blockingWidth":76,"blockingHeight":40,"image":"boat","sprite":null,"sequence":1},
