@@ -93,12 +93,12 @@ export class Soldier {
         context.shadowColor = "black";
         context.fillStyle = "rgba(0,0,0,.3)";
         context.beginPath();
-        context.ellipse(origin.x + 20, origin.y + 12, 12 - levitation / 6, 6 - levitation / 10, 0, 0, 2 * Math.PI);
+        context.ellipse(origin.x + 20, origin.y + 22, 12 - levitation / 6, 6 - levitation / 10, 0, 0, 2 * Math.PI);
         context.fill();
         context.shadowBlur = 0;
         // </render shadow>
 
-        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (this.moving ? 8 : 24) : (this.moving ? 0 : 16))) * 64, 64, 64, origin.x - 12, origin.y - 42 - levitation, 64, 64);
+        context.drawImage(this.sprite, Math.floor(this.counter / 8) * 64, (this.direction + (keysPressed.attack ? (this.moving ? 8 : 24) : (this.moving ? 0 : 16))) * 64, 64, 64, origin.x - 12, origin.y - 32 - levitation, 64, 64);
 
         // <render hp bar>
         let soldierPosition = {
@@ -106,13 +106,13 @@ export class Soldier {
             y: origin.y
         }
         context.lineWidth = 0.8;
-        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 50 - levitation, 52, 7);
+        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 40 - levitation, 52, 7);
         context.fillStyle = "lightgreen";
-        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 49 - levitation, 50 / this.maxHP * this.hp, 5);
+        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 39 - levitation, 50 / this.maxHP * this.hp, 5);
         context.font = "8px Arial";
         context.fillStyle = "white";
         context.textAlign = "center";
-        context.fillText(this.hp, soldierPosition.x + 16, soldierPosition.y - 44 - levitation);
+        context.fillText(this.hp, soldierPosition.x + 16, soldierPosition.y - 34 - levitation);
         // </render hp bar>
 
         if (this.damageList.length > 0) {
