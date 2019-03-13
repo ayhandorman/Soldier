@@ -118,5 +118,25 @@
         "aggressive": true,
         "image": "reaper",
         "sprite": null
+    },
+    {
+        "id": 13,
+        "name": "Puppy",
+        "maxHP": 1,
+        "level": 1,
+        "attackSpeed": 1,
+        "aggressive": false,
+        "image": "puppy",
+        "sprite": null
+    },
+    {
+        "id": 14,
+        "name": "Bear",
+        "maxHP": 1600,
+        "level": 35,
+        "attackSpeed": 24,
+        "aggressive": false,
+        "image": "bear",
+        "sprite": null
     }
 ]
