@@ -353,6 +353,7 @@ window.onload = () => {
             case "d": keysPressed.right = true; break;
             case "s": keysPressed.down = true; break;
             case "e": keysPressed.attack = true; break;
+            case " ": soldier.jumpCounter =  soldier.jumpCounter == 0 ? 30 : soldier.jumpCounter; break;
         }
     }
 
