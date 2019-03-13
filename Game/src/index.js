@@ -273,7 +273,7 @@ const update = () => {
     if (world.nameCounter > 0) {
         ctx.font = "bold 54px Laila";
         ctx.textAlign = "center"; 
-        ctx.fillStyle = "rgba(255,255,255,.8)";
+        ctx.fillStyle = `rgba(255,255,255,.${world.nameCounter <= 40 ? Math.round(world.nameCounter * .2) : 8})`;
         ctx.fillText(world.name, screen.width / 2 + 20, screen.height / 3);
     }
     // </display map name>
