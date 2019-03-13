@@ -28,7 +28,7 @@ import questList from './data/quests.json';
 import monsterTypes from './data/monsters.json';
 
 var world = new World(), 
-    canvas, hud, arrows, attackButton, cursorPosition, touchStartPosition, soldier, renderScope,
+    canvas, hud, arrows, attackButton, cursorPosition, touchStartPosition, soldier, renderScope, currentMap,
     screen = {
         width: 0,
         height: 0
@@ -96,10 +96,18 @@ const loadMap = (mapName, entryPoint) => {
         spawnNPCs(mapData.npcs);
         spawnSoldier(entryPoint || mapData.startingPosition);
         loading = false;
+        currentMap = mapName;
     });
 }
 
 const update = () => {
+
+    // <death with penalty>
+    if (soldier.hp <= 0) {
+        soldier.die();
+        loadMap(currentMap);
+    }
+    // </death with penalty>
 
     // <load next map once stepped on a gate>
     world.gates.filter(gate => gate.x == Math.floor(soldier.x / world.tileWidth) && gate.y == Math.floor(soldier.y / world.tileWidth)).map(gate => {

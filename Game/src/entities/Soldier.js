@@ -153,22 +153,20 @@ export class Soldier {
             this.hp -= amount;
             this.hp = this.hp < 0 ? 0 : this.hp;
             this.damageList.push({amount, counter: 22});
-        } else {
-            // <death with xp penalty>
-            this.exp -= 100;
-            if (this.exp < 0) {
-                this.exp = 0;
-            }
-            this.level = this.exp == 0 ? 1 : Math.ceil((Math.sqrt(this.exp / 100)));
-            this.ap = Math.pow(this.level, 2) * 1.5 + 5;
-            this.maxHP = 200 + (this.level - 1) * 10;
-            this.hp = this.maxHP;
-            this.x = (this.world.size * this.world.tileWidth) / 2;
-            this.y = (this.world.size * this.world.tileWidth) / 2;            
-            this.direction = this.world.directions.downRight;
-            // </death with xp penalty>
         }
-    }    
+    }
+
+    die = () => {
+        this.exp -= 100;
+        if (this.exp < 0) {
+            this.exp = 0;
+        }
+        this.level = this.exp == 0 ? 1 : Math.ceil((Math.sqrt(this.exp / 100)));
+        this.ap = Math.pow(this.level, 2) * 1.5 + 5;
+        this.maxHP = 200 + (this.level - 1) * 10;
+        this.hp = this.maxHP;
+        this.direction = this.world.directions.downRight;
+    }
 
     showCoordinates = () => {
         this.world.context.fillStyle = "rgba(0,0,0,.6)";
