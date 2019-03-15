@@ -47,6 +47,7 @@ var world = new World(),
         right: false,
         down: false,
         attack: false,
+        sprint: false,
         jump: false
     };
 
@@ -362,6 +363,7 @@ window.onload = () => {
             case 68: keysPressed.right = true; break;
             case 83: keysPressed.down = true; break;
             case 69: keysPressed.attack = true; break;
+            case 16: keysPressed.sprint = true; break;
             case 32: !keysPressed.jump && soldier.jump(50);
         }
     }
@@ -373,6 +375,7 @@ window.onload = () => {
             case 68: keysPressed.right = false; break;
             case 83: keysPressed.down = false; break;
             case 69: keysPressed.attack = false; break;
+            case 16: keysPressed.sprint = false; break;
             case 32: keysPressed.jump = false; break;
             case 192: 
                 let input = prompt("Please enter command (e.g. movementSpeed=10, hpRecovery=10, ap=50, maxHP=500, hp=500):", "ap=5");

@@ -24,7 +24,7 @@ export class Soldier {
         this.moving = false;
         this.jumpAltitude = 0;
         this.jumpCounter = 0;
-        this.staminaCounter = 200;
+        this.staminaCounter = 100;
     }
 
     checkTile = (x, y) => {
@@ -36,6 +36,16 @@ export class Soldier {
 
     update = (keysPressed) => {
         this.moving = false;
+        let stepLength = this.movementSpeed;
+
+        if (keysPressed.sprint && this.staminaCounter > 0) {
+            --this.staminaCounter;
+            stepLength = stepLength << 1;
+        } else if (this.staminaCounter < this.stamina) {
+            keysPressed.sprint = false;
+            this.staminaCounter += .2;
+        }
+
         if (keysPressed.left || keysPressed.up || keysPressed.right || keysPressed.down) {
             let directions = this.world.directions;
             this.moving = true;
@@ -49,13 +59,6 @@ export class Soldier {
                 case (keysPressed.down && keysPressed.left): this.direction = directions.downLeft; break;
                 case (keysPressed.up && keysPressed.right): this.direction = directions.upRight; break;
                 case (keysPressed.up && keysPressed.left): this.direction = directions.upLeft; break;
-            }
-
-            let stepLength = this.movementSpeed;
-
-            if (keysPressed.sprint) {
-                --this.staminaCounter;
-                stepLength = stepLength << 1;
             }
 
             if (keysPressed.right && !this.checkTile(this.x + stepLength, this.y)) {
@@ -122,14 +125,21 @@ export class Soldier {
             y: origin.y
         }
         context.lineWidth = 0.8;
-        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 40 - levitation, 52, 7);
+        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 42 - levitation, 52, 7);
         context.fillStyle = "lightgreen";
-        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 39 - levitation, 50 / this.maxHP * this.hp, 5);
+        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 41 - levitation, 50 / this.maxHP * this.hp, 5);
         context.font = "8px Arial";
         context.fillStyle = "white";
         context.textAlign = "center";
-        context.fillText(this.hp, soldierPosition.x + 16, soldierPosition.y - 34 - levitation);
+        context.fillText(this.hp, soldierPosition.x + 16, soldierPosition.y - 36 - levitation);
         // </render hp bar>
+
+        // <render stamina bar>
+        context.fillStyle = "black";
+        context.strokeRect(soldierPosition.x - 8, soldierPosition.y - 35 - levitation, 52, 5);
+        context.fillStyle = "cyan";
+        context.fillRect(soldierPosition.x - 7, soldierPosition.y - 34 - levitation, 50 / this.stamina * this.staminaCounter, 3);
+        // </render stamina bar>
 
         if (this.damageList.length > 0) {
             let _damageList = Object.assign([], this.damageList);
