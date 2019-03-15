@@ -364,7 +364,12 @@ window.onload = () => {
             case 83: keysPressed.down = true; break;
             case 69: keysPressed.attack = true; break;
             case 16: keysPressed.sprint = true; break;
-            case 32: !keysPressed.jump && soldier.jump(50);
+            case 32: 
+                if (!keysPressed.jump) {
+                    keysPressed.jump = true; 
+                    soldier.jump(); 
+                }
+            break;
         }
     }
 

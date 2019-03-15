@@ -22,7 +22,7 @@ export class Soldier {
         this.movementSpeed = 2;
         this.hpRecovery = 1;
         this.moving = false;
-        this.jumpAltitude = 0;
+        this.jumpAltitude = 30;
         this.jumpCounter = 0;
         this.staminaCounter = 100;
     }
@@ -88,9 +88,8 @@ export class Soldier {
         // <hp recovery>
     }
 
-    jump = (altitude) => {
-        this.jumpAltitude = altitude;
-        this.jumpCounter = altitude;
+    jump = () => {
+        this.jumpCounter == 0 && (this.jumpCounter = this.jumpAltitude);
     }
     
     render = (screen, a, b, keysPressed) => {
