@@ -22,6 +22,7 @@ export class Soldier {
         this.movementSpeed = 2;
         this.hpRecovery = 1;
         this.moving = false;
+        this.jumpAltitude = 0;
         this.jumpCounter = 0;
         this.staminaCounter = 200;
     }
@@ -83,6 +84,11 @@ export class Soldier {
         }
         // <hp recovery>
     }
+
+    jump = (altitude) => {
+        this.jumpAltitude = altitude;
+        this.jumpCounter = altitude;
+    }
     
     render = (screen, a, b, keysPressed) => {
         let origin = {
@@ -92,7 +98,8 @@ export class Soldier {
 
         let levitation = 0;
         if (this.jumpCounter >= 0) {
-            levitation = (this.jumpCounter - 15 > 0 ? 15 - (this.jumpCounter - 15) : 15 + this.jumpCounter - 15) * 4;
+            let halfWay = parseInt(this.jumpAltitude / 2);
+            levitation = (this.jumpCounter - halfWay > 0 ? halfWay - (this.jumpCounter - halfWay) : this.jumpAltitude / 2 + this.jumpCounter - halfWay) * 4;
         }
 
         let context = this.world.context;
@@ -102,7 +109,7 @@ export class Soldier {
         context.shadowColor = "black";
         context.fillStyle = "rgba(0,0,0,.3)";
         context.beginPath();
-        context.ellipse(origin.x + 20, origin.y + 22, 12 - levitation / 6, 6 - levitation / 10, 0, 0, 2 * Math.PI);
+        context.ellipse(origin.x + 20, origin.y + 22, Math.max(1, 12 - levitation / 10), Math.max(1, 6 - levitation / 15), 0, 0, 2 * Math.PI);
         context.fill();
         context.shadowBlur = 0;
         // </render shadow>
