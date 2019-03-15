@@ -12,6 +12,7 @@ export class Soldier {
         this.exp = 0;
         this.level = 1;
         this.ap = 6.5;
+        this.stamina = 100;
         this.direction = world.directions.downRight;
         this.damageList = [];
         this.questList = [];
@@ -22,6 +23,7 @@ export class Soldier {
         this.hpRecovery = 1;
         this.moving = false;
         this.jumpCounter = 0;
+        this.staminaCounter = 200;
     }
 
     checkTile = (x, y) => {
@@ -48,17 +50,24 @@ export class Soldier {
                 case (keysPressed.up && keysPressed.left): this.direction = directions.upLeft; break;
             }
 
-            if (keysPressed.right && !this.checkTile(this.x + this.movementSpeed, this.y)) {
-                this.x += this.movementSpeed;
+            let stepLength = this.movementSpeed;
+
+            if (keysPressed.sprint) {
+                --this.staminaCounter;
+                stepLength = stepLength << 1;
             }
-            if (keysPressed.left && !this.checkTile(this.x - this.movementSpeed, this.y)) {
-                this.x -= this.movementSpeed;
+
+            if (keysPressed.right && !this.checkTile(this.x + stepLength, this.y)) {
+                this.x += stepLength;
             }
-            if (keysPressed.down && !this.checkTile(this.x, this.y + this.movementSpeed)) {
-                this.y += this.movementSpeed;
+            if (keysPressed.left && !this.checkTile(this.x - stepLength, this.y)) {
+                this.x -= stepLength;
             }
-            if (keysPressed.up && !this.checkTile(this.x, this.y - this.movementSpeed)) {
-                this.y -= this.movementSpeed;
+            if (keysPressed.down && !this.checkTile(this.x, this.y + stepLength)) {
+                this.y += stepLength;
+            }
+            if (keysPressed.up && !this.checkTile(this.x, this.y - stepLength)) {
+                this.y -= stepLength;
             }
         }
 
