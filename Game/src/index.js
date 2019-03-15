@@ -46,7 +46,8 @@ var world = new World(),
         up: false,
         right: false,
         down: false,
-        attack: false
+        attack: false,
+        jump: false
     };
 
 for (let mt of monsterTypes) {
@@ -355,24 +356,25 @@ window.onload = () => {
     window.onbeforeunload = () => saveProgress();
 
     document.onkeydown = (e) => {
-        switch (e.key) {
-            case "a": keysPressed.left = true; break;
-            case "w": keysPressed.up = true; break;
-            case "d": keysPressed.right = true; break;
-            case "s": keysPressed.down = true; break;
-            case "e": keysPressed.attack = true; break;
-            case " ": soldier.jumpCounter =  soldier.jumpCounter == 0 ? 30 : soldier.jumpCounter; break;
+        switch (e.keyCode) {
+            case 65: keysPressed.left = true; break;
+            case 87: keysPressed.up = true; break;
+            case 68: keysPressed.right = true; break;
+            case 83: keysPressed.down = true; break;
+            case 69: keysPressed.attack = true; break;
+            case 32: !keysPressed.jump && soldier.jump(50);
         }
     }
 
     document.onkeyup = (e) => {
-        switch (e.key) {
-            case "a": keysPressed.left = false; break;
-            case "w": keysPressed.up = false; break;
-            case "d": keysPressed.right = false; break;
-            case "s": keysPressed.down = false; break;
-            case "e": keysPressed.attack = false; break;
-            case "\"": 
+        switch (e.keyCode) {
+            case 65: keysPressed.left = false; break;
+            case 87: keysPressed.up = false; break;
+            case 68: keysPressed.right = false; break;
+            case 83: keysPressed.down = false; break;
+            case 69: keysPressed.attack = false; break;
+            case 32: keysPressed.jump = false; break;
+            case 192: 
                 let input = prompt("Please enter command (e.g. movementSpeed=10, hpRecovery=10, ap=50, maxHP=500, hp=500):", "ap=5");
                 if (input) {
                     let command = input.split('=');
