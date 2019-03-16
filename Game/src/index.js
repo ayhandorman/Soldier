@@ -289,6 +289,11 @@ const update = () => {
                     }
                 }
             }
+            for (let spawnPoint of spawnPoints.filter(sp => sp.x > renderScope.x1 - 10 && sp.x < renderScope.x2 + 10 && sp.y > renderScope.y1 - 15 && sp.y < renderScope.y2 + 15)) {
+                ctx.drawImage(monsterTypes.find(mt => mt.id == spawnPoint.monster).sprite, 0, 0, 48, 48, screen.width - minimapSize.width + (spawnPoint.x - (renderScope.x1 - 10)) * tileWidth - 11, (spawnPoint.y - (renderScope.y1 - 15)) * tileWidth - 11, 22, 22);
+            }
+
+            ctx.drawImage(soldier.sprite, 0, 0, 64, 64, screen.width - minimapSize.width + (parseInt(soldier.x / world.tileWidth) - (renderScope.x1 - 10)) * tileWidth - 11, (parseInt(soldier.y / world.tileWidth) - (renderScope.y1 - 15)) * tileWidth - 11, 22, 22);
             // ctx.lineWidth = 6;
             // ctx.rect(screen.width - minimapSize.width - 3, 3, minimapSize.width, minimapSize.height + 5);
             // ctx.stroke();
