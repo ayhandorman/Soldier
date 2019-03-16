@@ -3,7 +3,7 @@
 ::-webkit-scrollbar-thumb{background:#60351D;border-radius: 5px}
 ::-webkit-scrollbar-thumb:hover{background:#60351D}
 body{margin:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-.quest-log{position:absolute;right:10px;top:10px;width:256px;height:240px;background:url(../img/quest-log.png) no-repeat;background-size:100% 100%;box-sizing:border-box;padding:25px;font-family:'Laila',serif;font-size:11px}
+.quest-log{position:absolute;left:10px;bottom:10px;width:256px;height:240px;background:url(../img/quest-log.png) no-repeat;background-size:100% 100%;box-sizing:border-box;padding:25px;font-family:'Laila',serif;font-size:11px}
 .quest-log ol{margin:0 13px;padding:0;overflow-x:visible;overflow-y:scroll;height:140px}
 .quest-log li{list-style-position:inside}
 .quest-log li b{font-size:12px}

@@ -273,6 +273,34 @@ const update = () => {
     ctx.fillText(soldier.level, 21, 77);
     // </hud>
 
+    // <minimap>
+    if (renderScope.x2 - renderScope.x1 > 0) {
+        ctx.save();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "brown";
+        ctx.beginPath();
+        ctx.arc(screen.width - 90, 90, 80, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.clip();
+        ctx.fillStyle = "black";
+        ctx.fillRect(screen.width - 170, 10, 160, 160);
+        let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1));
+        ctx.translate(screen.width - 160, 50);
+        if (tileWidth) {
+            let offScreenRange = Math.round((renderScope.x2 - renderScope.x1) / 2);
+            for (let x = renderScope.x1 - offScreenRange; x <= renderScope.x2 + offScreenRange; x++) {
+                for (let y = renderScope.y1 - offScreenRange; y <= renderScope.y2 + offScreenRange; y++) {
+                    if (x >= 0 && y >= 0 && x <= world.size && y <= world.size) {
+                        ctx.fillStyle = world.tiles[x][y].colour;
+                        ctx.fillRect((x - renderScope.x1) * tileWidth, (y - renderScope.y1) * tileWidth, tileWidth, tileWidth);
+                    }
+                }
+            }
+        }
+        ctx.restore();
+    }
+    // <minimap>
+
     // <display stats>
     world.showFPS();
     world.showMonsterCount(monsters.length);
