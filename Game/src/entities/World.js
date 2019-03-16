@@ -1,11 +1,12 @@
 import config from '../config.json';
+import tileTypes from '../data/tiles.json';
 
 export class World {
     
     constructor() {
         this.size = 0;
         this.tileWidth = 40;
-        this.tileTypes = 124;
+        this.tileTypes = tileTypes;
         this.directions = {
             down: 0,
             downLeft: 1,
@@ -16,13 +17,7 @@ export class World {
             right: 6,
             downRight: 7
         };
-        this.blockingTypes = [  
-                                1, 6, 15, 16, 17, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 
-                                31, 34, 35, 36, 38, 39, 40, 41, 45, 46, 47, 48, 49, 52, 53, 54, 
-                                55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 70, 71, 
-                                99, 100, 101, 102, 103, 105, 106, 107, 108, 109, 110, 111, 113, 123
-                            ];
-        this.images = new Array(this.tileTypes);
+        this.images = new Array(this.tileTypes.length);
         this.tiles = [];
         this.gates = [];
         this.objects = [];
@@ -34,7 +29,7 @@ export class World {
     }
 
     loadTiles = () => {
-        for (let i = 0; i < this.tileTypes; i++) {
+        for (let i = 0; i < this.tileTypes.length; i++) {
             this.images[i] = new Image();
             this.images[i].src = `${config.assetsPath}tiles/${i}.png`;
         }
@@ -47,10 +42,12 @@ export class World {
             this.tiles[i] = new Array(this.size);
             for (let j = 0; j <= this.size; j++) {
                 let currentTile = parseInt(mapData.tiles[i][j]);
+                let tileType = this.tileTypes.find(x => x.id == currentTile);
                 this.tiles[i][j] = {
                     type: currentTile,
-                    blocking: this.blockingTypes.includes(currentTile),
-                    counter: 0
+                    blocking: tileType.blocking,
+                    colour: tileType.colour,
+                    counter: 0,
                 };
             }
         }
