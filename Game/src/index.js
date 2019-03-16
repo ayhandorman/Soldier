@@ -275,30 +275,26 @@ const update = () => {
 
     // <minimap>
     if (renderScope.x2 - renderScope.x1 > 0) {
-        ctx.save();
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "brown";
-        ctx.beginPath();
-        ctx.arc(screen.width - 90, 90, 80, 0, Math.PI * 2, true);
-        ctx.stroke();
-        ctx.clip();
-        ctx.fillStyle = "black";
-        ctx.fillRect(screen.width - 170, 10, 160, 160);
         let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1));
-        ctx.translate(screen.width - 160, 50);
         if (tileWidth) {
-            let offScreenRange = Math.round((renderScope.x2 - renderScope.x1) / 2);
-            for (let x = renderScope.x1 - offScreenRange; x <= renderScope.x2 + offScreenRange; x++) {
-                for (let y = renderScope.y1 - offScreenRange; y <= renderScope.y2 + offScreenRange; y++) {
+            let minimapSize = {
+                width: (renderScope.x2 - renderScope.x1 + 20) * tileWidth,
+                height: (renderScope.y2 - renderScope.y1 + 30) * tileWidth
+            };
+            for (let x = renderScope.x1 - 10; x <= renderScope.x2 + 10; x++) {
+                for (let y = renderScope.y1 - 15; y <= renderScope.y2 + 15; y++) {
                     if (x >= 0 && y >= 0 && x <= world.size && y <= world.size) {
                         ctx.fillStyle = world.tiles[x][y].colour;
-                        ctx.fillRect((x - renderScope.x1) * tileWidth, (y - renderScope.y1) * tileWidth, tileWidth, tileWidth);
+                        ctx.fillRect(screen.width - minimapSize.width + 28 + (x - renderScope.x1) * tileWidth, 45 + (y - renderScope.y1) * tileWidth, tileWidth, tileWidth);
                     }
                 }
             }
+            // ctx.lineWidth = 6;
+            // ctx.rect(screen.width - minimapSize.width - 3, 3, minimapSize.width, minimapSize.height + 5);
+            // ctx.stroke();
         }
-        ctx.restore();
     }
+
     // <minimap>
 
     // <display stats>
