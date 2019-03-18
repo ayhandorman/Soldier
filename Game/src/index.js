@@ -275,28 +275,27 @@ const update = () => {
 
     // <minimap>
     if (renderScope.x2 - renderScope.x1 > 0) {
-        let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1));
+        let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1 + 20));
         if (tileWidth) {
             let minimapSize = {
                 width: (renderScope.x2 - renderScope.x1 + 20) * tileWidth,
-                height: (renderScope.y2 - renderScope.y1 + 30) * tileWidth
+                height: (renderScope.y2 - renderScope.y1 + 20) * tileWidth
             };
+            console.log(renderScope)
+            console.log(minimapSize)
             for (let x = renderScope.x1 - 10; x <= renderScope.x2 + 10; x++) {
-                for (let y = renderScope.y1 - 15; y <= renderScope.y2 + 15; y++) {
+                for (let y = renderScope.y1 - 10; y <= renderScope.y2 + 10; y++) {
                     if (x >= 0 && y >= 0 && x <= world.size && y <= world.size) {
                         ctx.fillStyle = world.tiles[x][y].colour;
-                        ctx.fillRect(screen.width - minimapSize.width + 28 + (x - renderScope.x1) * tileWidth, 45 + (y - renderScope.y1) * tileWidth, tileWidth, tileWidth);
+                        ctx.fillRect((screen.width - minimapSize.width) + (x - renderScope.x1 + 10) * tileWidth, (y - renderScope.y1 + 10) * tileWidth, tileWidth, tileWidth);
                     }
                 }
             }
-            for (let spawnPoint of spawnPoints.filter(sp => sp.x > renderScope.x1 - 10 && sp.x < renderScope.x2 + 10 && sp.y > renderScope.y1 - 15 && sp.y < renderScope.y2 + 15)) {
-                ctx.drawImage(monsterTypes.find(mt => mt.id == spawnPoint.monster).sprite, 0, 0, 48, 48, screen.width - minimapSize.width + (spawnPoint.x - (renderScope.x1 - 10)) * tileWidth - 11, (spawnPoint.y - (renderScope.y1 - 15)) * tileWidth - 11, 22, 22);
+            for (let spawnPoint of spawnPoints.filter(sp => sp.x > renderScope.x1 - 10 && sp.x < renderScope.x2 + 10 && sp.y > renderScope.y1 - 10 && sp.y < renderScope.y2 + 10)) {
+                ctx.drawImage(monsterTypes.find(mt => mt.id == spawnPoint.monster).sprite, 0, 0, 48, 48, screen.width - minimapSize.width + (spawnPoint.x - (renderScope.x1 - 10)) * tileWidth - 11, (spawnPoint.y - (renderScope.y1 - 10)) * tileWidth - 11, 22, 22);
             }
 
-            ctx.drawImage(soldier.sprite, 0, 0, 64, 64, screen.width - minimapSize.width + (parseInt(soldier.x / world.tileWidth) - (renderScope.x1 - 10)) * tileWidth - 11, (parseInt(soldier.y / world.tileWidth) - (renderScope.y1 - 15)) * tileWidth - 11, 22, 22);
-            // ctx.lineWidth = 6;
-            // ctx.rect(screen.width - minimapSize.width - 3, 3, minimapSize.width, minimapSize.height + 5);
-            // ctx.stroke();
+            ctx.drawImage(soldier.sprite, 0, 0, 64, 64, screen.width - Math.round(minimapSize.width / 2) - 11, Math.round(minimapSize.height / 2) - 11, 22, 22);
         }
     }
 
