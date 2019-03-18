@@ -275,14 +275,12 @@ const update = () => {
 
     // <minimap>
     if (renderScope.x2 - renderScope.x1 > 0) {
-        let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1 + 20));
+        let tileWidth = Math.ceil(100 / (renderScope.x2 - renderScope.x1 + 20)) * 2;
         if (tileWidth) {
             let minimapSize = {
                 width: (renderScope.x2 - renderScope.x1 + 20) * tileWidth,
                 height: (renderScope.y2 - renderScope.y1 + 20) * tileWidth
             };
-            console.log(renderScope)
-            console.log(minimapSize)
             for (let x = renderScope.x1 - 10; x <= renderScope.x2 + 10; x++) {
                 for (let y = renderScope.y1 - 10; y <= renderScope.y2 + 10; y++) {
                     if (x >= 0 && y >= 0 && x <= world.size && y <= world.size) {
@@ -294,7 +292,6 @@ const update = () => {
             for (let spawnPoint of spawnPoints.filter(sp => sp.x > renderScope.x1 - 10 && sp.x < renderScope.x2 + 10 && sp.y > renderScope.y1 - 10 && sp.y < renderScope.y2 + 10)) {
                 ctx.drawImage(monsterTypes.find(mt => mt.id == spawnPoint.monster).sprite, 0, 0, 48, 48, screen.width - minimapSize.width + (spawnPoint.x - (renderScope.x1 - 10)) * tileWidth - 11, (spawnPoint.y - (renderScope.y1 - 10)) * tileWidth - 11, 22, 22);
             }
-
             ctx.drawImage(soldier.sprite, 0, 0, 64, 64, screen.width - Math.round(minimapSize.width / 2) - 11, Math.round(minimapSize.height / 2) - 11, 22, 22);
         }
     }
