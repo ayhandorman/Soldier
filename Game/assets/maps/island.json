@@ -6,7 +6,16 @@
     ],
     "spawnPoints":[],
     "objects":[
-        {"x":1320,"y":1400,"width":26,"height":26,"blockingWidth":-10,"blockingHeight":-10,"image":"portal","sprite":null,"sequence":1}
+        {"x":1320,"y":1400,"width":26,"height":26,"blockingWidth":-10,"blockingHeight":-10,"image":"portal","sprite":null,"sequence":1},
+        {"x":1090,"y":1802,"width":149,"height":145,"blockingWidth":-10,"blockingHeight":-10,"image":"tree5","sprite":null,"sequence":1},
+        {"x":1978,"y":1814,"width":67,"height":111,"blockingWidth":34,"blockingHeight":28,"image":"tree4","sprite":null,"sequence":1},
+        {"x":1932,"y":2294,"width":67,"height":111,"blockingWidth":34,"blockingHeight":28,"image":"tree4","sprite":null,"sequence":1},
+        {"x":2497,"y":2120,"width":67,"height":111,"blockingWidth":34,"blockingHeight":28,"image":"tree4","sprite":null,"sequence":1},
+        {"x":2150,"y":2710,"width":67,"height":111,"blockingWidth":34,"blockingHeight":28,"image":"tree4","sprite":null,"sequence":1},
+        {"x":2840,"y":2950,"width":98,"height":140,"blockingWidth":-10,"blockingHeight":-10,"image":"tree6","sprite":null,"sequence":1},
+        {"x":1670,"y":1030,"width":97,"height":128,"blockingWidth":35,"blockingHeight":31,"image":"tree8","sprite":null,"sequence":1},
+        {"x":844,"y":1372,"width":98,"height":140,"blockingWidth":-10,"blockingHeight":-10,"image":"tree6","sprite":null,"sequence":1},
+        {"x":1112,"y":2052,"width":150,"height":186,"blockingWidth":86,"blockingHeight":50,"image":"tree2","sprite":null,"sequence":1}
     ],
     "gates":[
         {"x":33,"y":35,"goTo":"jungle","entryPoint":{"x":9,"y":52}}
