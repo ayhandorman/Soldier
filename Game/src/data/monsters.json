@@ -44,7 +44,7 @@
         "name": "Skeleton",
         "maxHP": 200,
         "level": 6,
-        "attackSpeed": 6,
+        "attackSpeed": 5,
         "aggressive": true,
         "image": "skeleton",
         "sprite": null
@@ -54,7 +54,7 @@
         "name": "Dark Wizard",
         "maxHP": 300,
         "level": 7,
-        "attackSpeed": 7,
+        "attackSpeed": 6,
         "aggressive": true,
         "image": "dark-wizard",
         "sprite": null
@@ -64,7 +64,7 @@
         "name": "Witch",
         "maxHP": 450,
         "level": 9,
-        "attackSpeed": 7,
+        "attackSpeed": 6,
         "aggressive": true,
         "image": "witch",
         "sprite": null
@@ -74,7 +74,7 @@
         "name": "Evil Knight",
         "maxHP": 600,
         "level": 12,
-        "attackSpeed": 7,
+        "attackSpeed": 6,
         "aggressive": true,
         "image": "evil-knight",
         "sprite": null
@@ -84,7 +84,7 @@
         "name": "Dark Lord",
         "maxHP": 1000,
         "level": 22,
-        "attackSpeed": 8,
+        "attackSpeed": 6,
         "aggressive": true,
         "image": "dark-lord",
         "sprite": null
@@ -104,7 +104,7 @@
         "name": "Tiger",
         "maxHP": 1400,
         "level": 30,
-        "attackSpeed": 8,
+        "attackSpeed": 7,
         "aggressive": true,
         "image": "tiger",
         "sprite": null
@@ -114,7 +114,7 @@
         "name": "Reaper",
         "maxHP": 1200,
         "level": 25,
-        "attackSpeed": 5,
+        "attackSpeed": 4,
         "aggressive": true,
         "image": "reaper",
         "sprite": null
@@ -134,7 +134,7 @@
         "name": "Bear",
         "maxHP": 1600,
         "level": 32,
-        "attackSpeed": 3,
+        "attackSpeed": 2,
         "aggressive": false,
         "image": "bear",
         "sprite": null
