@@ -329,6 +329,7 @@ const saveProgress = () => {
         localStorage.setItem("exp", soldier.exp);
         localStorage.setItem("hp", soldier.hp);
         localStorage.setItem("quests", JSON.stringify(soldier.questList));
+        localStorage.setItem("map", currentMap);
     }
 }
 
@@ -482,6 +483,7 @@ window.onload = () => {
     if (localStorage) {
         soldier.exp = parseInt(localStorage.getItem("exp") || 0);
         storedHP = parseInt(localStorage.getItem("hp") || 0);
+        currentMap = localStorage.getItem("map") || "home";
         let storedQuestList = JSON.parse(localStorage.getItem("quests"));
         if (storedQuestList && storedQuestList.length > 0) {
             soldier.questList = storedQuestList;
@@ -501,7 +503,7 @@ window.onload = () => {
     // </init soldier>
 
     // <start the game>
-    loadMap('home');
+    loadMap(currentMap);
     (function mainLoop() {
         window.requestAnimationFrame(mainLoop);
         if (!loading) {
