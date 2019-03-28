@@ -3,4 +3,4 @@ A simple soldier game to ramble around rocks.
 
 ## How it works?
 
-Use W, A, S and D keys to walk around and click anywhere to send the soldier to current mouse position.
+Use W, A, S and D keys to walk around, E key or left click to attack or interact and space bar to jump.
