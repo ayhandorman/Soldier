@@ -4,5 +4,4 @@
 An experimental soldier game with a tiny map editor.
 
 # Try it!
-Game: https://game.dorman.me/
-Map editor: https://game.dorman.me/editor/
+Game: https://game.dorman.me/ | Map editor: https://game.dorman.me/editor/
